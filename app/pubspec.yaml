@@ -63,6 +63,8 @@ flutter:
     - assets/data/freq/
     - assets/data/vocab/
     - assets/audio/
+    - assets/audio/letters/
+    - assets/images/ipa/
 
 flutter_launcher_icons:
   android: true

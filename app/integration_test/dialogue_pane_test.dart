@@ -44,6 +44,24 @@ void main() {
     await wait(t, 1500);
     await shot(t, '01_home_wide');
 
+    // 문자와 발음(2026-11-08): 격자 → 발음 시트 → 모음조화
+    await t.tap(find.text('문자와 발음').first);
+    await wait(t, 1500);
+    await shot(t, '18_alphabet');
+    await t.tap(find.text('Ққ').first);
+    await wait(t, 2500);
+    await shot(t, '19_letter_sheet');
+    await t.tapAt(const Offset(500, 60));
+    await wait(t, 1000);
+    await t.tap(find.text('Өө').first);
+    await wait(t, 2000);
+    await shot(t, '20_vowel_sheet');
+    await t.tapAt(const Offset(500, 60));
+    await wait(t, 1000);
+    await t.tap(find.text('모음조화').first);
+    await wait(t, 1000);
+    await shot(t, '21_harmony');
+
     await t.tap(find.text('회화').at(1));
     await wait(t, 2500);
     await shot(t, '02_dialogue_home_right');

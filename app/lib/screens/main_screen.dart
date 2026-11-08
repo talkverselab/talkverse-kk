@@ -6,6 +6,7 @@ import '../core/theme.dart';
 import '../main.dart';
 import '../widgets/spanish_decor.dart';
 import 'about_screen.dart';
+import 'alphabet_screen.dart';
 import 'chunk_search_screen.dart';
 import 'conversation_screen.dart';
 import 'affix_screens.dart';
@@ -386,11 +387,15 @@ class _TodayMissionState extends State<_TodayMission> {
   }
 }
 
-/// 메뉴 순서(사용자 지시 2026-11-07): 문법 → 회화 → 단어 → 참고. 카자흐어앱엔 기초 칸이 아직 없다.
+/// 메뉴 순서(사용자 지시 2026-11-07): 기초 → 문법 → 회화 → 단어 → 참고. 기초 첫 줄 = 「문자와 발음」(2026-11-08, 공통 프롬프터 §5-3).
 class _MenuGrid extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final sections = <(String, List<_MenuItem>)>[
+      (tr('기초'), [
+        _MenuItem(label: tr('문자와 발음'), sub: 'Әліпби', badge: 'Әә', color: AppColors.beni,
+          builder: (_) => const AlphabetScreen()),
+      ]),
       (tr('문법'), [
         _MenuItem(label: tr('접사'), sub: 'Жалғау', badge: '-дан', color: AppColors.ai,
           builder: (_) => const AffixDictionaryScreen()),
