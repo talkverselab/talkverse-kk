@@ -102,7 +102,7 @@ adb -s R3CY20HDN2K install --user 0 -r <apk>
 | Talkverse ID | client_id `kk`, 딥링크 `talkverse.kk://auth`, 이용권 lang `kk` |
 | 스토어 상품 | iOS `com.talkverse.kk.lifetime` / Android `lang_kk` |
 | 음성 | 기기 TTS 에 카자흐어 없음 → 번들 mp3(없음) + Azure `kk-KZ-AigulNeural`(`--dart-define`) |
-| 포인트색 | 국기 하늘색 `#00AFCA`(글자용 `#00869B`) · 카드 금색 `#D9A50C` — 사이트 kk 페이지가 생기면 그 `--a`·`--a2` 로 |
+| 포인트색 | 사이트 kk 페이지 `--a #0a9fb0`(글자용 `#08808E`)·`--a2 #b3e3e8` · 카드 금색 `#D9A50C`(앱 판단) |
 
 ## 5. 표시 언어 (한국어 / English / 日本語 / 中文) — 2026-09-12
 

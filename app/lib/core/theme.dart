@@ -28,7 +28,7 @@ class AppColors {
   static const Color oliva = Color(0xFF0E7C8C);
 
   // 카자흐어 카드색 — talkverse.uk 언어 카드의 `--c`
-  static const Color kazakh = Color(0xFFD9A50C); // 국기 금색(임시 — 사이트 카드가 생기면 그 `--c`)
+  static const Color kazakh = Color(0xFFD9A50C); // 국기 금색(앱 판단 2026-11-08)
 
   // Mediterráneo (정보성 강조)
   static const Color mar = Color(0xFF1E6FA8);
@@ -48,16 +48,16 @@ class AppColors {
   static const Color brand = rojo;
 
   // 일본어앱 화면 코드가 쓰는 이름(별칭, 2026-11-02 — LANG_APP_REPLICATE_PROMPT §3).
-  // 포인트(beni 계열) = 카자흐스탄 국기 하늘색 #00AFCA 를 글자 대비용으로 한 단계 진하게(사이트 kk 페이지가 생기면 그 `--a`·`--a2` 로 맞춤).
-  static const Color beni = Color(0xFF00869B);
-  static const Color beniDeep = Color(0xFF006A7A);
-  static const Color beniLight = Color(0xFF00AFCA); // 국기 하늘색
+  // 포인트(beni 계열) = 사이트 카자흐어 페이지 `--a #0a9fb0` 을 글자 대비용으로 한 단계 진하게.
+  static const Color beni = Color(0xFF08808E);
+  static const Color beniDeep = Color(0xFF066672);
+  static const Color beniLight = Color(0xFF0A9FB0); // 사이트 `--a`
   static const Color ai = Color(0xFF635BFF); // 사이트 `--accent` 인디고
   static const Color aiDeep = Color(0xFF4B44D6);
   static const Color aiLight = Color(0xFFA9A4FF);
   static const Color kin = Color(0xFFDDE3EC);
-  static const Color kinBright = Color(0xFFB3E6EE);
-  static const Color kinDeep = Color(0xFF00AFCA);
+  static const Color kinBright = Color(0xFFB3E3E8); // 사이트 `--a2`
+  static const Color kinDeep = Color(0xFF0A9FB0);
   static const Color sumi = tinta;
   static const Color sumiLight = tintaLight;
   static const Color washi = cal;
@@ -66,7 +66,7 @@ class AppColors {
   static const Color line = Color(0xFFE6EBF1);
   static const Color muted = Color(0xFF6B7C93);
 
-  /// 「카자흐어」 워드마크 그라데이션(진한 청록 → 국기 하늘색).
+  /// 「카자흐어」 워드마크 그라데이션(진한 청록 → 사이트 청록).
   static const LinearGradient wordmark = LinearGradient(colors: [beni, kinDeep]);
 }
 
