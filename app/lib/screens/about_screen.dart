@@ -7,7 +7,7 @@ import '../core/theme.dart';
 import '../widgets/spanish_decor.dart';
 
 /// 앱 소개 — 이 앱의 뼈대인 **절벽구간**을 설명한다(일본어앱 about_screen 과 같은 구조, 사용자 지시 2026-11-07).
-/// 카자흐어는 문자 기준 절벽이 없어 1. 단어 기준  2. 산출 방식  3. 앱에서 쓰는 곳. 숫자 = `core/cliff.dart`(초기 빌드 — 산출 전).
+/// 카자흐어는 문자 기준 절벽이 없어 1. 단어 기준  2. 산출 방식  3. 앱에서 쓰는 곳. 숫자 = `core/cliff.dart`(2026-11-08 산출).
 class AboutScreen extends StatelessWidget {
   const AboutScreen({super.key});
 
@@ -24,12 +24,13 @@ class AboutScreen extends StatelessWidget {
         body: ListView(
           padding: EdgeInsets.fromLTRB(16, 12, 16, 24 + bottomInset(context)),
           children: [
-            _Lead(tr('대사에서 자주 나오는 말은 아주 적습니다. 적은 수의 단어가 대사의 절반 넘게를 차지하고, 그 뒤로는 단어를 아무리 더 외워도 들리는 비율이 조금씩만 오릅니다 — 이 급한 경사를 「절벽」이라 부르고, 절벽이 끝나는 자리마다 구간(R1~R5)을 나눕니다.')),
+            _Lead(tr('대사에서 자주 나오는 말은 아주 적습니다. 처음 45개 단어가 대사의 55%를 차지하고, 477개면 80%입니다. 그 뒤로는 단어를 아무리 더 외워도 들리는 비율이 조금씩만 오릅니다 — 이 급한 경사를 「절벽」이라 부르고, 절벽이 끝나는 자리마다 구간(R1~R5)을 나눕니다.')),
             const SizedBox(height: 18),
             _H(tr('1. 단어 기준')),
             if (kCliffReady) const _CliffTable() else _Para(tr('카자흐어 절벽 경계는 단어 목록(약 1,500어)을 만들 때 산출합니다 — 지금은 준비 중입니다.')),
             const SizedBox(height: 18),
             _H(tr('2. 산출 방식')),
+            _Para(tr('말뭉치 — 공개 자막 167편, 약 60만 토큰. 카자흐스탄에서 만든 영화·드라마 대사 자료가 적어 대부분 번역 자막이고, 형태소는 자동 분석기로 나눴습니다(격접사·어미는 각각 한 토큰, 동사는 사전형). 더 큰 말뭉치가 생기면 다시 산출합니다.')),
             _Para(tr('빈도 — 각 단어의 등장 횟수 ÷ 전체 등장 횟수. 가중치 없음.')),
             _Para(tr('구간 — 빈도순으로 누적해 55%·60%·70%·80%에 처음 닿는 순위가 R1·R2·R3·R4 의 끝. 80% 밖은 R5. 이 네 비율은 Talkverse 언어 앱 공통 기준입니다.')),
             _Para(tr('단어 목록 — 앱의 1,500어는 이 경계에 맞춰 따로 정리한 학습용 목록이라, 순위가 말뭉치 순위와 꼭 같지는 않습니다.')),
@@ -40,7 +41,7 @@ class AboutScreen extends StatelessWidget {
             const SizedBox(height: 24),
             const BrushDivider(),
             const SizedBox(height: 10),
-            Center(child: Text(tr('초기 빌드 · 2026-11-08'), style: const TextStyle(color: AppColors.sumiLight, fontSize: 11, letterSpacing: 2))),
+            Center(child: Text(tr('절벽 v1 · 2026-11-08'), style: const TextStyle(color: AppColors.sumiLight, fontSize: 11, letterSpacing: 2))),
           ],
         ),
       );

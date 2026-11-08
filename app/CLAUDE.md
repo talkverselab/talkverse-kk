@@ -87,7 +87,7 @@ adb -s R3CY20HDN2K install --user 0 -r <apk>
 - 몽골어앱(`talkverselab/talkverse-mn` 커밋 `afa1dc8`)의 코드 뼈대를 복사해 이름만 바꿨다 — 이력은 가져오지 않았다(새 저장소).
 - **몽골어 콘텐츠(회화·단어·예문·문법·음성·접사 표)는 하나도 가져오지 않았다.** 데이터 파일은 비어 있다:
   `assets/data/dialogues/L1.json`(episodes []), `freq/kk_words.csv`(머리줄만), `vocab/*.json`(themes []), 문법 레슨 없음, `assets/audio/manifest.json` {}.
-- 구조만 있는 것: 접사 사전·접사 블록·모음조화 점(`lib/data/kk_affixes.dart` — 표 `kKkAffixes` 비어 있음, `harmonyOf` = 카자흐어 앞/뒤 모음), 동사 맵(`verbForm` → null), 절벽(`lib/core/cliff.dart` `kCliffReady=false`).
+- 구조만 있는 것: 접사 사전·접사 블록·모음조화 점(`lib/data/kk_affixes.dart` — 표 `kKkAffixes` 비어 있음, `harmonyOf` = 카자흐어 앞/뒤 모음), 동사 맵(`verbForm` → null), 절벽(`lib/core/cliff.dart` — 2026-11-08 산출 R1 45·R2 62·R3 160·R4 477).
 - **범위 = 소수언어(2026-11-08 사용자 결정, 몽골어와 같음)**: 절벽 단어 약 1,500, 회화 150편(R3 까지), 회화 흐름 Claude 초안 → Grok → Gemini 검수 → DB. 콘텐츠는 사용자 지시가 있을 때.
 - 대상어 문장 칸 이름은 템플릿 그대로 `es`/`tx` 다. 언어와 무관하게 "대상어"로 읽는다.
 

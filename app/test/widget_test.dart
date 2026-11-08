@@ -29,6 +29,7 @@ void aboutFits(double width) => testWidgets('About screen fits at $width', (t) a
       addTearDown(t.view.reset);
       await t.pumpWidget(MaterialApp(theme: AppTheme.light(), home: const AboutScreen()));
       await t.pump();
-      expect(find.textContaining('준비 중'), findsOneWidget); // 절벽 산출 전(초기 빌드)
+      expect(find.text('R5'), findsOneWidget);
+      expect(find.text('478-1500'), findsOneWidget);
       expect(t.takeException(), isNull);
     });
