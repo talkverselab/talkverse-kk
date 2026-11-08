@@ -1,0 +1,18 @@
+{
+ "level": "L1",
+ "variety": "kk_KZ",
+ "version": "v0-2026-11-08",
+ "schema": "v2-L1-8turn",
+ "title": "L1 — 카자흐어 회화",
+ "description": "초기 빌드 — 회화는 콘텐츠 작업 때 채운다.",
+ "kpi": {
+  "episodes_target": 0,
+  "turns_per_episode": 8,
+  "turns_total_target": 0,
+  "turns_total_current": 0,
+  "progress_pct": 0.0
+ },
+ "characters": {},
+ "function_words": [],
+ "episodes": []
+}

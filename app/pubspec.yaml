@@ -1,0 +1,74 @@
+name: kk_app
+description: "카자흐어유니버스 — 한국 화자 카자흐어 학습 앱"
+publish_to: 'none'
+version: 0.1.0+1
+
+environment:
+  sdk: ^3.11.5
+
+dependencies:
+  flutter:
+    sdk: flutter
+  package_info_plus: ^10.2.2
+  cupertino_icons: ^1.0.8
+
+  # Audio
+  audioplayers: ^6.1.0
+
+  # Storage
+  shared_preferences: ^2.3.2
+  path_provider: ^2.1.4
+  sqflite: ^2.4.0
+
+  # Util
+  csv: ^6.0.0
+  flutter_svg: ^2.0.10+1
+  speech_to_text: ^7.4.0
+  flutter_tts: ^4.2.0
+
+  # Drift (SQLite ORM)
+  drift: ^2.20.3
+  drift_flutter: ^0.2.0
+  sqlite3_flutter_libs: ^0.5.24
+
+  # Talkverse ID 로그인·스토어 결제(한자 앱과 같은 구성, 2026-11-02)
+  http: ^1.6.0
+  flutter_web_auth_2: ^5.1.0
+  flutter_secure_storage: ^11.2.0
+  sign_in_with_apple: ^8.2.0
+  crypto: ^3.0.8
+  in_app_purchase: ^3.3.1
+  in_app_purchase_storekit: ^0.4.16
+
+dev_dependencies:
+  integration_test:
+    sdk: flutter
+  flutter_test:
+    sdk: flutter
+  flutter_lints: ^6.0.0
+  flutter_launcher_icons: ^0.14.1
+
+  # Drift codegen
+  drift_dev: ^2.20.3
+  build_runner: ^2.4.13
+
+
+flutter:
+  uses-material-design: true
+
+  assets:
+    - assets/data/audio_manifest.json
+    - assets/data/version.json
+    - assets/data/dialogues/
+    - assets/data/freq/
+    - assets/data/vocab/
+    - assets/audio/
+
+flutter_launcher_icons:
+  android: true
+  ios: true
+  remove_alpha_ios: true
+  image_path: "assets/icon/icon_full.png"
+  adaptive_icon_background: "#FCFCF8"
+  adaptive_icon_foreground: "assets/icon/icon_fg.png"
+  min_sdk_android: 21
