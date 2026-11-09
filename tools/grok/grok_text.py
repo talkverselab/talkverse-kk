@@ -1,10 +1,11 @@
 # -*- coding: utf-8 -*-
 """Grok 글 요청 한 건(PC 크롬 9257, M6 터널 ssh -fN -L 9257:127.0.0.1:9257 Administrator@100.127.143.37).
 
-  /usr/bin/python3 tools/grok/grok_text.py "<한 줄>" <답.txt> [첨부 ...] [--chat <챗id>] [--wait 600]
+  /usr/bin/python3 tools/grok/grok_text.py "<한 줄>" <답.txt> [첨부 ...] [--chat <챗id>] [--wait 180]
 - 첨부는 PC D:\\grok_att\\kk\\ 로 scp 한 뒤 그 경로로 붙인다(크롬이 PC 에서 돌기 때문).
 - 답: 마지막 응답의 마지막 코드 블록(없으면 응답 글 전체)을 <답.txt> 에 저장, 챗 주소를 출력.
 - 한도 문구면 종료 코드 3, 시간 초과 2. 끝나면 연 탭을 닫는다.
+- 답은 3분까지만 기다리고 넘으면 생성을 중지한다(사용자 지시 2026-11-10 「그록 3분만, 넘어가면 대화방 중지 — 토큰 낭비」). --wait 로 늘리지 말 것.
 """
 import json, os, subprocess, sys, time, urllib.request
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
@@ -34,7 +35,7 @@ def main():
         if k in a:
             i = a.index(k); opt[k] = a[i + 1]; del a[i:i + 2]
     line, out, atts = a[0], a[1], a[2:]
-    wait = int(opt.get('--wait', 600))
+    wait = min(int(opt.get('--wait', 180)), 180)
     remote = []
     for p in atts:
         subprocess.run(['scp', '-q', p, PC + ':' + PC_DIR], check=True)
@@ -79,7 +80,12 @@ def main():
             if stable >= 2:
                 break
         else:
-            print('TIMEOUT', c.ev('location.href')); sys.exit(2)
+            hit = c.ev("""(()=>{const b=[...document.querySelectorAll('button')].find(e=>/중지|stop/i.test((e.getAttribute('aria-label')||'')+' '+e.innerText));if(b){b.click();return 1}return 0})()""")
+            if not hit:
+                for typ in ('keyDown', 'keyUp'):
+                    c.call('Input.dispatchKeyEvent', type=typ, key='Escape', code='Escape', windowsVirtualKeyCode=27, nativeVirtualKeyCode=27)
+            time.sleep(2)
+            print('TIMEOUT 생성 중지', c.ev('location.href')); sys.exit(2)
         codes = c.ev("[...document.querySelectorAll('pre code, pre')].map(e=>e.textContent)") or []
         ans = codes[-1] if len(codes) > n0 else (c.ev("(()=>{const m=%s;return m?m.innerText:''})()" % LAST_MSG) or '')
         open(out, 'w', encoding='utf-8').write(ans)

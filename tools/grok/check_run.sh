@@ -5,7 +5,7 @@ N=${1:-10}; ROOM=$(cat data/grok/room_kk.txt); OUT=data/grok/check; mkdir -p $OU
 for f in $(ls app/assets/data/dialogues/R*/*/*.json | sort -t/ -k5,5 -k7,7V); do
   id=$(basename $f .json); [ -s $OUT/$id.json ] && continue
   [ $done -ge $N ] && break
-  /usr/bin/python3 tools/grok/grok_text.py "$id.json" $OUT/$id.txt $f --chat $ROOM --wait 600; rc=$?
+  /usr/bin/python3 tools/grok/grok_text.py "$id.json" $OUT/$id.txt $f --chat $ROOM --wait 180; rc=$?
   [ $rc -eq 3 ] && { echo "한도 — 멈춤"; exit 3; }
   if python3 tools/grok/to_json.py $OUT/$id.txt $OUT/$id.json; then rm $OUT/$id.txt; echo "OK $id"; else echo "JSON 아님 $id"; fi
   done=$((done+1)); sleep 20
