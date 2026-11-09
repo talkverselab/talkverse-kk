@@ -1,0 +1,132 @@
+{
+ "id": "r1_life_a5",
+ "region": "R1",
+ "island": "life",
+ "kind": "short",
+ "draft": true,
+ "purpose": [
+  "study_abroad",
+  "work_kazakhstan"
+ ],
+ "domain": [
+  "neighbors"
+ ],
+ "title": "네, 네, 네",
+ "emoji": "🛗",
+ "scene": "아파트 엘리베이터. 새 이웃에게 인사를 건네는데 무슨 말을 해도 「네」뿐이다",
+ "speakers": {
+  "A": "{name}",
+  "B": "이웃"
+ },
+ "register": "polite",
+ "twist": 6,
+ "twist_type": "ignore",
+ "flags": [],
+ "expressions": [
+  "Сәлеметсіз бе",
+  "Қалайсыз",
+  "Иә",
+  "Кешіріңіз"
+ ],
+ "goal": "인사하기, 자기소개",
+ "turns": [
+  {
+   "num": 1,
+   "speaker": "A",
+   "tl": "Сәлеметсіз бе! Қалайсыз?",
+   "rd": "샐레메트시즈 베! 칼라이스즈?",
+   "ko": "안녕하세요! 잘 지내세요?",
+   "note": "қалайсыз = 어떠세요",
+   "tags": [],
+   "new": [],
+   "emotion": "cheerful"
+  },
+  {
+   "num": 2,
+   "speaker": "B",
+   "tl": "Иә.",
+   "rd": "이애.",
+   "ko": "네.",
+   "note": "иә = 네",
+   "tags": [],
+   "new": [],
+   "emotion": "stiff"
+  },
+  {
+   "num": 3,
+   "speaker": "A",
+   "tl": "Бүгін ауа райы жақсы екен, иә?",
+   "rd": "뷔긴 아와 라이 작스 예켄, 이애?",
+   "ko": "오늘 날씨 좋네요, 그쵸?",
+   "note": "ауа райы = 날씨",
+   "tags": [],
+   "new": [],
+   "emotion": "polite"
+  },
+  {
+   "num": 4,
+   "speaker": "B",
+   "tl": "Иә...",
+   "rd": "이애...",
+   "ko": "네…",
+   "note": "иә = 네",
+   "tags": [],
+   "new": [],
+   "emotion": "stiff"
+  },
+  {
+   "num": 5,
+   "speaker": "A",
+   "tl": "Менің атым {name}. Мен жаңа көршімін.",
+   "rd": "메닝 아틈 {name}. 멘 장아 쾨르시민.",
+   "ko": "제 이름은 {name}이에요. 새로 온 이웃이에요.",
+   "note": "көрші = 이웃",
+   "tags": [],
+   "new": [],
+   "emotion": "cheerful"
+  },
+  {
+   "num": 6,
+   "speaker": "B",
+   "tl": "Иә.",
+   "rd": "이애.",
+   "ko": "네.",
+   "note": "иә = 네",
+   "tags": [],
+   "new": [],
+   "emotion": "stiff"
+  },
+  {
+   "num": 7,
+   "speaker": "A",
+   "tl": "Сіз мені естіп тұрсыз ба?",
+   "rd": "시즈 메니 예스팁 투르스즈 바?",
+   "ko": "제 말 듣고 계세요?",
+   "note": "естіп тұрсыз = 듣고 계세요",
+   "tags": [],
+   "new": [],
+   "emotion": "tsukkomi"
+  },
+  {
+   "num": 8,
+   "speaker": "B",
+   "tl": "Ой, кешіріңіз! Қазақша сабақ тыңдап тұрмын.",
+   "rd": "오이, 케시링이즈! 카작샤 사박 틍답 투르믄.",
+   "ko": "앗, 죄송해요! 카자흐어 강의 듣고 있었어요.",
+   "note": "сабақ = 수업",
+   "tags": [],
+   "new": [],
+   "emotion": "flustered",
+   "segs": [
+    [
+     "surprised",
+     "Ой, кешіріңіз!"
+    ],
+    [
+     "flustered",
+     "Қазақша сабақ тыңдап тұрмын."
+    ]
+   ]
+  }
+ ]
+}
