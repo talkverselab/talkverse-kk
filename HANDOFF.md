@@ -1,37 +1,44 @@
-# HANDOFF — talkverse-kk (카자흐어) — 2026-11-08
+# HANDOFF — talkverse-kk (카자흐어) — 2026-11-09
 
 > 공통 지침 `~/talkverse/LANG_APP_REPLICATE_PROMPT.md`. 이름·서명·배포 규칙은 `app/CLAUDE.md`.
 > **범위 = 소수언어(2026-11-08 사용자 결정, 몽골어와 같음)**: 절벽 단어 약 1,500, 회화 150편(R3 까지), 회화 흐름 Claude 초안 → Grok → Gemini 검수 → DB.
+> **출시 = Talkverse 통합 앱 하나(com.talkverse.app)** — 이 저장소는 통합 앱이 패키지(`app/`, 이름 `kk_app`)로 가져간다. 단독 앱 빌드(Zealot·TestFlight)는 개발·시험용으로 그대로 유지.
 
 ## 진행 단계
 
 | 단계 | 상태 |
 |---|---|
-| 초기 빌드(앱 뼈대) | 2026-11-08 — 몽골어앱(`talkverse-mn` `afa1dc8`) 코드 복사, 콘텐츠 없음(`6cc00b7`). 아이콘 Қ·사이트 색(`f7969ee`) |
-| GitHub | https://github.com/talkverselab/talkverse-kk (공개, master). 리포 시크릿 `ANDROID_DEBUG_KEYSTORE_BASE64` 등록, CI Release APK 성공 — 서명 SHA-1 `9cc4bc93…476b` 확인 |
-| 절벽 구간 | **v1 산출** — R1 45 · R2 62 · R3 160 · R4 477, 1,500위 88.5%(`data/corpus/cliff_v1/README.md`, 앱 `lib/core/cliff.dart`, `31e87b7`). uk 가 사이트 반영 |
-| 문자와 발음 | **2026-11-08** (`523da4d`, 공통 프롬프터 §5-3) — 키릴 42자 격자·묶음 칩·로마자, 발음 시트(1초 뒤 자동 재생·IPA·모음 위치·조음 그림·한국어 비교), 모음조화 표. 글자 소리 40개 번들 mp3 |
-| 배포 | Zealot 빌드 4 https://apps.talkverse.uk/ABjlY/362 (로컬 빌드), PC 백업 `D:\OneDrive\app project\kk_app\`. **TestFlight 빌드 2611081655 업로드 성공**(2026-11-08 20:40, `523da4d` 내용) |
-| ① 캐릭터 시안 · ② UX 시안 | 미착수(Grok 은 11-09 13:30 재개 — 한자 세션 경유) |
-| 콘텐츠(단어·회화·접사 표) | 사용자 지시 뒤. 단어 목록은 외국 인명을 걸러 `talkversehanja` `talkverse_art/words/kk.csv`(mn.csv 형식)로 → uk 에 알림 |
+| 초기 빌드 | 2026-11-08 — 몽골어앱 코드 복사, 콘텐츠 없음(`6cc00b7`). 아이콘 Қ·사이트 색(`f7969ee`) |
+| GitHub | https://github.com/talkverselab/talkverse-kk (공개, master). 리포 시크릿 `ANDROID_DEBUG_KEYSTORE_BASE64`, CI Release APK 동작 — 서명 SHA-1 `9cc4bc93…476b` |
+| 절벽 구간 | v1 — R1 45 · R2 62 · R3 160 · R4 477, 1,500위 88.5%(`data/corpus/cliff_v1/`, `lib/core/cliff.dart`, `31e87b7`). 사이트 반영됨 |
+| 문자와 발음 | `523da4d` — 키릴 42자 격자·묶음 칩·로마자, 발음 시트(자동 재생·IPA·모음 차트·조음 그림·한국어 비교), 모음조화 표, 글자 소리 40개 |
+| 가격·결제 | `1ff96bc` — `lang_kk_1m·3m·1y·life` + `all_1y·all_life`, 정가 취소선·출시 기념 30%, 규정 표기·복원·약관/방침 링크(결제·로그인·설정). 스토어 문서 `app/docs/store/listing.md`·`review_notes.md`(4.3 필수 문단)·`app/docs/STORE_PRODUCTS.md` |
+| 통합 앱 연결 준비 | `330a573` — `lib/embed.dart`(embedInit·embedApp), `lib/core/embed_env.dart`(assetPath·pk), 저장 이름 `kk_` 접두(단독 앱은 옛 키·`art` 폴더 1회 이전), 통합 모드 clientId `talkverse`·로그아웃은 tv_* 만, 결제 스트림 분리(`Purchase.onPurchaseUpdates`, lang_kk_*·all_* 만), 「다른 언어 배우기」. drift 2.34.4·drift_flutter 0.3.1·sqlite3_flutter_libs 0.6.0+eol. uk 에 보고함(연결은 uk 가) |
+| 배포(최신) | Zealot 빌드 6 https://apps.talkverse.uk/ABjlY/413 (로컬 빌드) · TestFlight 2611091205 |
+| ① 캐릭터 시안 · ② UX 시안 | 미착수(Grok 은 한자 세션 경유) |
+| 콘텐츠(단어·회화·문법·접사 표) | 사용자 지시 뒤. 단어 목록은 외국 인명을 걸러 `talkversehanja` `talkverse_art/words/kk.csv`(mn.csv 형식) → uk 에 알림 |
 
-## 만든 것
-- 이름: 폴더 `~/talkverse/kk`, applicationId·번들 ID `com.talkverse.kk`, Zealot 「카자흐어유니버스」, client_id `kk`, 딥링크 `talkverse.kk://auth`, 상품 iOS `com.talkverse.kk.lifetime` / Android `lang_kk`.
-- 메뉴: 기초(문자와 발음) → 문법 → 회화 → 단어 → 참고. 나머지 화면은 몽골어앱 그대로(회화 리더, 접사 사전, 동사 맵, 절벽 단어, 앱 소개, 프로필·로그인·결제).
-- 문자와 발음: `lib/data/kk_letters.dart`(42자 IPA·로마자·설명·한국어 비교·모음 차트 좌표), `lib/screens/alphabet_screen.dart`, `lib/widgets/letter_sound_sheet.dart`, `lib/widgets/vowel_compare_chart.dart`(일본어앱에서 옮김), 조음 그림 `assets/images/ipa/places_of_articulation.png`(임시 — 출시 전 Grok 그림으로 교체, 출처 표기 넣지 않음 = 사용자 지시). 소리 = `tools/tts/letters_tts.py`(edge-tts `kk-KZ-AigulNeural`, venv `~/.venvs/kk-corpus`) → `assets/audio/letters/` + `assets/audio/manifest.json`.
-- 비어 있는 데이터: 회화(`L1.json` episodes []), 단어(`kk_words.csv` 머리줄), 여행 단어·표현(themes []), 문법 레슨 없음, 접사 표 `kKkAffixes` [](모음조화 `harmonyOf` 는 카자흐어 앞/뒤 모음).
-- 색: 사이트 kk 페이지 `--a #0a9fb0`(글자용 `#08808E`)·`--a2 #b3e3e8`, 카드 금색 `#D9A50C`. 아이콘 Қ(uk 세션 제작).
-- 확인: `flutter analyze` 0, `flutter test` 15개 통과. 아이패드 스크린샷(시뮬레이터 `kk-shots-ipad` CCC1D5CC…, iOS 27.0) 홈·문자 격자·발음 시트 2·모음조화 넘침 0.
+## 출시 판단
+- **지금은 출시 불가** — 회화·단어·문법 레슨·접사 표·주제 단어·표현 메뉴가 비어 있다(지침 2.1). 출시 순서 = 한자앱 → 완성된 언어앱부터 하나씩(uk 공지).
+- 4.3 위험이 큼(몽골어와 구조 비슷) — 스토어 설명·스크린샷은 고유 9자·모음조화 짝·қ/к·ғ/г 로 시작(`listing.md`). 숫자 「(채울 것)」은 콘텐츠 뒤 실측.
+
+## 만든 것(파일)
+- 이름: applicationId·번들 ID `com.talkverse.kk`, Zealot 「카자흐어유니버스」, client_id `kk`(통합 모드 `talkverse`), 딥링크 `talkverse.kk://auth`.
+- 메뉴: 기초(문자와 발음) → 문법 → 회화 → 단어 → 참고.
+- 문자와 발음: `lib/data/kk_letters.dart`, `lib/screens/alphabet_screen.dart`, `lib/widgets/letter_sound_sheet.dart`, `lib/widgets/vowel_compare_chart.dart`, 조음 그림 `assets/images/ipa/places_of_articulation.png`(임시 — 출시 전 Grok 그림으로 교체, 출처 표기 넣지 않음 = 사용자 지시). 소리 = `tools/tts/letters_tts.py`(edge-tts `kk-KZ-AigulNeural`, venv `~/.venvs/kk-corpus`).
+- 비어 있는 데이터: `L1.json` episodes [], `kk_words.csv` 머리줄, vocab themes [], 문법 레슨 없음, `kKkAffixes` [].
+- 확인: `flutter analyze` 0, `flutter test` 19개 통과(넘침·결제 시트·저장 이름 이전).
 
 ## 알아 둘 것
-- 글자 소리는 사람이 들어 확인하지 않았다 — 모음 하나만 합성한 파일(ә·ө·ү 등)이 글자 이름으로 읽혔을 수 있음. 사용자가 폰에서 들어 보고 이상하면 `say` 를 음절(예 әә·өө)로 바꿔 `--force` 재합성.
-- 홈 화면에 스페인어 템플릿 문구(「¡Hola!」 등)가 남아 있음 — 문구 정리는 콘텐츠 작업 때.
-- 음성: 기기 TTS 에 카자흐어가 없음 → 번들 mp3 + (빌드 때 키를 주면) Azure 온라인. Azure 키는 지금 없음 — 회화 음성은 edge-tts 로 미리 합성하는 쪽이 현실적.
-- 빌드 번호: 로컬 Zealot 빌드 4 까지 올림. CI 실행 번호(지금 2)가 이보다 작으니 Zealot 은 당분간 로컬 빌드로 `--build-number=<5 이상>`.
-- 절벽 순위표 CSV 는 외국 인명이 섞여 저장소 밖 M6 `~/corpus/kk/out/lang_kk_top2500.csv`. 말뭉치·분석기 모델 `~/corpus/kk/`.
-- 아이콘은 talkverse.uk 세션 담당 — 직접 고치지 말 것.
+- 새 코드에서 SharedPreferences 키·기기 폴더는 `pk('이름')`(kk_ 접두), 에셋은 `assetPath('assets/…')`, 음성 AssetSource 는 플레이어 `audioCache` 접두로. 학습자 이름·성별·표시 언어·로그인만 접두 없이 공유.
+- 글자 소리는 사람이 들어 확인하지 않았다 — ә·ө·ү 등 모음 하나만 합성한 파일이 글자 이름으로 읽혔을 수 있음. 이상하면 `say` 를 바꿔 `letters_tts.py --force`.
+- 홈 화면에 스페인어 템플릿 문구(「¡Hola!」 등) 남아 있음 — 콘텐츠 작업 때.
+- 빌드 번호: 로컬 Zealot 빌드 6 까지. CI 실행 번호가 아직 작으니 Zealot 은 로컬 `--build-number=<7 이상>`.
+- 절벽 순위표 CSV 는 외국 인명이 섞여 저장소 밖 M6 `~/corpus/kk/out/lang_kk_top2500.csv`(말뭉치·분석기 모델 `~/corpus/kk/`).
+- iOS 빌드 뒤 pbxproj·xcscheme·xcworkspace·swiftpm 잡음은 되돌린다. 아이콘은 uk 세션 담당.
+- 2026-11-09 M6 디스크가 가득 차 명령이 한때 멈췄다 — 빌드 전 `df -h ~` 확인.
 
 ## 사용자가 할 일
-1. TestFlight 내부 테스트 그룹에 빌드 2611081655 추가·설치 확인.
-2. 폰에서 「문자와 발음」 소리 몇 개 들어 보기.
-3. (나중) 개발자 포털 App ID `com.talkverse.kk` 에 Sign in with Apple, 스토어 인앱 상품(iOS `com.talkverse.kk.lifetime` / Android `lang_kk`).
+1. TestFlight 빌드 2611091205 설치 확인, 「문자와 발음」 소리 몇 개 들어 보기.
+2. (출시를 정할 때) 스토어 상품 등록 — `app/docs/STORE_PRODUCTS.md`. 개발자 포털 App ID 에 Sign in with Apple.
+3. 결제 시트에서 종합 평생 정가(469,000) 취소선을 보일지 결정(PRICING.md 「할인 없음」과 일본어앱 표기가 다름 — 지금은 일본어앱과 같이 표시).
