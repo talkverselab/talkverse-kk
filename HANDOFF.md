@@ -13,7 +13,7 @@
 | 절벽 구간 | v1 — R1 45 · R2 62 · R3 160 · R4 477, 1,500위 88.5%(`data/corpus/cliff_v1/`, `lib/core/cliff.dart`, `31e87b7`). 사이트 반영됨 |
 | 문자와 발음 | `523da4d` — 키릴 42자 격자·묶음 칩·로마자, 발음 시트(자동 재생·IPA·모음 차트·조음 그림·한국어 비교), 모음조화 표, 글자 소리 40개 |
 | 가격·결제 | `1ff96bc` — `lang_kk_1m·3m·1y·life` + `all_1y·all_life`, 정가 취소선·출시 기념 30%, 규정 표기·복원·약관/방침 링크(결제·로그인·설정). 스토어 문서 `app/docs/store/listing.md`·`review_notes.md`(4.3 필수 문단)·`app/docs/STORE_PRODUCTS.md` |
-| 통합 앱 연결 준비 | `330a573` — `lib/embed.dart`(embedInit·embedApp), `lib/core/embed_env.dart`(assetPath·pk), 저장 이름 `kk_` 접두(단독 앱은 옛 키·`art` 폴더 1회 이전), 통합 모드 clientId `talkverse`·로그아웃은 tv_* 만, 결제 스트림 분리(`Purchase.onPurchaseUpdates`, lang_kk_*·all_* 만), 「다른 언어 배우기」. drift 2.34.4·drift_flutter 0.3.1·sqlite3_flutter_libs 0.6.0+eol. uk 에 보고함(연결은 uk 가) |
+| 통합 앱 연결 준비 | `330a573` — `lib/embed.dart`(embedInit·embedApp), `lib/core/embed_env.dart`(assetPath·pk), 저장 이름 `kk_` 접두(단독 앱은 옛 키·`art` 폴더 1회 이전), 통합 모드 clientId `talkverse`·로그아웃은 tv_* 만, 결제 스트림 분리(`Purchase.onPurchaseUpdates`, lang_kk_*·all_* 만), 「다른 언어 배우기」. drift 2.34.4·drift_flutter 0.3.1·sqlite3_flutter_libs 0.6.0+eol. uk 가 연결 — **통합 앱 빌드 4(12개 언어) https://apps.talkverse.uk/IfB4M/419 에 포함** |
 | 배포(최신) | Zealot 빌드 6 https://apps.talkverse.uk/ABjlY/413 (로컬 빌드) · TestFlight 2611091205 |
 | ① 캐릭터 시안 · ② UX 시안 | 미착수(Grok 은 한자 세션 경유) |
 | 콘텐츠(단어·회화·문법·접사 표) | 사용자 지시 뒤. 단어 목록은 외국 인명을 걸러 `talkversehanja` `talkverse_art/words/kk.csv`(mn.csv 형식) → uk 에 알림 |
