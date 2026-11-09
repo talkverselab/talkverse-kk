@@ -1,4 +1,7 @@
-> ⚠ 카자흐어앱판(2026-11-02, 한자 앱 문안을 옮김). **아직 잠긴 기능이 없어**(사용자 결정 — 이번 빌드는 TestFlight·Zealot 시험용, 스토어 심사 제출 안 함) 인앱 구입 설명(잠긴 단원·급수 등)은 잠금 범위가 정해지면 고친다.
+> ⚠ 카자흐어앱판. **2026-11-09 갱신**: 상품 = `docs/STORE_PRODUCTS.md`(lang_kk_1m·3m·1y 구독·lang_kk_life, all_1y·all_life). 아래 옛 한자앱 문안 속 「평생 이용권 com.talkverse.kk.lifetime·4급 잠금·어린이 모드」는 카자흐어앱에 해당 없음 — 제출 전에 실제 앱(잠금 없음, 프로필 → 계정 → 이용권)으로 다시 쓴다. **4.3 대비 필수 문단(맨 앞에 붙일 것)**:
+>
+> This app is one of a family of language-specific apps by Universal Talking Lab (Talkverse). Each app is built from scratch for one target language for Korean speakers and is NOT a re-skin: the Kazakh app has its own script & pronunciation module (all 42 Kazakh Cyrillic letters with the 9 Kazakh-specific letters ә ғ қ ң ө ұ ү һ і highlighted, Russian-loan letters separated, native audio, IPA, articulation and a Kazakh-vs-Korean vowel chart), its own grammar tools (front/back vowel-harmony pairs and the қ/к, ғ/г consonant pairs, case suffixes mapped one-to-one to Korean particles with colour-coded suffix blocks), [N] original conversation episodes with recorded audio written for this language, and a vocabulary list measured from a Kazakh conversation corpus (45 units = 55% and 477 units = 80% of dialogue, suffixes counted separately). Content, curriculum and UI flows differ between apps; we keep them separate because learners search for and buy one language at a time.
+
 
 # 심사 메모(App Review Notes) 초안 · 개인정보처리방침 추가 문안 — 2026-11-02
 

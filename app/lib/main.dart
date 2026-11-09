@@ -25,8 +25,15 @@ void main() async {
   await LearnerPrefs.load(); // 학습자 이름·성별 — 화자 A 의 목소리·{name}
   await AchievementService.instance.load(); // 성과(편 완주·그림 카드)
   Account.load(); // Talkverse ID — 저장된 로그인 표시 + 뒤에서 토큰 갱신(기다리지 않음)
-  // 카자흐어 평생 이용권 — iOS 상품 번호 / Android 상품 번호 (Talkverse ID 상품 lang_kk_life)
-  Purchase.configure({'kk': ('com.talkverse.kk.lifetime', 'lang_kk')});
+  // 가격·상품 ID = Talkverse 공통(~/talkverse/PRICING.md, 2026-11-09 확정): 앱 할인가(출시 기념 30%) + 정가(취소선). 종합 평생은 할인 없음.
+  Purchase.configure('kk', const [
+    Plan('lang_kk_1m', 1, 3900, listKrw: 5500),
+    Plan('lang_kk_3m', 3, 9000, listKrw: 12900),
+    Plan('lang_kk_1y', 12, 19900, listKrw: 28500),
+    Plan('lang_kk_life', 0, 49000, listKrw: 69900),
+    Plan('all_1y', 12, 79000, bundle: true, listKrw: 112900),
+    Plan('all_life', 0, 329000, listKrw: 469000, bundle: true),
+  ]);
   await _setOrientations(); // 폰은 세로 고정, 태블릿·폴드 펼침(짧은 변 600 이상)은 회전 허용
   // 그림(장면 컷·단어 그림) 기기 내려받기: 버전이 다르면 로딩 화면에서 받고 시작(사용자 지시 2026-11-04)
   final needSync = await ContentSync.instance.init(large: _wide ?? false);
