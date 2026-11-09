@@ -16,7 +16,8 @@
 | 통합 앱 연결 준비 | `330a573` — `lib/embed.dart`(embedInit·embedApp), `lib/core/embed_env.dart`(assetPath·pk), 저장 이름 `kk_` 접두(단독 앱은 옛 키·`art` 폴더 1회 이전), 통합 모드 clientId `talkverse`·로그아웃은 tv_* 만, 결제 스트림 분리(`Purchase.onPurchaseUpdates`, lang_kk_*·all_* 만), 「다른 언어 배우기」. drift 2.34.4·drift_flutter 0.3.1·sqlite3_flutter_libs 0.6.0+eol. uk 가 연결 — **통합 앱 빌드 4(12개 언어) https://apps.talkverse.uk/IfB4M/419 에 포함** |
 | 배포(최신) | Zealot 빌드 6 https://apps.talkverse.uk/ABjlY/413 (로컬 빌드) · TestFlight 2611091205 |
 | ① 캐릭터 시안 · ② UX 시안 | 미착수 — Grok 은 직접(한자 세션 대행 중단 2026-11-09): 자기 크롬을 켜고 M4 `~/talkverse-uk/tools/grok_cookie_sync.py 9231 <포트>` 로 쿠키 동기화, 도구는 M6 `~/Hanja/tools/grok_req.py`·`grok_cdp.py` 복사. uk 의 Grok 방은 건드리지 않음 |
-| 콘텐츠(단어·회화·문법·접사 표) | 사용자 지시 뒤. 단어 목록은 외국 인명을 걸러 `talkversehanja` `talkverse_art/words/kk.csv`(mn.csv 형식) → uk 에 알림 |
+| 회화 | **Claude 초안 150편 완료(검수 전, 2026-11-09)** — R1 90 · R2 36 · R3 24, 카오스 33%, 모든 턴 감정 열. 상태·다음 순서·원어민 확인 목록 `docs/DIALOGUE.md`. Grok 재작성은 PC 크롬 9257 이 켜지면(사용자) |
+| 콘텐츠(단어·문법·접사 표) | 사용자 지시 뒤. 단어 목록은 외국 인명을 걸러 `talkversehanja` `talkverse_art/words/kk.csv`(mn.csv 형식) → uk 에 알림 |
 
 ## 출시 판단
 - **지금은 출시 불가** — 회화·단어·문법 레슨·접사 표·주제 단어·표현 메뉴가 비어 있다(지침 2.1). 출시 순서 = 한자앱 → 완성된 언어앱부터 하나씩(uk 공지).
