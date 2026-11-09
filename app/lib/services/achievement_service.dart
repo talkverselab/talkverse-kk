@@ -1,3 +1,4 @@
+import '../core/embed_env.dart';
 import 'dart:convert';
 
 import 'package:flutter/foundation.dart';
@@ -12,7 +13,7 @@ import 'dialogue_service.dart';
 class AchievementService {
   AchievementService._();
   static final AchievementService instance = AchievementService._();
-  static const _key = 'achievements_v1';
+  static final _key = pk('achievements_v1');
 
   final Map<String, String> _episodes = {}; // 편 id → 처음 완주한 날(yyyy-mm-dd)
   final Map<String, List<int>> _cards = {}; // 편 id → [맞음, 전체] (마지막 세션)

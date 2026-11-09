@@ -1,3 +1,4 @@
+import '../core/embed_env.dart';
 import 'dart:convert';
 
 import 'package:flutter/services.dart' show rootBundle;
@@ -128,7 +129,7 @@ class DialogueService {
     'study': '🎓',
   };
   static const levelKo = {'L1': '이야기', 'R0': '왕초보', 'R1': '초보', 'R2': '중급', 'R3': '고급', 'R4': '최상급'};
-  static const _prefLast = 'dialogue_last';
+  static final _prefLast = pk('dialogue_last');
 
   final List<Dialogue> _all = [];
   Future<void>? _loading;
@@ -145,7 +146,7 @@ class DialogueService {
   Future<void> _load() async {
     _lastOpened = (await SharedPreferences.getInstance()).getString(_prefLast);
     try {
-      final j = json.decode(await rootBundle.loadString('assets/data/dialogues/L1.json')) as Map<String, dynamic>;
+      final j = json.decode(await rootBundle.loadString(assetPath('assets/data/dialogues/L1.json'))) as Map<String, dynamic>;
       final chars = (j['characters'] as Map<String, dynamic>? ?? const {});
       final names = chars.map((k, v) => MapEntry(k, ((v as Map)['name'] ?? k).toString()));
       final genders = chars.map((k, v) => MapEntry(k, ((v as Map)['gender'] ?? 'female').toString()));

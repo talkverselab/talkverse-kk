@@ -1,3 +1,4 @@
+import '../core/embed_env.dart';
 import 'package:flutter/material.dart';
 
 import 'about_screen.dart';
@@ -81,6 +82,13 @@ class _ProfileScreenState extends State<ProfileScreen> {
             ),
           ),
           const SizedBox(height: 18),
+          // 통합 앱(Talkverse)일 때만 — 설정 맨 위(EMBED_GUIDE §6)
+          if (Embed.onSwitchLanguage != null) ...[
+            _SettingsGroup(items: [
+              _SettingItem(icon: Icons.public, title: tr('다른 언어 배우기'), subtitle: tr('Talkverse 의 다른 언어 과정으로'), onTap: Embed.onSwitchLanguage),
+            ]),
+            const SizedBox(height: 16),
+          ],
           _SectionTitle(tr('계정')),
           const SizedBox(height: 8),
           const AccountSection(),

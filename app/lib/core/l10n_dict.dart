@@ -4,6 +4,7 @@
 // ignore_for_file: lines_longer_than_80_chars
 
 const Map<String, String> kDictEn = {
+  '다른 언어 배우기': 'Learn another language', 'Talkverse 의 다른 언어 과정으로': 'Go to another Talkverse course',
   // 공통
   '홈': 'Home', '학습': 'Learn', '진행': 'Progress', '프로필': 'Profile', '설정': 'Settings', '정보': 'About',
   '어휘': 'Vocabulary', '문화': 'Culture', 'Language / 언어': 'Language / 언어',
@@ -306,6 +307,7 @@ const Map<String, String> kDictEn = {
 };
 
 const Map<String, String> kDictJa = {
+  '다른 언어 배우기': '他の言語を学ぶ', 'Talkverse 의 다른 언어 과정으로': 'Talkverseの他の言語コースへ',
   '홈': 'ホーム', '학습': '学習', '진행': '進捗', '프로필': 'プロフィール', '설정': '設定', '정보': '情報',
   '어휘': '語彙', '문화': '文化', 'Language / 언어': '言語 / Language',
   '전체': 'すべて', '다음': '次へ', '계속': '続ける', '테스트': 'テスト', '오류': 'エラー', '힌트': 'ヒント',
@@ -597,6 +599,7 @@ const Map<String, String> kDictJa = {
 };
 
 const Map<String, String> kDictZh = {
+  '다른 언어 배우기': '学习其他语言', 'Talkverse 의 다른 언어 과정으로': '前往 Talkverse 的其他语言课程',
   '홈': '首页', '학습': '学习', '진행': '进度', '프로필': '个人', '설정': '设置', '정보': '关于',
   '어휘': '词汇', '문화': '文化', 'Language / 언어': '语言 / Language',
   '전체': '全部', '다음': '下一个', '계속': '继续', '테스트': '测试', '오류': '错误', '힌트': '提示',

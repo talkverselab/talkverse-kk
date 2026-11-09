@@ -1,3 +1,4 @@
+import '../../core/embed_env.dart';
 import 'dart:convert';
 
 import 'package:csv/csv.dart';
@@ -10,7 +11,7 @@ import 'app_database.dart';
 class SeedLoader {
   /// 번들 `assets/data/version.json` 의 `db`(업데이트 번호)와 저장된 번호가 다르면 DB 를 전부 다시 채운다(사용자 지시 2026-11-04, 일본어앱과 같음).
   /// 옛 키(`db_seeded_v2`)는 더 쓰지 않는다 — 데이터를 바꾸면 version.json 의 번호만 올린다.
-  static const _kDbVersion = 'db_version';
+  static final _kDbVersion = pk('db_version');
 
   final AppDatabase db;
   SeedLoader(this.db);
@@ -32,7 +33,7 @@ class SeedLoader {
 
   static Future<int> bundledVersion() async {
     try {
-      final j = json.decode(await rootBundle.loadString('assets/data/version.json')) as Map<String, dynamic>;
+      final j = json.decode(await rootBundle.loadString(assetPath('assets/data/version.json'))) as Map<String, dynamic>;
       return (j['db'] as num).toInt();
     } catch (_) {
       return 0;
@@ -47,7 +48,7 @@ class SeedLoader {
   Future<void> _seedWords() async {
     final String raw;
     try {
-      raw = await rootBundle.loadString('assets/data/freq/kk_words.csv');
+      raw = await rootBundle.loadString(assetPath('assets/data/freq/kk_words.csv'));
     } catch (_) {
       return;
     }
@@ -73,7 +74,7 @@ class SeedLoader {
   Future<void> _seedVerbs() async {
     final Map<String, dynamic> data;
     try {
-      final raw = await rootBundle.loadString('assets/data/grammar/verbs_core.json');
+      final raw = await rootBundle.loadString(assetPath('assets/data/grammar/verbs_core.json'));
       data = json.decode(raw) as Map<String, dynamic>;
     } catch (_) {
       return;
@@ -99,7 +100,7 @@ class SeedLoader {
     for (final level in ['L1', 'L2', 'L3']) {
       final Map<String, dynamic> data;
       try {
-        final raw = await rootBundle.loadString('assets/data/dialogues/$level.json');
+        final raw = await rootBundle.loadString(assetPath('assets/data/dialogues/$level.json'));
         data = json.decode(raw) as Map<String, dynamic>;
       } catch (_) {
         continue;

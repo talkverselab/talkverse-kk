@@ -1,3 +1,4 @@
+import '../core/embed_env.dart';
 import 'dart:async';
 import 'dart:convert';
 import 'dart:io';
@@ -31,8 +32,8 @@ class ContentSync {
 
   static const wordsManifestUrl = 'https://auth.talkverse.uk/art/kk/manifest';
   static const sceneManifestUrl = 'https://auth.talkverse.uk/art/kk/scene/manifest';
-  static const _prefVersion = 'art_version_v1';
-  static const _prefScene = 'art_scene_manifest_v1';
+  static final _prefVersion = pk('art_version_v1');
+  static final _prefScene = pk('art_scene_manifest_v1');
   static const _concurrency = 6;
 
   final ValueNotifier<SyncProgress> progress = ValueNotifier(const SyncProgress('idle', 0, 0, false));
@@ -50,7 +51,7 @@ class ContentSync {
   Future<bool> init({bool large = false}) async {
     _large = large;
     try {
-      _dir = Directory('${(await getApplicationSupportDirectory()).path}/art');
+      _dir = Directory('${(await getApplicationSupportDirectory()).path}/${pk('art')}');
       if (!await _dir!.exists()) await _dir!.create(recursive: true);
       final f = File('${_dir!.path}/index.json');
       if (await f.exists()) _index.addAll((json.decode(await f.readAsString()) as Map).cast<String, String>());

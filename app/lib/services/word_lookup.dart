@@ -1,3 +1,4 @@
+import '../core/embed_env.dart';
 import 'dart:convert';
 
 import 'package:drift/drift.dart';
@@ -104,7 +105,7 @@ class ConvWord {
 }
 
 Future<List<ConvWord>> convExtraWords() async {
-  final j = json.decode(await rootBundle.loadString('assets/data/vocab/travel_words.json')) as Map<String, dynamic>;
+  final j = json.decode(await rootBundle.loadString(assetPath('assets/data/vocab/travel_words.json'))) as Map<String, dynamic>;
   final vocab = <String, Map<String, dynamic>>{};
   for (final t in (j['themes'] as List).cast<Map<String, dynamic>>()) {
     for (final s in (t['sections'] as List).cast<Map<String, dynamic>>()) {

@@ -1,3 +1,4 @@
+import '../core/embed_env.dart';
 import 'package:drift/drift.dart' hide Column;
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -36,8 +37,8 @@ class SentenceFlashcardScreen extends StatefulWidget {
 }
 
 class _SentenceFlashcardScreenState extends State<SentenceFlashcardScreen> {
-  static const _kKoFirst = 'card_ko_first';
-  static const _kShowHint = 'card_show_hint';
+  static final _kKoFirst = pk('card_ko_first');
+  static final _kShowHint = pk('card_show_hint');
 
   List<TurnRow> _turns = [];
   final Map<int, _CardState> _state = {};

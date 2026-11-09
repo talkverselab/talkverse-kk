@@ -1,3 +1,4 @@
+import '../core/embed_env.dart';
 // ignore_for_file: prefer_interpolation_to_compose_strings — 동사 규칙형은 덧셈이 더 읽기 쉽다
 import 'dart:convert';
 
@@ -120,7 +121,7 @@ class AffixCorpus {
       }
     }
     try {
-      final j = json.decode(await rootBundle.loadString('assets/data/vocab/travel_expressions.json')) as Map<String, dynamic>;
+      final j = json.decode(await rootBundle.loadString(assetPath('assets/data/vocab/travel_expressions.json'))) as Map<String, dynamic>;
       for (final th in (j['themes'] as List? ?? const [])) {
         for (final sec in ((th as Map)['sections'] as List? ?? const [])) {
           for (final w in ((sec as Map)['words'] as List? ?? const [])) {

@@ -1,3 +1,4 @@
+import '../core/embed_env.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import '../core/l10n.dart';
@@ -8,7 +9,7 @@ class KoReadingPrefs {
   KoReadingPrefs._();
 
   // 기본 미표시(사용자 지시 2026-11-07, 일본어앱 후리가나와 같은 규칙). 옛 키 값은 쓰지 않아 모두 미표시로 시작한다.
-  static const _key = 'ko_reading_show_v2';
+  static final _key = pk('ko_reading_show_v2');
   static final ValueNotifier<bool> show = ValueNotifier<bool>(false);
 
   static Future<void> load() async {

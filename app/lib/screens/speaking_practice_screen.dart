@@ -1,3 +1,4 @@
+import '../core/embed_env.dart';
 import 'dart:async';
 
 import 'package:drift/drift.dart' hide Column;
@@ -36,7 +37,7 @@ class _EpItem {
 }
 
 class _SpeakingPracticeScreenState extends State<SpeakingPracticeScreen> {
-  static const _kStage = 'speak_stage';
+  static final _kStage = pk('speak_stage');
   int _stage = 1;
   bool _loading = true;
   bool _onlyLearned = false;
@@ -61,7 +62,7 @@ class _SpeakingPracticeScreenState extends State<SpeakingPracticeScreen> {
       final ep = turns.where((t) => t.level == meta.level && t.episodeId == meta.id).toList();
       if (ep.isEmpty) continue;
       final learned = ep.where((t) => learnedIds.contains(t.id)).length;
-      final passed3 = ep.where((t) => (prefs.getInt('speak_best_${t.id}') ?? 0) >= 3).length;
+      final passed3 = ep.where((t) => (prefs.getInt(pk('speak_best_${t.id}')) ?? 0) >= 3).length;
       items.add(_EpItem(meta, ep.length, learned, passed3));
     }
     final anyLearned = items.any((e) => e.learned > 0);
@@ -209,7 +210,7 @@ class SpeakingTestScreen extends StatefulWidget {
 }
 
 class _SpeakingTestScreenState extends State<SpeakingTestScreen> {
-  static const _kHint = 'speak_show_hint';
+  static final _kHint = pk('speak_show_hint');
   static const _batch = 4;
 
   List<TurnRow> _turns = [];
@@ -314,7 +315,7 @@ class _SpeakingTestScreenState extends State<SpeakingTestScreen> {
     final turn = _turns[_i];
     if (pass) {
       final prefs = await SharedPreferences.getInstance();
-      final key = 'speak_best_${turn.id}';
+      final key = pk('speak_best_${turn.id}');
       if ((prefs.getInt(key) ?? 0) < widget.stage) {
         await prefs.setInt(key, widget.stage);
       }

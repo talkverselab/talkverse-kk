@@ -1,3 +1,4 @@
+import '../core/embed_env.dart';
 import 'dart:convert';
 import 'dart:io' show Platform;
 import 'dart:math';
@@ -16,7 +17,7 @@ import 'package:sign_in_with_apple/sign_in_with_apple.dart';
 class Account {
   Account._();
   static const base = 'https://auth.talkverse.uk';
-  static const clientId = 'kk';
+  static String get clientId => Embed.embedded ? 'talkverse' : 'kk'; // 통합 앱은 Talkverse ID 클라이언트 talkverse
   static const scheme = 'talkverse.kk';
   static const _redirect = '$scheme://auth';
 
@@ -171,7 +172,9 @@ class Account {
     _access = null;
     user.value = null;
     entitlements.value = const [];
-    await _store.deleteAll();
+    for (final k in const ['tv_refresh', 'tv_user', 'tv_ent']) {
+      await _store.delete(key: k); // 통합 앱의 다른 저장값은 건드리지 않는다
+    }
   }
 
   static String get _device => 'kk ${kIsWeb ? 'web' : Platform.operatingSystem}';

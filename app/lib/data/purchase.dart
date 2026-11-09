@@ -1,3 +1,4 @@
+import '../core/embed_env.dart';
 import 'dart:async';
 import 'dart:convert';
 import 'dart:io' show Platform;
@@ -57,13 +58,14 @@ class Purchase {
     lang = code;
     plans = list;
     final p = await SharedPreferences.getInstance();
-    final raw = p.getString('iap_owned2');
+    final raw = p.getString(pk('iap_owned2'));
     final m = <String, int>{if (raw != null) ...(jsonDecode(raw) as Map).map((k, v) => MapEntry('$k', (v as num).toInt()))};
-    if ((p.getStringList('iap_owned') ?? const []).contains(code)) m['lang_${code}_life'] = 0; // 옛 저장 방식(평생 하나)
+    if ((p.getStringList(pk('iap_owned')) ?? const []).contains(code)) m['lang_${code}_life'] = 0; // 옛 저장 방식(평생 하나)
     owned.value = m;
     Account.user.addListener(_onAccount);
     if (kIsWeb || !(Platform.isIOS || Platform.isAndroid)) return;
-    _sub ??= InAppPurchase.instance.purchaseStream.listen(_onUpdates, onError: (_) => status.value = 'error');
+    // 통합 앱에서는 구매 스트림을 통합 앱 하나만 듣는다 — 그쪽이 [onPurchaseUpdates] 로 넘겨준다(EMBED_GUIDE §5)
+    if (!Embed.embedded) _sub ??= InAppPurchase.instance.purchaseStream.listen(_onUpdates, onError: (_) => status.value = 'error');
     try {
       if (!await InAppPurchase.instance.isAvailable()) return;
       final r = await InAppPurchase.instance.queryProductDetails({for (final x in list) x.id});
@@ -102,7 +104,17 @@ class Purchase {
 
   static String? _known(String productId) {
     final id = _legacy[productId] ?? productId;
-    return plan(id) != null || id.startsWith('lang_') || id.startsWith('all_') ? id : null;
+    return plan(id) != null || id.startsWith('lang_${lang}_') || id.startsWith('all_') ? id : null; // 다른 언어 상품은 그 언어 패키지가
+  }
+
+  /// 통합 앱의 공용 결제가 받은 구매 갱신을 넘기는 입구(이 언어 상품 lang_kk_*·all_* 만 처리된다).
+  static Future<void> onPurchaseUpdates(List<PurchaseDetails> list) => _onUpdates(list);
+  static Future<void> onUpdates(List<PurchaseDetails> list) => _onUpdates(list); // 한국어앱과 같은 이름
+
+  /// 단독 앱 구매 스트림 수신을 끊는다(통합 앱으로 옮겨 갈 때).
+  static Future<void> detachStream() async {
+    await _sub?.cancel();
+    _sub = null;
   }
 
   static Future<void> _onUpdates(List<PurchaseDetails> list) async {
@@ -124,7 +136,7 @@ class Purchase {
             if (_restoring) _restoring = false;
           }
       }
-      if (pd.pendingCompletePurchase) await InAppPurchase.instance.completePurchase(pd);
+      if (pd.pendingCompletePurchase && !Embed.embedded) await InAppPurchase.instance.completePurchase(pd); // 통합 앱이면 완료 처리는 통합 앱이
     }
   }
 
@@ -141,7 +153,7 @@ class Purchase {
     final keep = cur != null && (cur == 0 || (exp != 0 && cur > exp)); // 더 긴 기한이 있으면 유지
     if (!keep) owned.value = {...owned.value, id: exp};
     final p = await SharedPreferences.getInstance();
-    await p.setString('iap_owned2', jsonEncode(owned.value));
+    await p.setString(pk('iap_owned2'), jsonEncode(owned.value));
     // 서버로 보낼 영수증 — 로그인 전이면 쌓아 두었다가 로그인 때 보낸다
     final rec = {
       'platform': Platform.isIOS ? 'ios' : 'android',
@@ -149,7 +161,7 @@ class Purchase {
       if (Platform.isIOS) 'transaction_id': pd.purchaseID,
       if (Platform.isAndroid) 'purchase_token': pd.verificationData.serverVerificationData,
     };
-    await p.setStringList('iap_pending', {...?p.getStringList('iap_pending'), jsonEncode(rec)}.toList());
+    await p.setStringList(pk('iap_pending'), {...?p.getStringList(pk('iap_pending')), jsonEncode(rec)}.toList());
     await _flush();
   }
 
@@ -164,7 +176,7 @@ class Purchase {
     final p = await SharedPreferences.getInstance();
     final left = <String>[];
     var sent = false;
-    for (final s in [...?p.getStringList('iap_pending')]) {
+    for (final s in [...?p.getStringList(pk('iap_pending'))]) {
       try {
         final r = await http.post(Uri.parse('${Account.base}/me/purchases'),
             headers: {'Authorization': 'Bearer $at', 'Content-Type': 'application/json'},
@@ -178,7 +190,7 @@ class Purchase {
         left.add(s);
       }
     }
-    await p.setStringList('iap_pending', left);
+    await p.setStringList(pk('iap_pending'), left);
     if (sent) await Account.refresh(); // 이용권 다시 받기
   }
 }

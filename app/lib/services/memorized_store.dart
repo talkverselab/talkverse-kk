@@ -1,3 +1,4 @@
+import '../core/embed_env.dart';
 import 'package:flutter/foundation.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -7,7 +8,7 @@ enum StudyMode { all, hideTx, hideKo }
 /// 외운 단어·문장 저장소 (원문 키, SharedPreferences 영구 저장).
 class MemorizedStore {
   MemorizedStore._();
-  static const _key = 'memorized_words';
+  static final _key = pk('memorized_words');
   static final Set<String> _set = {};
   static final ValueNotifier<int> version = ValueNotifier(0);
   static bool _loaded = false;

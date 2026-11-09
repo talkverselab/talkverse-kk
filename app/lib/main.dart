@@ -1,50 +1,29 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
+import 'core/embed_env.dart';
 import 'core/theme.dart';
+import 'embed.dart';
 import 'data/db/app_database.dart';
-import 'data/db/seed_loader.dart';
 import 'screens/main_screen.dart';
 import 'screens/sync_screen.dart';
-import 'services/content_sync.dart';
-import 'services/ko_reading.dart';
 import 'core/l10n.dart';
-import 'data/account.dart';
-import 'data/purchase.dart';
-import 'services/achievement_service.dart';
-import 'services/learner_prefs.dart';
 
 late final AppDatabase appDb;
 
+/// 단독 앱. 초기화·화면은 embed.dart 와 같다(통합 앱 Talkverse 가 같은 두 함수를 부른다).
 void main() async {
-  WidgetsFlutterBinding.ensureInitialized();
-  appDb = AppDatabase();
-  await SeedLoader(appDb).seedIfNeeded();
-  await KoReadingPrefs.load();
-  await AppLangPrefs.load();
-  await LearnerPrefs.load(); // 학습자 이름·성별 — 화자 A 의 목소리·{name}
-  await AchievementService.instance.load(); // 성과(편 완주·그림 카드)
-  Account.load(); // Talkverse ID — 저장된 로그인 표시 + 뒤에서 토큰 갱신(기다리지 않음)
-  // 가격·상품 ID = Talkverse 공통(~/talkverse/PRICING.md, 2026-11-09 확정): 앱 할인가(출시 기념 30%) + 정가(취소선). 종합 평생은 할인 없음.
-  Purchase.configure('kk', const [
-    Plan('lang_kk_1m', 1, 3900, listKrw: 5500),
-    Plan('lang_kk_3m', 3, 9000, listKrw: 12900),
-    Plan('lang_kk_1y', 12, 19900, listKrw: 28500),
-    Plan('lang_kk_life', 0, 49000, listKrw: 69900),
-    Plan('all_1y', 12, 79000, bundle: true, listKrw: 112900),
-    Plan('all_life', 0, 329000, listKrw: 469000, bundle: true),
-  ]);
-  await _setOrientations(); // 폰은 세로 고정, 태블릿·폴드 펼침(짧은 변 600 이상)은 회전 허용
-  // 그림(장면 컷·단어 그림) 기기 내려받기: 버전이 다르면 로딩 화면에서 받고 시작(사용자 지시 2026-11-04)
-  final needSync = await ContentSync.instance.init(large: _wide ?? false);
-  runApp(GermanUniverseApp(syncFirst: needSync));
+  await embedInit();
+  await setOrientations(); // 폰은 세로 고정, 태블릿·폴드 펼침(짧은 변 600 이상)은 회전 허용 — 통합 앱은 셸이 정한다
+  runApp(embedApp());
 }
 
 bool? _wide;
 
 /// 짧은 변 600 이상(아이패드·태블릿·폴드 펼침)이면 가로 회전 허용, 아니면 세로 고정.
 /// 폴드를 접고 펼 때마다 builder 에서 다시 계산한다(일본어앱 main.dart 와 같음).
-Future<void> _setOrientations([double? shortest]) async {
+Future<void> setOrientations([double? shortest]) async {
+  if (Embed.embedded) return; // 통합 앱은 셸이 화면 방향을 정한다
   shortest ??= () {
     final v = WidgetsBinding.instance.platformDispatcher.views.first;
     return v.physicalSize.shortestSide / v.devicePixelRatio;
@@ -74,7 +53,7 @@ class GermanUniverseApp extends StatelessWidget {
         // 아이폰 Dynamic Type·갤럭시 글자 크기 설정이 커도 타일이 깨지지 않게 1.2배까지만
         builder: (context, child) {
           final mq = MediaQuery.of(context);
-          WidgetsBinding.instance.addPostFrameCallback((_) => _setOrientations(mq.size.shortestSide));
+          WidgetsBinding.instance.addPostFrameCallback((_) => setOrientations(mq.size.shortestSide));
           return MediaQuery(
             data: mq.copyWith(
               textScaler: mq.textScaler.clamp(maxScaleFactor: 1.2),
