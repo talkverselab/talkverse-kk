@@ -50,3 +50,12 @@
 - **회화는 일상 속에서 터지게**(2026-11-09 정정 반영): 반전·러브·플러팅은 비율 기준대로 다 넣는다(줄이지 않음). 다만 가게·식당·길·집·학교·직장·약속·전화 같은 실제 일상 장면과 그 자리의 실제 표현 흐름 안에서 터지게 하고, 일상과 동떨어진 비현실적 설정·판타지로 가지 않는다. 원칙 페이지 §9 https://talkverse.uk/talkverse/dialogue-rules/
 - **Grok 답은 3분까지만(사용자 지시 2026-11-10)**: 넘으면 그 대화의 생성을 중지(토큰 낭비 방지) — `tools/grok/grok_text.py` 가 180초 상한·중지 단추/Escape 로 처리.
 - **Grok 은 PC 에서**: PC 크롬 포트 9257(프로필 `D:\chrome-grok\kk`, M4 `GROK_CHROME_PORTS.md` 에 배정). PC 작업 스케줄러 등록은 권한 정책에 막힘 → 사용자가 PC 에서 크롬을 띄운 뒤 M4 터널 + `grok_cookie_sync.py 9231 9257`. 한도는 공유라 회차는 작게.
+
+## 현재 상태·다음 할 일 (2026-11-10 세션 종료 시점)
+- 회화 150편: Claude 초안 → Grok 카자흐어 점검 완료(고친 줄 3, 원어민 확인 111줄 질의 지적 1건 원문 유지), r1_love_a23 은 찻잔 농담 겹침으로 「짠 밀크티」로 새로 씀(Grok 미점검).
+- **Gemini 검수 0/150 — 다음 할 일 1순위.** 도구·150편 프롬프트 준비 끝(`tools/grok/gemini_send.py`·`gemini_batch.py`·`gemini_probe.py`·`gemini_wait_run.sh`, 틀 `tools/prompts/review_gemini_kk.md`, `data/review/dialogues/prompts/`). 재개: 사용자가 PC 크롬 9257(`D:\chrome-grok\kk`)에 구글 로그인 + 3.1 Pro 선택 → M6 `ssh -o BatchMode=yes -f -N -L 9257:127.0.0.1:9257 Administrator@100.127.143.37` → `bash tools/grok/gemini_wait_run.sh > data/review/dialogues/log.txt`(한 번에 한 건·60초 간격, BLOCKED/BADMODEL 이면 멈춤). 11-09 밤 uk 가 이 크롬 쿠키를 다른 크롬으로 복사하다 구글 세션이 끊김 — 쿠키 복사로 로그인하지 말 것.
+- 그 뒤: 지적 반영(실제 오류만) → 사용자 리뷰 → 로더를 R 구조로 옮기고 빌드(Android·iOS 함께) → 장면 컷(아트 저장소 `talkverse_art/scene/kk/<편>/cutN.jpg`) → 회화 음성(D1 `audio_lines` + R2 `audio/kk/…`, 표준 `~/talkverse/ja/docs/DIALOGUE_AUDIO.md`).
+- 단어 그림: talkversehanja `talkverse_art/words/kk.csv`(1,190, 그림 가능 327)·`kk_food.csv`(50) 푸시(17ec8a46) → uk 가 178장(겹치지 않는 128 + 음식 50) 공개 완료.
+- DB: 회화 본문은 D1 표 없음(앱 에셋·저장소가 정본), 음성·장면 컷은 아직 없음 → 올린 것 0.
+- Grok 은 주간 한도(11/16 초기화)까지 쓰지 말 것, 쓸 때는 답 3분 상한.
+- 11-10 디스크 정리: app/build·.dart_tool·android/.gradle·ios/Pods·__pycache__ 삭제(다음 빌드 전 `flutter pub get`·`pod install`). 터널·Grok/Gemini 탭은 닫음.
