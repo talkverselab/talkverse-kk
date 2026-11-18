@@ -1,0 +1,155 @@
+{
+ "id": "r2_love_a11",
+ "region": "R2",
+ "island": "love",
+ "kind": "long",
+ "draft": true,
+ "purpose": [
+  "love"
+ ],
+ "domain": [
+  "love",
+  "study"
+ ],
+ "title": "숙제: 그리움",
+ "emoji": "📖",
+ "scene": "공원 벤치. 아이게림이 학습자의 단어 공부를 봐 주다가 예문 하나가 이상해진다",
+ "speakers": {
+  "A": "{name}",
+  "B": "Айгерім"
+ },
+ "register": "casual",
+ "twist": 9,
+ "twist_type": "emotion",
+ "flags": [],
+ "expressions": [
+  "Жақсы",
+  "Бәрекелді",
+  "Сағындым"
+ ],
+ "goal": "뜻 설명하기, 예문 만들기",
+ "turns": [
+  {
+   "num": 1,
+   "speaker": "B",
+   "tl": "",
+   "rd": "",
+   "ko": "",
+   "note": "",
+   "tags": [],
+   "new": [],
+   "emotion": "cheerful"
+  },
+  {
+   "num": 2,
+   "speaker": "A",
+   "tl": "",
+   "rd": "",
+   "ko": "",
+   "note": "",
+   "tags": [],
+   "new": [],
+   "emotion": "cheerful"
+  },
+  {
+   "num": 3,
+   "speaker": "B",
+   "tl": "",
+   "rd": "",
+   "ko": "",
+   "note": "",
+   "tags": [],
+   "new": [],
+   "emotion": "teasing"
+  },
+  {
+   "num": 4,
+   "speaker": "A",
+   "tl": "",
+   "rd": "",
+   "ko": "",
+   "note": "",
+   "tags": [],
+   "new": [],
+   "emotion": "excited"
+  },
+  {
+   "num": 5,
+   "speaker": "B",
+   "tl": "",
+   "rd": "",
+   "ko": "",
+   "note": "",
+   "tags": [],
+   "new": [],
+   "emotion": "teasing"
+  },
+  {
+   "num": 6,
+   "speaker": "A",
+   "tl": "",
+   "rd": "",
+   "ko": "",
+   "note": "",
+   "tags": [],
+   "new": [],
+   "emotion": "gentle"
+  },
+  {
+   "num": 7,
+   "speaker": "B",
+   "tl": "",
+   "rd": "",
+   "ko": "",
+   "note": "",
+   "tags": [],
+   "new": [],
+   "emotion": "teasing"
+  },
+  {
+   "num": 8,
+   "speaker": "A",
+   "tl": "",
+   "rd": "",
+   "ko": "",
+   "note": "",
+   "tags": [],
+   "new": [],
+   "emotion": "gentle"
+  },
+  {
+   "num": 9,
+   "speaker": "B",
+   "tl": "",
+   "rd": "",
+   "ko": "",
+   "note": "",
+   "tags": [],
+   "new": [],
+   "emotion": "shy"
+  },
+  {
+   "num": 10,
+   "speaker": "A",
+   "tl": "",
+   "rd": "",
+   "ko": "",
+   "note": "",
+   "tags": [],
+   "new": [],
+   "emotion": "flustered"
+  },
+  {
+   "num": 11,
+   "speaker": "B",
+   "tl": "",
+   "rd": "",
+   "ko": "",
+   "note": "",
+   "tags": [],
+   "new": [],
+   "emotion": "teasing"
+  }
+ ],
+ "note_for_writer": "대사 칸(tl·ko·note)은 비어 있다 — 장면·인물·반전·new 단어를 보고 네가 처음부터 쓴다. 턴 수와 화자 순서는 바꿔도 된다."
+}

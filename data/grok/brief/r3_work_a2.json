@@ -1,0 +1,201 @@
+{
+ "id": "r3_work_a2",
+ "region": "R3",
+ "island": "work",
+ "kind": "long",
+ "draft": true,
+ "purpose": [
+  "work_kazakhstan",
+  "making_friends"
+ ],
+ "domain": [
+  "work",
+  "cafe",
+  "music"
+ ],
+ "title": "신기한 라테",
+ "emoji": "☕",
+ "scene": "마감한 카페. 석 달 아르바이트의 마지막 근무를 마친 학습자에게 동료 예르잔이 돔브라를 꺼낸다",
+ "speakers": {
+  "A": "{name}",
+  "B": "Ержан"
+ },
+ "register": "casual",
+ "twist": 13,
+ "twist_type": "emotion",
+ "flags": [],
+ "expressions": [
+  "Әрине",
+  "Ештеңе",
+  "Жоқ"
+ ],
+ "goal": "추억 이야기하기(есіңде ме), 아쉬움 표현하기",
+ "turns": [
+  {
+   "num": 1,
+   "speaker": "B",
+   "tl": "",
+   "rd": "",
+   "ko": "",
+   "note": "",
+   "tags": [],
+   "new": [],
+   "emotion": "stiff"
+  },
+  {
+   "num": 2,
+   "speaker": "A",
+   "tl": "",
+   "rd": "",
+   "ko": "",
+   "note": "",
+   "tags": [],
+   "new": [],
+   "emotion": "sad"
+  },
+  {
+   "num": 3,
+   "speaker": "B",
+   "tl": "",
+   "rd": "",
+   "ko": "",
+   "note": "",
+   "tags": [],
+   "new": [],
+   "emotion": "amused"
+  },
+  {
+   "num": 4,
+   "speaker": "A",
+   "tl": "",
+   "rd": "",
+   "ko": "",
+   "note": "",
+   "tags": [],
+   "new": [],
+   "emotion": "amused"
+  },
+  {
+   "num": 5,
+   "speaker": "B",
+   "tl": "",
+   "rd": "",
+   "ko": "",
+   "note": "",
+   "tags": [],
+   "new": [],
+   "emotion": "teasing"
+  },
+  {
+   "num": 6,
+   "speaker": "A",
+   "tl": "",
+   "rd": "",
+   "ko": "",
+   "note": "",
+   "tags": [],
+   "new": [],
+   "emotion": "cheerful"
+  },
+  {
+   "num": 7,
+   "speaker": "B",
+   "tl": "",
+   "rd": "",
+   "ko": "",
+   "note": "",
+   "tags": [],
+   "new": [],
+   "emotion": "teasing"
+  },
+  {
+   "num": 8,
+   "speaker": "A",
+   "tl": "",
+   "rd": "",
+   "ko": "",
+   "note": "",
+   "tags": [],
+   "new": [],
+   "emotion": "amused"
+  },
+  {
+   "num": 9,
+   "speaker": "B",
+   "tl": "",
+   "rd": "",
+   "ko": "",
+   "note": "",
+   "tags": [],
+   "new": [],
+   "emotion": "teasing"
+  },
+  {
+   "num": 10,
+   "speaker": "A",
+   "tl": "",
+   "rd": "",
+   "ko": "",
+   "note": "",
+   "tags": [],
+   "new": [],
+   "emotion": "surprised"
+  },
+  {
+   "num": 11,
+   "speaker": "B",
+   "tl": "",
+   "rd": "",
+   "ko": "",
+   "note": "",
+   "tags": [],
+   "new": [],
+   "emotion": "shy"
+  },
+  {
+   "num": 12,
+   "speaker": "A",
+   "tl": "",
+   "rd": "",
+   "ko": "",
+   "note": "",
+   "tags": [],
+   "new": [],
+   "emotion": "cheerful"
+  },
+  {
+   "num": 13,
+   "speaker": "B",
+   "tl": "",
+   "rd": "",
+   "ko": "",
+   "note": "",
+   "tags": [],
+   "new": [],
+   "emotion": "gentle"
+  },
+  {
+   "num": 14,
+   "speaker": "A",
+   "tl": "",
+   "rd": "",
+   "ko": "",
+   "note": "",
+   "tags": [],
+   "new": [],
+   "emotion": "sad"
+  },
+  {
+   "num": 15,
+   "speaker": "B",
+   "tl": "",
+   "rd": "",
+   "ko": "",
+   "note": "",
+   "tags": [],
+   "new": [],
+   "emotion": "teasing"
+  }
+ ],
+ "note_for_writer": "대사 칸(tl·ko·note)은 비어 있다 — 장면·인물·반전·new 단어를 보고 네가 처음부터 쓴다. 턴 수와 화자 순서는 바꿔도 된다."
+}

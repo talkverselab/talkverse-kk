@@ -1,0 +1,121 @@
+{
+ "id": "r1_friends_a15",
+ "region": "R1",
+ "island": "friends",
+ "kind": "long",
+ "draft": true,
+ "purpose": [
+  "making_friends"
+ ],
+ "domain": [
+  "friends"
+ ],
+ "title": "어쩌다 남은 수프",
+ "emoji": "🍜",
+ "scene": "감기로 누운 학습자 집 문 앞. 마디나가 \"지나가던 길\"이라며 봉지를 들고 왔다",
+ "speakers": {
+  "A": "{name}",
+  "B": "Мадина"
+ },
+ "register": "casual",
+ "twist": 7,
+ "twist_type": "emotion",
+ "flags": [],
+ "expressions": [
+  "Жарайды",
+  "Дәмді екен",
+  "Көп рахмет"
+ ],
+ "goal": "아플 때 말하기, 쾌유 빌기",
+ "turns": [
+  {
+   "num": 1,
+   "speaker": "A",
+   "tl": "",
+   "rd": "",
+   "ko": "",
+   "note": "",
+   "tags": [],
+   "new": [],
+   "emotion": "sad"
+  },
+  {
+   "num": 2,
+   "speaker": "B",
+   "tl": "",
+   "rd": "",
+   "ko": "",
+   "note": "",
+   "tags": [],
+   "new": [],
+   "emotion": "stiff"
+  },
+  {
+   "num": 3,
+   "speaker": "A",
+   "tl": "",
+   "rd": "",
+   "ko": "",
+   "note": "",
+   "tags": [],
+   "new": [],
+   "emotion": "surprised"
+  },
+  {
+   "num": 4,
+   "speaker": "B",
+   "tl": "",
+   "rd": "",
+   "ko": "",
+   "note": "",
+   "tags": [],
+   "new": [],
+   "emotion": "stiff"
+  },
+  {
+   "num": 5,
+   "speaker": "A",
+   "tl": "",
+   "rd": "",
+   "ko": "",
+   "note": "",
+   "tags": [],
+   "new": [],
+   "emotion": "teasing"
+  },
+  {
+   "num": 6,
+   "speaker": "B",
+   "tl": "",
+   "rd": "",
+   "ko": "",
+   "note": "",
+   "tags": [],
+   "new": [],
+   "emotion": "flustered"
+  },
+  {
+   "num": 7,
+   "speaker": "B",
+   "tl": "",
+   "rd": "",
+   "ko": "",
+   "note": "",
+   "tags": [],
+   "new": [],
+   "emotion": "shy"
+  },
+  {
+   "num": 8,
+   "speaker": "A",
+   "tl": "",
+   "rd": "",
+   "ko": "",
+   "note": "",
+   "tags": [],
+   "new": [],
+   "emotion": "gentle"
+  }
+ ],
+ "note_for_writer": "대사 칸(tl·ko·note)은 비어 있다 — 장면·인물·반전·new 단어를 보고 네가 처음부터 쓴다. 턴 수와 화자 순서는 바꿔도 된다."
+}

@@ -1,0 +1,127 @@
+{
+ "id": "r1_love_a18",
+ "region": "R1",
+ "island": "love",
+ "kind": "long",
+ "draft": true,
+ "purpose": [
+  "love"
+ ],
+ "domain": [
+  "love",
+  "messenger",
+  "home"
+ ],
+ "title": "5분째 답이 없어",
+ "emoji": "⏱️",
+ "scene": "아파트 앞 벤치. 이웃 마디나 옆에서 학습자가 아이게림의 답장을 기다리며 휴대폰만 본다",
+ "speakers": {
+  "A": "{name}",
+  "B": "Мадина",
+  "C": "Айгерім"
+ },
+ "register": "casual",
+ "twist": 4,
+ "twist_type": "ignore",
+ "flags": [],
+ "expressions": [
+  "Неге",
+  "Ештеңе",
+  "Қашан",
+  "Масқара",
+  "Кешір",
+  "Иә"
+ ],
+ "goal": "언제? 무슨 말? 묻고 답하기",
+ "turns": [
+  {
+   "num": 1,
+   "speaker": "B",
+   "tl": "",
+   "rd": "",
+   "ko": "",
+   "note": "",
+   "tags": [],
+   "new": [],
+   "emotion": "teasing"
+  },
+  {
+   "num": 2,
+   "speaker": "A",
+   "tl": "",
+   "rd": "",
+   "ko": "",
+   "note": "",
+   "tags": [],
+   "new": [],
+   "emotion": "shy"
+  },
+  {
+   "num": 3,
+   "speaker": "B",
+   "tl": "",
+   "rd": "",
+   "ko": "",
+   "note": "",
+   "tags": [],
+   "new": [],
+   "emotion": "amused"
+  },
+  {
+   "num": 4,
+   "speaker": "A",
+   "tl": "",
+   "rd": "",
+   "ko": "",
+   "note": "",
+   "tags": [],
+   "new": [],
+   "emotion": "sad"
+  },
+  {
+   "num": 5,
+   "speaker": "B",
+   "tl": "",
+   "rd": "",
+   "ko": "",
+   "note": "",
+   "tags": [],
+   "new": [],
+   "emotion": "stiff"
+  },
+  {
+   "num": 6,
+   "speaker": "A",
+   "tl": "",
+   "rd": "",
+   "ko": "",
+   "note": "",
+   "tags": [],
+   "new": [],
+   "emotion": "worried"
+  },
+  {
+   "num": 7,
+   "speaker": "B",
+   "tl": "",
+   "rd": "",
+   "ko": "",
+   "note": "",
+   "tags": [],
+   "new": [],
+   "emotion": "tsukkomi"
+  },
+  {
+   "num": 8,
+   "speaker": "C",
+   "tl": "",
+   "rd": "",
+   "ko": "",
+   "note": "",
+   "tags": [],
+   "new": [],
+   "emotion": "shy"
+  }
+ ],
+ "note_for_writer": "대사 칸(tl·ko·note)은 비어 있다 — 장면·인물·반전·new 단어를 보고 네가 처음부터 쓴다. 턴 수와 화자 순서는 바꿔도 된다."
+}

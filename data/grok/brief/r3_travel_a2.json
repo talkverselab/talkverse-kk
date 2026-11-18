@@ -1,0 +1,202 @@
+{
+ "id": "r3_travel_a2",
+ "region": "R3",
+ "island": "travel",
+ "kind": "short",
+ "draft": true,
+ "purpose": [
+  "travel"
+ ],
+ "domain": [
+  "travel",
+  "hotel"
+ ],
+ "title": "산이 보이는 방",
+ "emoji": "🏙️",
+ "scene": "아스타나의 작은 호텔 프런트. 알마티에서 온 학습자가 체크인하며 방을 부탁한다",
+ "speakers": {
+  "A": "{name}",
+  "B": "직원"
+ },
+ "register": "polite",
+ "twist": 8,
+ "twist_type": "slip",
+ "flags": [],
+ "expressions": [
+  "Қош келдіңіз",
+  "Рахмет",
+  "Қашан",
+  "Кешіріңіз",
+  "Ой",
+  "Жақсы"
+ ],
+ "goal": "체크인하기, 정중하게 부탁하기(өтініш бар еді)",
+ "turns": [
+  {
+   "num": 1,
+   "speaker": "B",
+   "tl": "",
+   "rd": "",
+   "ko": "",
+   "note": "",
+   "tags": [],
+   "new": [],
+   "emotion": "polite"
+  },
+  {
+   "num": 2,
+   "speaker": "A",
+   "tl": "",
+   "rd": "",
+   "ko": "",
+   "note": "",
+   "tags": [],
+   "new": [],
+   "emotion": "polite"
+  },
+  {
+   "num": 3,
+   "speaker": "B",
+   "tl": "",
+   "rd": "",
+   "ko": "",
+   "note": "",
+   "tags": [],
+   "new": [],
+   "emotion": "polite"
+  },
+  {
+   "num": 4,
+   "speaker": "A",
+   "tl": "",
+   "rd": "",
+   "ko": "",
+   "note": "",
+   "tags": [],
+   "new": [],
+   "emotion": "polite"
+  },
+  {
+   "num": 5,
+   "speaker": "B",
+   "tl": "",
+   "rd": "",
+   "ko": "",
+   "note": "",
+   "tags": [],
+   "new": [],
+   "emotion": "polite"
+  },
+  {
+   "num": 6,
+   "speaker": "A",
+   "tl": "",
+   "rd": "",
+   "ko": "",
+   "note": "",
+   "tags": [],
+   "new": [],
+   "emotion": "shy"
+  },
+  {
+   "num": 7,
+   "speaker": "B",
+   "tl": "",
+   "rd": "",
+   "ko": "",
+   "note": "",
+   "tags": [],
+   "new": [],
+   "emotion": "cheerful"
+  },
+  {
+   "num": 8,
+   "speaker": "A",
+   "tl": "",
+   "rd": "",
+   "ko": "",
+   "note": "",
+   "tags": [],
+   "new": [],
+   "emotion": "polite"
+  },
+  {
+   "num": 9,
+   "speaker": "B",
+   "tl": "",
+   "rd": "",
+   "ko": "",
+   "note": "",
+   "tags": [],
+   "new": [],
+   "emotion": "surprised"
+  },
+  {
+   "num": 10,
+   "speaker": "A",
+   "tl": "",
+   "rd": "",
+   "ko": "",
+   "note": "",
+   "tags": [],
+   "new": [],
+   "emotion": "cheerful"
+  },
+  {
+   "num": 11,
+   "speaker": "B",
+   "tl": "",
+   "rd": "",
+   "ko": "",
+   "note": "",
+   "tags": [],
+   "new": [],
+   "emotion": "amused"
+  },
+  {
+   "num": 12,
+   "speaker": "A",
+   "tl": "",
+   "rd": "",
+   "ko": "",
+   "note": "",
+   "tags": [],
+   "new": [],
+   "emotion": "flustered"
+  },
+  {
+   "num": 13,
+   "speaker": "B",
+   "tl": "",
+   "rd": "",
+   "ko": "",
+   "note": "",
+   "tags": [],
+   "new": [],
+   "emotion": "gentle"
+  },
+  {
+   "num": 14,
+   "speaker": "A",
+   "tl": "",
+   "rd": "",
+   "ko": "",
+   "note": "",
+   "tags": [],
+   "new": [],
+   "emotion": "excited"
+  },
+  {
+   "num": 15,
+   "speaker": "B",
+   "tl": "",
+   "rd": "",
+   "ko": "",
+   "note": "",
+   "tags": [],
+   "new": [],
+   "emotion": "teasing"
+  }
+ ],
+ "note_for_writer": "대사 칸(tl·ko·note)은 비어 있다 — 장면·인물·반전·new 단어를 보고 네가 처음부터 쓴다. 턴 수와 화자 순서는 바꿔도 된다."
+}

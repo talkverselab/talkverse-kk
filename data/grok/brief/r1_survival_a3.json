@@ -1,0 +1,123 @@
+{
+ "id": "r1_survival_a3",
+ "region": "R1",
+ "island": "survival",
+ "kind": "survival",
+ "draft": true,
+ "purpose": [
+  "travel"
+ ],
+ "domain": [
+  "transport"
+ ],
+ "title": "손님이잖니",
+ "emoji": "🚌",
+ "scene": "버스 정류장 충전기. 교통카드 충전이 안 돼 쩔쩔매는데 할아버지가 다가온다",
+ "speakers": {
+  "A": "{name}",
+  "B": "할아버지"
+ },
+ "register": "polite",
+ "twist": 6,
+ "twist_type": "emotion",
+ "flags": [],
+ "expressions": [
+  "Кешіріңіз",
+  "Ештеңе етпейді",
+  "Жүр",
+  "Шынымен бе",
+  "Көп рахмет"
+ ],
+ "goal": "방법 묻기(қалай), 문제 말하기",
+ "turns": [
+  {
+   "num": 1,
+   "speaker": "A",
+   "tl": "",
+   "rd": "",
+   "ko": "",
+   "note": "",
+   "tags": [],
+   "new": [],
+   "emotion": "worried"
+  },
+  {
+   "num": 2,
+   "speaker": "B",
+   "tl": "",
+   "rd": "",
+   "ko": "",
+   "note": "",
+   "tags": [],
+   "new": [],
+   "emotion": "gentle"
+  },
+  {
+   "num": 3,
+   "speaker": "A",
+   "tl": "",
+   "rd": "",
+   "ko": "",
+   "note": "",
+   "tags": [],
+   "new": [],
+   "emotion": "worried"
+  },
+  {
+   "num": 4,
+   "speaker": "B",
+   "tl": "",
+   "rd": "",
+   "ko": "",
+   "note": "",
+   "tags": [],
+   "new": [],
+   "emotion": "cheerful"
+  },
+  {
+   "num": 5,
+   "speaker": "A",
+   "tl": "",
+   "rd": "",
+   "ko": "",
+   "note": "",
+   "tags": [],
+   "new": [],
+   "emotion": "flustered"
+  },
+  {
+   "num": 6,
+   "speaker": "B",
+   "tl": "",
+   "rd": "",
+   "ko": "",
+   "note": "",
+   "tags": [],
+   "new": [],
+   "emotion": "gentle"
+  },
+  {
+   "num": 7,
+   "speaker": "A",
+   "tl": "",
+   "rd": "",
+   "ko": "",
+   "note": "",
+   "tags": [],
+   "new": [],
+   "emotion": "shy"
+  },
+  {
+   "num": 8,
+   "speaker": "B",
+   "tl": "",
+   "rd": "",
+   "ko": "",
+   "note": "",
+   "tags": [],
+   "new": [],
+   "emotion": "teasing"
+  }
+ ],
+ "note_for_writer": "대사 칸(tl·ko·note)은 비어 있다 — 장면·인물·반전·new 단어를 보고 네가 처음부터 쓴다. 턴 수와 화자 순서는 바꿔도 된다."
+}

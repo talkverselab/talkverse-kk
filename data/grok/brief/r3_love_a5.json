@@ -1,0 +1,214 @@
+{
+ "id": "r3_love_a5",
+ "region": "R3",
+ "island": "love",
+ "kind": "chat",
+ "draft": true,
+ "purpose": [
+  "love"
+ ],
+ "domain": [
+  "love",
+  "home",
+  "sns"
+ ],
+ "title": "문 앞의 사과",
+ "emoji": "🍎",
+ "scene": "메신저. 사흘째 문 앞에 사과가 놓여 있어서 학습자가 집주인 아들 대우렌에게 물어본다",
+ "speakers": {
+  "A": "{name}",
+  "B": "Дәурен"
+ },
+ "register": "chat",
+ "twist": 12,
+ "twist_type": "reveal",
+ "flags": [],
+ "expressions": [
+  "Жоқ",
+  "Мүмкін",
+  "Білмеймін",
+  "Жарайды",
+  "Шынымен бе",
+  "Мақұл"
+ ],
+ "goal": "추측하기(шығар, мүмкін), 정황 설명하기",
+ "turns": [
+  {
+   "num": 1,
+   "speaker": "A",
+   "tl": "",
+   "rd": "",
+   "ko": "",
+   "note": "",
+   "tags": [],
+   "new": [],
+   "emotion": "cheerful"
+  },
+  {
+   "num": 2,
+   "speaker": "B",
+   "tl": "",
+   "rd": "",
+   "ko": "",
+   "note": "",
+   "tags": [],
+   "new": [],
+   "emotion": "stiff"
+  },
+  {
+   "num": 3,
+   "speaker": "A",
+   "tl": "",
+   "rd": "",
+   "ko": "",
+   "note": "",
+   "tags": [],
+   "new": [],
+   "emotion": "worried"
+  },
+  {
+   "num": 4,
+   "speaker": "B",
+   "tl": "",
+   "rd": "",
+   "ko": "",
+   "note": "",
+   "tags": [],
+   "new": [],
+   "emotion": "stiff"
+  },
+  {
+   "num": 5,
+   "speaker": "A",
+   "tl": "",
+   "rd": "",
+   "ko": "",
+   "note": "",
+   "tags": [],
+   "new": [],
+   "emotion": "surprised"
+  },
+  {
+   "num": 6,
+   "speaker": "B",
+   "tl": "",
+   "rd": "",
+   "ko": "",
+   "note": "",
+   "tags": [],
+   "new": [],
+   "emotion": "stiff"
+  },
+  {
+   "num": 7,
+   "speaker": "A",
+   "tl": "",
+   "rd": "",
+   "ko": "",
+   "note": "",
+   "tags": [],
+   "new": [],
+   "emotion": "amused"
+  },
+  {
+   "num": 8,
+   "speaker": "B",
+   "tl": "",
+   "rd": "",
+   "ko": "",
+   "note": "",
+   "tags": [],
+   "new": [],
+   "emotion": "stiff"
+  },
+  {
+   "num": 9,
+   "speaker": "A",
+   "tl": "",
+   "rd": "",
+   "ko": "",
+   "note": "",
+   "tags": [],
+   "new": [],
+   "emotion": "excited"
+  },
+  {
+   "num": 10,
+   "speaker": "B",
+   "tl": "",
+   "rd": "",
+   "ko": "",
+   "note": "",
+   "tags": [],
+   "new": [],
+   "emotion": "worried"
+  },
+  {
+   "num": 11,
+   "speaker": "A",
+   "tl": "",
+   "rd": "",
+   "ko": "",
+   "note": "",
+   "tags": [],
+   "new": [],
+   "emotion": "teasing"
+  },
+  {
+   "num": 12,
+   "speaker": "B",
+   "tl": "",
+   "rd": "",
+   "ko": "",
+   "note": "",
+   "tags": [],
+   "new": [],
+   "emotion": "shy"
+  },
+  {
+   "num": 13,
+   "speaker": "A",
+   "tl": "",
+   "rd": "",
+   "ko": "",
+   "note": "",
+   "tags": [],
+   "new": [],
+   "emotion": "surprised"
+  },
+  {
+   "num": 14,
+   "speaker": "B",
+   "tl": "",
+   "rd": "",
+   "ko": "",
+   "note": "",
+   "tags": [],
+   "new": [],
+   "emotion": "gentle"
+  },
+  {
+   "num": 15,
+   "speaker": "A",
+   "tl": "",
+   "rd": "",
+   "ko": "",
+   "note": "",
+   "tags": [],
+   "new": [],
+   "emotion": "shy"
+  },
+  {
+   "num": 16,
+   "speaker": "B",
+   "tl": "",
+   "rd": "",
+   "ko": "",
+   "note": "",
+   "tags": [],
+   "new": [],
+   "emotion": "teasing"
+  }
+ ],
+ "note_for_writer": "대사 칸(tl·ko·note)은 비어 있다 — 장면·인물·반전·new 단어를 보고 네가 처음부터 쓴다. 턴 수와 화자 순서는 바꿔도 된다."
+}

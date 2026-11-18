@@ -1,0 +1,157 @@
+{
+ "id": "r2_friends_a3",
+ "region": "R2",
+ "island": "friends",
+ "kind": "short",
+ "draft": true,
+ "purpose": [
+  "making_friends"
+ ],
+ "domain": [
+  "friends",
+  "celebration"
+ ],
+ "title": "아무 날도 아닌 날",
+ "emoji": "🎂",
+ "scene": "저녁 거리. 생일을 아무에게도 말 안 한 예르잔 앞에 학습자가 케이크를 내민다",
+ "speakers": {
+  "A": "{name}",
+  "B": "Ержан"
+ },
+ "register": "casual",
+ "twist": 7,
+ "twist_type": "emotion",
+ "flags": [],
+ "expressions": [
+  "Ештеңе",
+  "Шаршадым",
+  "Қап",
+  "Солай ма",
+  "Құдай-ау"
+ ],
+ "goal": "기분 묻기, 지난 일 말하기",
+ "turns": [
+  {
+   "num": 1,
+   "speaker": "A",
+   "tl": "",
+   "rd": "",
+   "ko": "",
+   "note": "",
+   "tags": [],
+   "new": [],
+   "emotion": "worried"
+  },
+  {
+   "num": 2,
+   "speaker": "B",
+   "tl": "",
+   "rd": "",
+   "ko": "",
+   "note": "",
+   "tags": [],
+   "new": [],
+   "emotion": "sad"
+  },
+  {
+   "num": 3,
+   "speaker": "A",
+   "tl": "",
+   "rd": "",
+   "ko": "",
+   "note": "",
+   "tags": [],
+   "new": [],
+   "emotion": "neutral"
+  },
+  {
+   "num": 4,
+   "speaker": "B",
+   "tl": "",
+   "rd": "",
+   "ko": "",
+   "note": "",
+   "tags": [],
+   "new": [],
+   "emotion": "sad"
+  },
+  {
+   "num": 5,
+   "speaker": "A",
+   "tl": "",
+   "rd": "",
+   "ko": "",
+   "note": "",
+   "tags": [],
+   "new": [],
+   "emotion": "worried"
+  },
+  {
+   "num": 6,
+   "speaker": "B",
+   "tl": "",
+   "rd": "",
+   "ko": "",
+   "note": "",
+   "tags": [],
+   "new": [],
+   "emotion": "stiff"
+  },
+  {
+   "num": 7,
+   "speaker": "A",
+   "tl": "",
+   "rd": "",
+   "ko": "",
+   "note": "",
+   "tags": [],
+   "new": [],
+   "emotion": "cheerful"
+  },
+  {
+   "num": 8,
+   "speaker": "B",
+   "tl": "",
+   "rd": "",
+   "ko": "",
+   "note": "",
+   "tags": [],
+   "new": [],
+   "emotion": "surprised"
+  },
+  {
+   "num": 9,
+   "speaker": "A",
+   "tl": "",
+   "rd": "",
+   "ko": "",
+   "note": "",
+   "tags": [],
+   "new": [],
+   "emotion": "gentle"
+  },
+  {
+   "num": 10,
+   "speaker": "B",
+   "tl": "",
+   "rd": "",
+   "ko": "",
+   "note": "",
+   "tags": [],
+   "new": [],
+   "emotion": "flustered"
+  },
+  {
+   "num": 11,
+   "speaker": "A",
+   "tl": "",
+   "rd": "",
+   "ko": "",
+   "note": "",
+   "tags": [],
+   "new": [],
+   "emotion": "amused"
+  }
+ ],
+ "note_for_writer": "대사 칸(tl·ko·note)은 비어 있다 — 장면·인물·반전·new 단어를 보고 네가 처음부터 쓴다. 턴 수와 화자 순서는 바꿔도 된다."
+}

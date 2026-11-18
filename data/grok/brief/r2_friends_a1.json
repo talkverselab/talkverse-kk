@@ -1,0 +1,148 @@
+{
+ "id": "r2_friends_a1",
+ "region": "R2",
+ "island": "friends",
+ "kind": "chat",
+ "draft": true,
+ "purpose": [
+  "making_friends"
+ ],
+ "domain": [
+  "friends",
+  "sns",
+  "food"
+ ],
+ "title": "단톡방 쁠롭",
+ "emoji": "🍚",
+ "scene": "메신저. 다우렌에게만 보낸 쁠롭 초대가 사실은 아파트 단톡방이었다",
+ "speakers": {
+  "A": "{name}",
+  "B": "Дәурен",
+  "C": "Мадина",
+  "D": "이웃 아주머니"
+ },
+ "register": "chat",
+ "twist": 6,
+ "twist_type": "chaos",
+ "flags": [],
+ "expressions": [
+  "Рахмет",
+  "Мен де",
+  "Ештеңе етпейді",
+  "Жарайды"
+ ],
+ "goal": "초대하기, 시간 말하기",
+ "turns": [
+  {
+   "num": 1,
+   "speaker": "A",
+   "tl": "",
+   "rd": "",
+   "ko": "",
+   "note": "",
+   "tags": [],
+   "new": [],
+   "emotion": "cheerful"
+  },
+  {
+   "num": 2,
+   "speaker": "C",
+   "tl": "",
+   "rd": "",
+   "ko": "",
+   "note": "",
+   "tags": [],
+   "new": [],
+   "emotion": "cheerful"
+  },
+  {
+   "num": 3,
+   "speaker": "A",
+   "tl": "",
+   "rd": "",
+   "ko": "",
+   "note": "",
+   "tags": [],
+   "new": [],
+   "emotion": "surprised"
+  },
+  {
+   "num": 4,
+   "speaker": "C",
+   "tl": "",
+   "rd": "",
+   "ko": "",
+   "note": "",
+   "tags": [],
+   "new": [],
+   "emotion": "amused"
+  },
+  {
+   "num": 5,
+   "speaker": "D",
+   "tl": "",
+   "rd": "",
+   "ko": "",
+   "note": "",
+   "tags": [],
+   "new": [],
+   "emotion": "excited"
+  },
+  {
+   "num": 6,
+   "speaker": "B",
+   "tl": "",
+   "rd": "",
+   "ko": "",
+   "note": "",
+   "tags": [],
+   "new": [],
+   "emotion": "teasing"
+  },
+  {
+   "num": 7,
+   "speaker": "A",
+   "tl": "",
+   "rd": "",
+   "ko": "",
+   "note": "",
+   "tags": [],
+   "new": [],
+   "emotion": "shout"
+  },
+  {
+   "num": 8,
+   "speaker": "C",
+   "tl": "",
+   "rd": "",
+   "ko": "",
+   "note": "",
+   "tags": [],
+   "new": [],
+   "emotion": "cheerful"
+  },
+  {
+   "num": 9,
+   "speaker": "D",
+   "tl": "",
+   "rd": "",
+   "ko": "",
+   "note": "",
+   "tags": [],
+   "new": [],
+   "emotion": "excited"
+  },
+  {
+   "num": 10,
+   "speaker": "A",
+   "tl": "",
+   "rd": "",
+   "ko": "",
+   "note": "",
+   "tags": [],
+   "new": [],
+   "emotion": "amused"
+  }
+ ],
+ "note_for_writer": "대사 칸(tl·ko·note)은 비어 있다 — 장면·인물·반전·new 단어를 보고 네가 처음부터 쓴다. 턴 수와 화자 순서는 바꿔도 된다."
+}

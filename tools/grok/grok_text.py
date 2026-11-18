@@ -77,7 +77,8 @@ def main():
             busy = c.ev("/생각 중|Thinking|생성 중|Generating/.test(document.body.innerText.slice(-500))")
             stable = stable + 1 if body == last and not busy else 0
             last = body
-            if stable >= 2:
+            # 「빠른」 모드는 답이 늦게 채워진다(uk 공지 2026-11-18) — 새 코드 블록이 생긴 뒤에만 끝으로 본다
+            if stable >= 2 and c.ev("document.querySelectorAll('pre code, pre').length") > n0:
                 break
         else:
             hit = c.ev("""(()=>{const b=[...document.querySelectorAll('button')].find(e=>/중지|stop/i.test((e.getAttribute('aria-label')||'')+' '+e.innerText));if(b){b.click();return 1}return 0})()""")
