@@ -40,6 +40,7 @@ dependencies:
   in_app_purchase: ^3.3.1
   url_launcher: ^6.3.3
   in_app_purchase_storekit: ^0.4.16
+  video_player: ^2.14.1
 
 dev_dependencies:
   integration_test:

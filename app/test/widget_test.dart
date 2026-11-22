@@ -33,7 +33,8 @@ void main() {
   });
 
   test('conjColor maps groups', () {
-    expect(conjColor('ar'), AppColors.ar);
+    expect(conjColor('а'), AppColors.ar); // 카자흐어 현재형 이음 а·е·й(2026-11-22)
+    expect(conjColor('й'), AppColors.ir);
     expect(conjColor('irregular'), AppColors.irregular);
     expect(conjColor(null), AppColors.neutral);
   });

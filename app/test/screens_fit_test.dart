@@ -20,9 +20,9 @@ void main() {
     await SeedLoader(appDb).seedWordsOnly();
   });
 
-  test('initial build has no word list yet', () async {
+  test('word list is seeded (2026-11-22: 1,190 words)', () async {
     final rows = await appDb.select(appDb.words).get();
-    expect(rows.length, 0); // 카자흐어 단어 목록은 콘텐츠 작업 때
+    expect(rows.length, greaterThan(1000));
   });
 
   testWidgets('word screen fits at each width', (t) async {

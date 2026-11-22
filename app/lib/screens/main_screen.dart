@@ -13,7 +13,7 @@ import 'affix_screens.dart';
 import 'dialogue_screen.dart';
 import 'verb_map_screen.dart';
 import 'episode_screen.dart';
-import 'grammar_lesson_screen.dart';
+import 'sense_course_screen.dart';
 import 'profile_screen.dart';
 import 'sentence_flashcard_screen.dart';
 import 'speaking_practice_screen.dart';
@@ -401,8 +401,8 @@ class _MenuGrid extends StatelessWidget {
           builder: (_) => const AffixDictionaryScreen()),
         _MenuItem(label: tr('동사'), sub: 'Етістік', badge: 'V', color: AppColors.beniDeep,
           builder: (_) => const VerbListScreen()),
-        _MenuItem(label: tr('문법 레슨'), sub: 'Грамматика', badge: 'G', color: AppColors.rojoDeep,
-          builder: (_) => const GrammarHubScreen()),
+        _MenuItem(label: tr('언어감각'), sub: 'Грамматика', badge: 'G', color: AppColors.rojoDeep,
+          builder: (_) => const SenseCourseScreen()),
       ]),
       (tr('회화'), [
         _MenuItem(label: tr('회화'), sub: 'Диалог', badge: 'Ch', color: AppColors.rojo,
