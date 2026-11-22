@@ -3,7 +3,7 @@
 턴 수·한 턴 낱말 수·감정 열·한국어 칸 키릴·초안과 똑같은 줄(비슷함 0.9 넘음, 인사 한 줄 같은 공식 표현도 잡힘)·고정 칸."""
 import json, glob, re, difflib, os, sys
 L = {'R1': (6, 8, 7), 'R2': (8, 12, 9), 'R3': (12, 16, 12)}
-src = {os.path.basename(f)[:-5]: f for f in glob.glob('app/assets/data/dialogues/R*/*/*.json')}
+src = {os.path.basename(f)[:-5]: f for f in glob.glob('app/assets/data/dialogues/R*/*/*.json') + glob.glob('data/drafts/R*/*/*.json')}
 CYR = re.compile('[А-Яа-яӘәҒғҚқҢңӨөҰұҮүІіЁё]')
 ok = 0
 for r in open(sys.argv[1]).read().split():
