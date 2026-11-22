@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:kk_app/core/theme.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:kk_app/screens/curriculum_screen.dart';
 import 'package:kk_app/services/curriculum_service.dart';
 import 'package:kk_app/services/dialogue_service.dart';
@@ -126,5 +128,31 @@ void main() {
       await t.pump();
     }
     expect(find.textContaining('100'), findsOneWidget);
+  });
+
+  testWidgets('커리큘럼 화면: 레벨 → 추천으로 채우기, 좁은 칸(300)·폰 폭에서도 넘치지 않음', (t) async {
+    SharedPreferences.setMockInitialValues({});
+    t.view.devicePixelRatio = 1;
+    t.view.physicalSize = const Size(300, 900);
+    addTearDown(t.view.reset);
+    await t.pumpWidget(MaterialApp(theme: AppTheme.light(), home: const CurriculumScreen()));
+    for (var i = 0; i < 8; i++) {
+      await t.runAsync(() => Future<void>.delayed(const Duration(milliseconds: 200)));
+      await t.pump();
+    }
+    expect(find.text('회화 레벨을 골라요'), findsOneWidget);
+    await t.tap(find.text('초보'));
+    for (var i = 0; i < 3; i++) {
+      await t.runAsync(() => Future<void>.delayed(const Duration(milliseconds: 100)));
+      await t.pump();
+    }
+    await t.tap(find.text('추천으로 채우기'));
+    await t.pump();
+    expect(find.text('5/5편으로 코스 시작'), findsOneWidget);
+    for (final w in [300.0, 390.0, 744.0]) {
+      t.view.physicalSize = Size(w, 900);
+      await t.pump();
+      expect(t.takeException(), isNull);
+    }
   });
 }
