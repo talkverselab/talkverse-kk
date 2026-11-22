@@ -8,7 +8,6 @@ import '../widgets/spanish_decor.dart';
 import 'about_screen.dart';
 import 'alphabet_screen.dart';
 import 'chunk_search_screen.dart';
-import 'conversation_screen.dart';
 import 'affix_screens.dart';
 import 'dialogue_screen.dart';
 import 'verb_map_screen.dart';
@@ -35,7 +34,7 @@ class _MainScreenState extends State<MainScreen> {
 
   static const List<Widget> _screens = [
     HomeScreen(),
-    ConversationScreen(),
+    DialogueHomeScreen(), // 2026-11-22: 옛 L 에피소드 목록(ConversationScreen) 대신 R 회화 목록
     ProgressScreen(),
     ProfileScreen(),
   ];
@@ -319,7 +318,7 @@ class _TodayMissionState extends State<_TodayMission> {
   @override
   Widget build(BuildContext context) {
     final meta = _meta;
-    if (meta == null) return const SizedBox(height: 120);
+    if (meta == null) return const SizedBox.shrink();
     final ratio = _total == 0 ? 0.0 : _learned / _total;
     return InkWell(
       onTap: () async {

@@ -70,5 +70,13 @@ void main() {
     await t.tap(find.textContaining('어디로').first);
     await wait(t, 3000);
     await shot(t, 'c10_sense_lesson');
+    await open(t, 'Сөйлем', 'c11_sentence_cards');
+    await open(t, '한글 보고 카자흐어로', 'c12_speaking');
+    await open(t, 'Іздеу', 'c13_chunk_search');
+    await open(t, 'Карта', 'c14_word_cards');
+    await open(t, 'Әліпби', 'c15_alphabet');
+    await t.tap(rail('학습'));
+    await wait(t, 2500);
+    await shot(t, 'c16_learn_tab');
   });
 }

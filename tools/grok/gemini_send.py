@@ -8,13 +8,14 @@
 import json, os, sys, time, urllib.request
 sys.path.insert(0, '/Users/talkverse/Hanja/tools'); import grok_cdp as g
 import websocket
-PORT = os.environ.get('GEMINI_CDP_PORT', '9257'); g.PORT = PORT; g.BASE = 'http://127.0.0.1:' + PORT
+PORT = os.environ.get('GEMINI_CDP_PORT', '9226'); g.PORT = PORT; g.BASE = 'http://127.0.0.1:' + PORT
 src, dst = sys.argv[1], sys.argv[2]
 ANS = "[...document.querySelectorAll('model-response')].map(e=>e.innerText)"
 BOX = "document.querySelector('rich-textarea .ql-editor, div[contenteditable=true]')"
 BUSY = "!!document.querySelector('button[aria-label*=\"중지\"], button[aria-label*=\"Stop\"]')"
 SEND = "(()=>{const b=document.querySelector('button.send-button, button[aria-label*=\"보내기\"], button[aria-label*=\"Send\"]');if(b)b.click()})()"
-MODEL = "[...document.querySelectorAll('button')].map(b=>b.innerText.trim()).filter(t=>/Flash|Pro|Argon/.test(t))[0]||''"
+# 2026-11-22: 선택기가 「모드 선택 도구 열기, 현재 Neon 모드 사용 중」(Gemini 4 Hydrogen·Neon·카본)으로 바뀜 — aria-label 도 읽는다.
+MODEL = "(()=>{const m=document.querySelector('[aria-label*=\\\"모드 선택 도구\\\"]');if(m){const a=m.getAttribute('aria-label').match(/현재 (.+?) 모드/);if(a)return a[1]}return [...document.querySelectorAll('button')].map(b=>b.innerText.trim()).filter(t=>/Flash|Pro|Argon/.test(t))[0]||''})()"
 
 
 def browser(method, **params):
@@ -28,13 +29,19 @@ def browser(method, **params):
 
 
 def run(c):
-    for _ in range(40):  # 입력창·모델 단추가 뜰 때까지
+    for _ in range(60):  # 입력창·모델 단추가 뜰 때까지
         time.sleep(0.5)
         model = (c.ev(MODEL) or '').strip()
-        if model and c.ev("!!" + BOX): break
+        if model and model != '자동' and c.ev("!!" + BOX): break  # 2026-11-22: 새 탭은 잠깐 「자동」으로 떴다가 마지막 모드로 바뀐다
+        if model == '자동' and c.ev("!!" + BOX):  # 2026-11-22: 새 탭이 「자동」으로 뜨면 선택기에서 Neon 을 고른다
+            r = c.ev("document.querySelector('[aria-label*=\"모드 선택 도구\"]').getBoundingClientRect().toJSON()")
+            for tp in ('mousePressed', 'mouseReleased'): c.call('Input.dispatchMouseEvent', type=tp, x=r['x'] + r['width'] / 2, y=r['y'] + r['height'] / 2, button='left', clickCount=1)
+            time.sleep(1.5)
+            c.ev("(()=>{const e=[...document.querySelectorAll('[role=menuitem],[role=menuitemradio],[role=option],mat-option')].find(e=>e.innerText.includes('Neon'));if(e)e.click()})()"); time.sleep(1.5)
     else:
+        if model: return 'BADMODEL ' + model
         return 'BLOCKED' if 'google.com/sorry' in (c.ev('location.href') or '') else 'NOINPUT'
-    if 'Lite' in model: return 'BADMODEL ' + model
+    if 'Lite' in model or model.startswith(('Hydrogen', '자동')): return 'BADMODEL ' + model
     c.ev(BOX + ".focus()")
     c.call('Input.insertText', text=open(src, encoding='utf-8').read().strip()); time.sleep(1)
     for _ in range(5):
