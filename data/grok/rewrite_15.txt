@@ -1,0 +1,15 @@
+R1/culture/r1_culture_a2.json
+R1/survival/r1_survival_a1.json
+R1/life/r1_life_a10.json
+R2/work/r2_work_a2.json
+R2/life/r2_life_a3.json
+R2/friends/r2_friends_a4.json
+R2/travel/r2_travel_a4.json
+R2/love/r2_love_a12.json
+R2/work/r2_work_a3.json
+R3/culture/r3_culture_a1.json
+R3/work/r3_work_a3.json
+R3/life/r3_life_a2.json
+R3/friends/r3_friends_a2.json
+R3/travel/r3_travel_a1.json
+R3/love/r3_love_a1.json

@@ -4,7 +4,7 @@
 # 방 첫 메시지 = 규칙 파일 + 첫 회화, 이후 파일 이름 한 줄. 답 data/grok/rewrite/<id>.txt → .json.
 # 이미 .json 이 있으면 건너뜀. LIMIT 이면 멈춤. TIMEOUT 이면 방에서 다시 읽고(grok_read) 그래도 없으면 다음 편.
 cd ${0:A:h}/../..
-LIST=$1; PER=${2:-23}; D=app/assets/data/dialogues; O=data/grok/rewrite; RULE=tools/prompts/rewrite_grok_kk.md
+LIST=$1; PER=${2:-23}; D=${D:-app/assets/data/dialogues}; O=data/grok/rewrite; RULE=tools/prompts/rewrite_grok_kk.md
 B=data/grok/brief; mkdir -p $O $B; chat=""; n=0
 for rel in $(cat $LIST); do
   id=${rel:t:r}

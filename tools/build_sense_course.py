@@ -110,8 +110,19 @@ def main():
             {'id': f'{lid}-1', 'title': title, 'kind': 'memorize', 'video': '', 'note': note, 'sentences': sentences, 'footnotes': foot},
             {'id': f'{lid}-ref', 'kind': 'ref', 'title': f'{title.split(" — ")[0]} 한눈에', 'points': pts}]})
         print(lid, '외울 줄', len(sentences), '· 참고', [len(p['sentences']) for p in pts], '· 걸린 줄', len(tagged))
+    # L8~ — Claude 가 쓴 급(사용자 「언어감각 10급은 클로드로만 진행」 2026-11-22). 문장은 data/sense/claude_levels.json, rd 는 결정론 변환.
+    import sys; sys.path.insert(0, str(R / 'scripts')); from normalize_pron import transliterate
+    plain = lambda s: re.sub(r'\{([^|}]+)\|\d+\}', r'\1', s)
+    for c in json.load(open(R / 'data/sense/claude_levels.json', encoding='utf-8')):
+        sents = [{'tl': x['tl'], 'rd': transliterate(plain(x['tl'])), 'ko': x['ko'], 'src': 'claude'} for x in c['sentences']]
+        pts = [{'head': p['head'], 'tip': p['tip'], 'sentences': [{'tl': plain(x['tl']), 'rd': transliterate(plain(x['tl'])), 'ko': x['ko'], 'src': 'claude'}
+                for x in c['sentences'] if x['pt'] == i][:2]} for i, p in enumerate(c['points'], 1)]
+        levels.append({'id': c['id'], 'title': c['title'], 'lessons': [
+            {'id': f"{c['id']}-1", 'title': c['title'], 'kind': 'memorize', 'video': '', 'note': c['note'], 'sentences': sents, 'footnotes': c['footnotes']},
+            {'id': f"{c['id']}-ref", 'kind': 'ref', 'title': f"{c['title']} 한눈에", 'points': pts}]})
+        print(c['id'], '외울 줄', len(sents), '(Claude)')
     OUT.parent.mkdir(parents=True, exist_ok=True)
-    json.dump({'title': '언어감각 익히기', 'subtitle': '정규과정 · 대화 통째로 외우기 → 참고(문장은 앱 회화에서)', 'levels': levels},
+    json.dump({'title': '언어감각 익히기', 'subtitle': '정규과정 · 대화 통째로 외우기 → 참고(L1~7 문장은 앱 회화에서, L8~10 은 Claude 작성)', 'levels': levels},
               open(OUT, 'w', encoding='utf-8'), ensure_ascii=False, indent=1)
 
 if __name__ == '__main__':

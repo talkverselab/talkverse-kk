@@ -12,8 +12,10 @@ sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 os.environ.setdefault('GROK_CDP_PORT', '9257')
 import grok_cdp as G
 
-PC = 'Administrator@100.127.143.37'
-PC_DIR = 'D:/grok_att/kk/'
+# 첨부를 둘 기계 — 기본 PC 9257. M4 크롬으로 돌릴 때는 GROK_HOST=m4 (2026-11-22, PC D: 과부하로 M4 로 옮김)
+M4 = os.environ.get('GROK_HOST') == 'm4'
+PC = 'macmini4' if M4 else 'Administrator@100.127.143.37'
+PC_DIR = '/tmp/grok_att/kk/' if M4 else 'D:/grok_att/kk/'
 LAST_MSG = "(()=>{const m=[...document.querySelectorAll('[class*=message-bubble], [class*=message]')];return m.length?m[m.length-1]:null})()"
 
 
@@ -39,7 +41,7 @@ def main():
     remote = []
     for p in atts:
         subprocess.run(['scp', '-q', p, PC + ':' + PC_DIR], check=True)
-        remote.append(PC_DIR.replace('/', '\\') + os.path.basename(p))
+        remote.append((PC_DIR if M4 else PC_DIR.replace('/', '\\')) + os.path.basename(p))
     t = new_tab('https://grok.com/c/' + opt['--chat'] if '--chat' in opt else 'https://grok.com/')
     try:
         c = G.CDP(t)
