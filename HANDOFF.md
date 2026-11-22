@@ -14,7 +14,7 @@
 | 문자와 발음 | `523da4d` — 키릴 42자 격자·묶음 칩·로마자, 발음 시트(자동 재생·IPA·모음 차트·조음 그림·한국어 비교), 모음조화 표, 글자 소리 40개 |
 | 가격·결제 | `1ff96bc` — `lang_kk_1m·3m·1y·life` + `all_1y·all_life`, 정가 취소선·출시 기념 30%, 규정 표기·복원·약관/방침 링크(결제·로그인·설정). 스토어 문서 `app/docs/store/listing.md`·`review_notes.md`(4.3 필수 문단)·`app/docs/STORE_PRODUCTS.md` |
 | 통합 앱 연결 준비 | `330a573` — `lib/embed.dart`(embedInit·embedApp), `lib/core/embed_env.dart`(assetPath·pk), 저장 이름 `kk_` 접두(단독 앱은 옛 키·`art` 폴더 1회 이전), 통합 모드 clientId `talkverse`·로그아웃은 tv_* 만, 결제 스트림 분리(`Purchase.onPurchaseUpdates`, lang_kk_*·all_* 만), 「다른 언어 배우기」. drift 2.34.4·drift_flutter 0.3.1·sqlite3_flutter_libs 0.6.0+eol. uk 가 연결 — **통합 앱 빌드 4(12개 언어) https://apps.talkverse.uk/IfB4M/419 에 포함** |
-| 배포(최신) | Zealot 빌드 7 https://apps.talkverse.uk/ABjlY/568 (2026-11-22 19:12, PC 백업 `D:\OneDrive\app project\kk_app\kk-latest.apk`) · TestFlight 2611221913 |
+| 배포(최신) | Zealot 빌드 8 https://apps.talkverse.uk/ABjlY/652 (2026-11-23 00:0x, PC 백업 kk_app) · TestFlight 2611230007 |
 | ① 캐릭터 시안 · ② UX 시안 | 미착수 — Grok 은 직접(한자 세션 대행 중단 2026-11-09): 자기 크롬을 켜고 M4 `~/talkverse-uk/tools/grok_cookie_sync.py 9231 <포트>` 로 쿠키 동기화, 도구는 M6 `~/Hanja/tools/grok_req.py`·`grok_cdp.py` 복사. uk 의 Grok 방은 건드리지 않음 |
 | 회화 | **Claude 초안 150편 완료(검수 전, 2026-11-09)** — R1 90 · R2 36 · R3 24, 카오스 33%, 모든 턴 감정 열. 상태·다음 순서·원어민 확인 목록 `docs/DIALOGUE.md`. **Grok 카자흐어 점검 150편 끝(2026-11-09, 사용자 선택 「점검만」)** — 고친 줄 3(`data/grok/check_fixes.md`), Grok 이 한국어 칸(ko·note·scene)에 키릴을 섞는 일이 잦아 반영 전 원문으로 되돌림. 다음: 원어민 확인 표현 목록 Grok 질의 → 겹치는 농담 정리 → Gemini 검수(사용자 지시 때) |
 | 콘텐츠(단어·문법·접사 표) | 사용자 지시 뒤. 단어 목록은 외국 인명을 걸러 `talkversehanja` `talkverse_art/words/kk.csv`(mn.csv 형식) → uk 에 알림 |
@@ -81,3 +81,12 @@
 - **심사 전 빈 화면 정리**(`e2a18c4`): 학습 탭 = R 회화 목록(옛 L 목록은 전 급 「준비 중」이었음), 문장 카드·말하기·청크 검색·오늘의 학습은 옛 `L1~L3.json`(DB turns)만 읽어 비어 있었음 → `tools/build_legacy_levels.py` 가 R 회화에서 생성(441문장). 회화를 바꾸면 이 스크립트 + version.json db+1. 영상 칸은 주소 있을 때만.
 - 빌드: Zealot 7 · TestFlight 2611221913.
 - 사용자 결정 대기: 나머지 105편 Grok 작성 여부. 음성은 새벽만(아직 없음).
+
+## 2026-11-23 새벽 — 60편·음성·커리큘럼·문법 서버
+- **회화 60편**(사용자 「카자흐어 60편만 우선 완성」): 초안 105편 중 15편(R1 3·R2 6·R3 6, `data/grok/rewrite_15.txt`)을 M4 크롬 9257(`~/chrome-grok-kk`, `GROK_HOST=m4`)에서 Grok 빠른 모드로 → 앱(R1 30·R2 17·R3 13). 서버 원고 **rev 2**(61 파일). 나머지 90편은 그 뒤(사용자).
+- **회화 음성 60편 1240줄**: Azure kk-KZ(Aigul·Daulet) 작업 기계에서 미리 생성 `doppler run -p keys -c prd -- python3 tools/tts/azure_pack.py <편…|all> --upload`(R2 audio/kk + D1 audio_lines). 앱은 `DialogueAudio`(서버 녹음이 지금 대사와 같을 때) → 기존 합성. 키는 앱에 넣지 않음(uk). 대사가 바뀐 편은 그 편만 다시.
+- **토크버스 커리큘럼**: 일본어 기준(ja ceb91c3) 옮김 + 칩 줄 Wrap(c941757). 홈 카드로 보임(사용자 「넣어야지」). AI 회화 작성은 `kCustomScriptLive=false` 숨김.
+- **언어감각 10급**: L8~10 은 Claude 작성(`data/sense/claude_levels.json`, 사용자 「언어감각 10급은 클로드로만」), 빈 스텝 숨김 + 서버 목록 그대로(테스트 `test/grammar_server_test.dart`).
+- **Gemini 자동 이어 돌리기**: screen `kk-gem-auto`(`tools/grok/gemini_auto.sh`) — 검수 안 된 편(지금 16: r3_work_a2 + 새 15)을 M4 9226 에서, 남이 쓰면 30분 뒤, 한도면 1시간 뒤, 0 이면 끝. `data/review/dialogues/WAIT` 가 있으면 멈춤. 9226 은 00:05 에 로그아웃이었다가 hu 가 복구했다고 알림(사용자 허락이라고 hu 전언).
+- **보류(uk 「재개」 전 Grok 금지)**: 옛 45편 Gemini 지적 반영 41편(3편은 `data/grok/fix/` 에 받음, 도구 `fix_run.sh`·`fix_apply.py`).
+- 빌드: Zealot 8 · TestFlight 2611230007. iOS 는 디스크 10GB↑·`pgrep -x xcodebuild` 확인 후, 끝나면 build/ 삭제(uk 규칙).
