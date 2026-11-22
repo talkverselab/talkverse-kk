@@ -202,14 +202,14 @@ class AppTheme {
   }
 }
 
-/// 동사 활용군 색 — 'ar' | 'er' | 'ir' | 'irregular'
+/// 동사 활용군 색 — 현재형 이음 'а' | 'е' | 'й' | 'irregular'(카자흐어, 2026-11-22)
 Color conjColor(String? group) {
   switch (group) {
-    case 'ar':
+    case 'а':
       return AppColors.ar;
-    case 'er':
+    case 'е':
       return AppColors.er;
-    case 'ir':
+    case 'й':
       return AppColors.ir;
     case 'irregular':
       return AppColors.irregular;

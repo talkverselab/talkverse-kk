@@ -11,9 +11,10 @@ import '../widgets/spanish_decor.dart';
 import '../core/platform.dart';
 import '../core/l10n.dart';
 
-const _persons = ['yo', 'tú', 'él/ella', 'nosotros', 'vosotros', 'ellos'];
+// 카자흐어 인칭(verbs_core.json 의 persons 와 같은 순서, 2026-11-22)
+const _persons = ['мен', 'сен', 'сіз', 'ол', 'біз', 'олар'];
 
-/// 동사 활용 — 핵심 동사 목록 + 현재/단순과거 표.
+/// 동사 활용 — 핵심 동사 목록 + 현재·미래 / 과거 표. 묶음 = 현재형 이음 모음(-а 뒤 모음 · -е 앞 모음 · -й 모음 끝 어간), 불규칙.
 class VerbScreen extends StatefulWidget {
   const VerbScreen({super.key});
 
@@ -76,7 +77,7 @@ class _VerbScreenState extends State<VerbScreen> {
             padding: const EdgeInsets.fromLTRB(12, 10, 12, 4),
             child: Row(
               children: [
-                for (final g in ['all', 'ar', 'er', 'ir', 'irregular']) ...[
+                for (final g in ['all', 'а', 'е', 'й', 'irregular']) ...[
                   ChoiceChip(
                     label: Text(g == 'all' ? tr('전체') : (g == 'irregular' ? tr('불규칙') : '-$g')),
                     selected: _filter == g,
@@ -156,10 +157,10 @@ class _VerbCard extends StatelessWidget {
             padding: const EdgeInsets.fromLTRB(16, 0, 16, 12),
             child: Column(
               children: [
-                _ConjTable(title: 'Presente', forms: present, color: color),
+                _ConjTable(title: tr('현재·미래 (Ауыспалы осы шақ)'), forms: present, color: color),
                 if (preterite.isNotEmpty) ...[
                   const SizedBox(height: 8),
-                  _ConjTable(title: 'Pretérito', forms: preterite, color: color),
+                  _ConjTable(title: tr('과거 (Жедел өткен шақ)'), forms: preterite, color: color),
                 ],
                 const SizedBox(height: 8),
                 Align(
