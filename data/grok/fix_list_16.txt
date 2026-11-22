@@ -1,0 +1,16 @@
+r1_culture_a2
+r1_survival_a1
+r1_life_a10
+r2_work_a2
+r2_life_a3
+r2_friends_a4
+r2_travel_a4
+r2_love_a12
+r2_work_a3
+r3_culture_a1
+r3_work_a3
+r3_life_a2
+r3_friends_a2
+r3_travel_a1
+r3_love_a1
+r3_work_a2

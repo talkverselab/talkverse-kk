@@ -42,6 +42,8 @@ def run(c):
     else:
         if model: return 'BADMODEL ' + model
         return 'BLOCKED' if 'google.com/sorry' in (c.ev('location.href') or '') else 'NOINPUT'
+    # 2026-11-23: 로그인 판정 — 「로그인」 단추가 있으면 손님 상태. 보내지 않고 물러난다(uk: 자동 모드는 한도 표시가 아님).
+    if c.ev("[...document.querySelectorAll('a,button')].some(e=>/^(로그인|Sign in)$/.test(e.innerText.trim()))"): return 'LOGGEDOUT'
     if 'Lite' in model or model.startswith(('Hydrogen', '자동')): return 'BADMODEL ' + model
     c.ev(BOX + ".focus()")
     c.call('Input.insertText', text=open(src, encoding='utf-8').read().strip()); time.sleep(1)
