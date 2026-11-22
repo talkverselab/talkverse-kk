@@ -14,13 +14,13 @@
 | 문자와 발음 | `523da4d` — 키릴 42자 격자·묶음 칩·로마자, 발음 시트(자동 재생·IPA·모음 차트·조음 그림·한국어 비교), 모음조화 표, 글자 소리 40개 |
 | 가격·결제 | `1ff96bc` — `lang_kk_1m·3m·1y·life` + `all_1y·all_life`, 정가 취소선·출시 기념 30%, 규정 표기·복원·약관/방침 링크(결제·로그인·설정). 스토어 문서 `app/docs/store/listing.md`·`review_notes.md`(4.3 필수 문단)·`app/docs/STORE_PRODUCTS.md` |
 | 통합 앱 연결 준비 | `330a573` — `lib/embed.dart`(embedInit·embedApp), `lib/core/embed_env.dart`(assetPath·pk), 저장 이름 `kk_` 접두(단독 앱은 옛 키·`art` 폴더 1회 이전), 통합 모드 clientId `talkverse`·로그아웃은 tv_* 만, 결제 스트림 분리(`Purchase.onPurchaseUpdates`, lang_kk_*·all_* 만), 「다른 언어 배우기」. drift 2.34.4·drift_flutter 0.3.1·sqlite3_flutter_libs 0.6.0+eol. uk 가 연결 — **통합 앱 빌드 4(12개 언어) https://apps.talkverse.uk/IfB4M/419 에 포함** |
-| 배포(최신) | Zealot 빌드 6 https://apps.talkverse.uk/ABjlY/413 (로컬 빌드) · TestFlight 2611091205 |
+| 배포(최신) | Zealot 빌드 7 https://apps.talkverse.uk/ABjlY/568 (2026-11-22 19:12, PC 백업 `D:\OneDrive\app project\kk_app\kk-latest.apk`) · TestFlight 2611221913 |
 | ① 캐릭터 시안 · ② UX 시안 | 미착수 — Grok 은 직접(한자 세션 대행 중단 2026-11-09): 자기 크롬을 켜고 M4 `~/talkverse-uk/tools/grok_cookie_sync.py 9231 <포트>` 로 쿠키 동기화, 도구는 M6 `~/Hanja/tools/grok_req.py`·`grok_cdp.py` 복사. uk 의 Grok 방은 건드리지 않음 |
 | 회화 | **Claude 초안 150편 완료(검수 전, 2026-11-09)** — R1 90 · R2 36 · R3 24, 카오스 33%, 모든 턴 감정 열. 상태·다음 순서·원어민 확인 목록 `docs/DIALOGUE.md`. **Grok 카자흐어 점검 150편 끝(2026-11-09, 사용자 선택 「점검만」)** — 고친 줄 3(`data/grok/check_fixes.md`), Grok 이 한국어 칸(ko·note·scene)에 키릴을 섞는 일이 잦아 반영 전 원문으로 되돌림. 다음: 원어민 확인 표현 목록 Grok 질의 → 겹치는 농담 정리 → Gemini 검수(사용자 지시 때) |
 | 콘텐츠(단어·문법·접사 표) | 사용자 지시 뒤. 단어 목록은 외국 인명을 걸러 `talkversehanja` `talkverse_art/words/kk.csv`(mn.csv 형식) → uk 에 알림 |
 
 ## 출시 판단
-- **지금은 출시 불가** — 회화·단어·문법 레슨·접사 표·주제 단어·표현 메뉴가 비어 있다(지침 2.1). 출시 순서 = 한자앱 → 완성된 언어앱부터 하나씩(uk 공지).
+- **2026-11-22: 콜드 출시 가능 상태** — 모든 메뉴에 내용 있음(아래 11-22 절). 통합 앱 심사(11-23)에 22개 언어 전부 들어감(uk). ~~지금은 출시 불가~~(11-09 기록). 출시 순서 = 한자앱 → 완성된 언어앱부터 하나씩(uk 공지).
 - 4.3 위험이 큼(몽골어와 구조 비슷) — 스토어 설명·스크린샷은 고유 9자·모음조화 짝·қ/к·ғ/г 로 시작(`listing.md`). 숫자 「(채울 것)」은 콘텐츠 뒤 실측.
 
 ## 만든 것(파일)
@@ -70,3 +70,14 @@
 - 음성은 새벽 01:00~07:00 만(전역 규칙) — 아직 없음.
 
 남은 것: Gemini 45편 → 반영 → 서버 --init → 시트·장면 컷 → 빌드(Zealot·TestFlight, 빌드 번호 7 이상) → uk 에 통합 앱 연결 한 줄(커밋·`kk_app`·새 의존성 video_player·crypto·새 에셋 script_rev.json·grammar/·rev).
+
+## 2026-11-22 저녁 — 결과·남은 것
+- **Gemini 검수 44/45 끝**(Gemini 4 **Neon** — 3.1 Pro 가 없어짐, M4 9226, 결과 `data/review/dialogues/<id>_gemini.md`). 남은 1편 `r3_work_a2` — Neon 한도가 22:45 에 초기화돼서 남김. 9226 크롬은 끔(M4 0개).
+  - 새 탭이 「자동」 모드로 떠서 `tools/grok/gemini_send.py` 가 선택기에서 Neon 을 고르게 고침(`GEMINI_MODE` 로 바꿀 수 있음, 카본은 클릭해도 안 바뀜). 백그라운드 작업이 두 번 죽어 배치는 `screen -dmS kk-gemini` 로 돌림.
+  - 지적 수(①문법·③말투·④한국어·⑤풍습): 31·19·39·29, ②「교과서체」는 거의 모든 편. Gemini 의 문법 지적 중 틀린 것도 있음(түсу+탈격 강요, келмейді ме, рахмет 표기).
+- **Grok 반영 아직** — 도구 준비 끝: `zsh tools/grok/fix_run.sh data/grok/fix_list.txt`(규칙 `tools/prompts/fix_grok_kk.md`: Grok 이 동의하는 실제 오류만 다시 씀, 취향 지적은 둠) → `python3 tools/grok/fix_apply.py --write` → `python3 tools/check_dialogues.py --fix-rd` → `python3 tools/build_sense_course.py` → `python3 tools/build_legacy_levels.py` + version.json db+1 → `cd app && python3 tools/script_publish.py --publish`(rev 2, 깔린 앱이 받음). **PC 크롬이 막혀 멈춤**: 18:16 재부팅 뒤 D: 디스크 과부하(uk 추정) — pl·hu·kk·mn 크롬 모두 grok.com 빈 화면. uk 가 「PC 크롬 풀림」을 보내면 pl → hu → kk → mn 순서로 켬. 켜기 전 9231→9257 쿠키 동기화·빠른 모드.
+- **서버 원고 rev 1** 올림(46 파일, `https://auth.talkverse.uk/art/script/kk/index.json` 200).
+- **장면 컷 12장 게시**(`/art/kk/scene/manifest` count 12) — `ssh macmini4 'zsh -lc "cd ~/talkverse-uk && /usr/bin/python3 tools/grok_art.py scene kk"'` 로 직접(uk 허락). 다음에 컷을 푸시하면 uk 에 「art 당겨 주세요」.
+- **심사 전 빈 화면 정리**(`e2a18c4`): 학습 탭 = R 회화 목록(옛 L 목록은 전 급 「준비 중」이었음), 문장 카드·말하기·청크 검색·오늘의 학습은 옛 `L1~L3.json`(DB turns)만 읽어 비어 있었음 → `tools/build_legacy_levels.py` 가 R 회화에서 생성(441문장). 회화를 바꾸면 이 스크립트 + version.json db+1. 영상 칸은 주소 있을 때만.
+- 빌드: Zealot 7 · TestFlight 2611221913.
+- 사용자 결정 대기: 나머지 105편 Grok 작성 여부. 음성은 새벽만(아직 없음).
