@@ -10,6 +10,7 @@ import 'alphabet_screen.dart';
 import 'chunk_search_screen.dart';
 import 'affix_screens.dart';
 import 'dialogue_screen.dart';
+import 'curriculum_screen.dart';
 import 'verb_map_screen.dart';
 import 'episode_screen.dart';
 import 'sense_course_screen.dart';
@@ -404,6 +405,8 @@ class _MenuGrid extends StatelessWidget {
           builder: (_) => const SenseCourseScreen()),
       ]),
       (tr('회화'), [
+        _MenuItem(label: tr('토크버스 커리큘럼'), sub: tr('매일 분량·복습'), badge: '✓', color: AppColors.kazakh,
+          builder: (_) => const CurriculumScreen()), // 2026-11-22 전 언어 공통(CURRICULUM_SPEC.md)
         _MenuItem(label: tr('회화'), sub: 'Диалог', badge: 'Ch', color: AppColors.rojo,
           builder: (_) => const DialogueHomeScreen()),
         _MenuItem(label: tr('문장 카드'), sub: 'Сөйлем', badge: 'S', color: AppColors.tinta,
