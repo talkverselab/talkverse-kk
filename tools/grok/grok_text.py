@@ -44,14 +44,19 @@ def main():
     try:
         c = G.CDP(t)
         c.call('Page.bringToFront')
-        for _ in range(30):
-            if c.ev("!!(%s)" % G.FIND):
+        for _ in range(90):  # 2026-11-22: PC D: 가 느리면 입력창·파일 입력이 늦게 뜬다
+            if c.ev("!!(%s)" % G.FIND) and (not remote or c.ev("!!document.querySelector('input[type=file]')")):
                 break
             time.sleep(1)
         time.sleep(4)
         if remote:
-            doc = c.call('DOM.getDocument', depth=-1, pierce=True)
-            node = c.call('DOM.querySelector', nodeId=doc['root']['nodeId'], selector='input[type=file]')
+            node = {}
+            for _ in range(15):  # 2026-11-22: 채팅 주소가 ?rid= 로 바뀌며 문서가 다시 그려지면 첫 조회가 빈다
+                doc = c.call('DOM.getDocument', depth=-1, pierce=True)
+                node = c.call('DOM.querySelector', nodeId=doc['root']['nodeId'], selector='input[type=file]')
+                if node.get('nodeId'):
+                    break
+                time.sleep(2)
             if not node.get('nodeId'):
                 raise SystemExit('파일 입력 없음')
             c.call('DOM.setFileInputFiles', nodeId=node['nodeId'], files=remote)
