@@ -48,4 +48,28 @@ void main() {
     final bundled = json.decode(await none.load(rel)) as Map<String, dynamic>;
     expect(SenseCourse.levels(bundled).length, 10); // 앱 묶음 = 10급 모두 내용 있음
   });
+
+  test('서버 목록에서 스텝이 빠지면 안 보이고, 더해지면 보인다(파일 통째로 서버 것)', () async {
+    const rel = 'grammar/sense_course.json';
+    Future<Map<String, dynamic>> viaServer(List<String> ids) async {
+      final dir = Directory.systemTemp.createTempSync('grammar_steps');
+      addTearDown(() => dir.deleteSync(recursive: true));
+      final server = json.encode({'levels': [for (final id in ids) {'id': id, 'title': id, 'lessons': [lesson('$id-1', 2)]}]});
+      final sha = sha1.convert(utf8.encode(server)).toString().substring(0, 12);
+      final s = ScriptSync.forTest(
+        dir: dir,
+        fetch: (url) async => url.endsWith('/index.json') ? json.encode({'rev': 5, 'files': {rel: sha}}) : (url.contains(rel) ? server : null),
+        baseline: {'rev': 1, 'files': {rel: 'old'}},
+      );
+      await s.refresh();
+      return json.decode(await s.load(rel)) as Map<String, dynamic>;
+    }
+
+    // 묶음은 10급 — 서버가 3급만 주면 3급만
+    final fewer = await viaServer(['L1', 'L2', 'L5']);
+    expect(SenseCourse.levels(fewer).map((l) => l['id']), ['L1', 'L2', 'L5']);
+    // 서버가 16급을 주면 16급(15 는 상한이 아님)
+    final more = await viaServer([for (var i = 1; i <= 16; i++) 'L$i']);
+    expect(SenseCourse.levels(more).length, 16);
+  });
 }
