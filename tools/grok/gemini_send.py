@@ -10,6 +10,7 @@ sys.path.insert(0, '/Users/talkverse/Hanja/tools'); import grok_cdp as g
 import websocket
 PORT = os.environ.get('GEMINI_CDP_PORT', '9226'); g.PORT = PORT; g.BASE = 'http://127.0.0.1:' + PORT
 src, dst = sys.argv[1], sys.argv[2]
+WANT = os.environ.get('GEMINI_MODE', 'Neon')  # Neon 한도가 차면 GEMINI_MODE=카본
 ANS = "[...document.querySelectorAll('model-response')].map(e=>e.innerText)"
 BOX = "document.querySelector('rich-textarea .ql-editor, div[contenteditable=true]')"
 BUSY = "!!document.querySelector('button[aria-label*=\"중지\"], button[aria-label*=\"Stop\"]')"
@@ -37,7 +38,7 @@ def run(c):
             r = c.ev("document.querySelector('[aria-label*=\"모드 선택 도구\"]').getBoundingClientRect().toJSON()")
             for tp in ('mousePressed', 'mouseReleased'): c.call('Input.dispatchMouseEvent', type=tp, x=r['x'] + r['width'] / 2, y=r['y'] + r['height'] / 2, button='left', clickCount=1)
             time.sleep(1.5)
-            c.ev("(()=>{const e=[...document.querySelectorAll('[role=menuitem],[role=menuitemradio],[role=option],mat-option')].find(e=>e.innerText.includes('Neon'));if(e)e.click()})()"); time.sleep(1.5)
+            c.ev("(()=>{const e=[...document.querySelectorAll('[role=menuitem],[role=menuitemradio],[role=option],mat-option')].find(e=>e.innerText.includes('" + WANT + "'));if(e)e.click()})()"); time.sleep(1.5)
     else:
         if model: return 'BADMODEL ' + model
         return 'BLOCKED' if 'google.com/sorry' in (c.ev('location.href') or '') else 'NOINPUT'
