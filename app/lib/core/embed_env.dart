@@ -18,3 +18,6 @@ String get audioAssetPrefix => assetPath('assets/');
 
 /// 이 언어 전용 저장 이름(SharedPreferences 키·파일·폴더) — `kk_` 접두. 학습자 이름·성별·표시 언어·로그인은 접두 없이 공유.
 String pk(String key) => '${Embed.code}_$key';
+
+/// AssetManifest 의 키 → 앱 안 상대 경로(`assets/...`). 통합 앱 패키지 접두가 있으면 뗀다.
+String stripAssetPrefix(String p) => p.startsWith('packages/${Embed.package}/') ? p.substring('packages/${Embed.package}/'.length) : p;

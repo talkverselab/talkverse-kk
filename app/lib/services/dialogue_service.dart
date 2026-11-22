@@ -1,16 +1,18 @@
 import '../core/embed_env.dart';
 import 'dart:convert';
 
-import 'package:flutter/services.dart' show rootBundle;
+import 'package:flutter/foundation.dart';
+import 'package:flutter/services.dart' show AssetManifest, rootBundle;
 import 'package:shared_preferences/shared_preferences.dart';
 
 import 'learner_prefs.dart';
+import 'script_sync.dart';
 
 /// 회화 리더(일본어앱 시안 02 「만화책 읽기형」)용 회화 모델 — 2026-11-02, 일본어앱 `dialogue_service.dart` 를 옮김.
 ///
-/// 지금 데이터는 `assets/data/dialogues/L1.json`(초기 빌드 — 편 없음) 하나뿐이라 그것을 그대로 읽어 이 모양으로 바꾼다.
-/// 회화 콘텐츠는 바꾸지 않는다(사용자 지시 2026-11-02 "회화는 아직 하지마") — 새 구조(R0~R4·주제별 편 파일)는 회화 작성이 풀리면.
-/// 칸: tl = 카자흐어(키릴, 데이터 칸 이름은 템플릿 그대로 `es`), gloss = 없음, rd = 한글 독음, ko = 한국어.
+/// 2026-11-22: 새 구조 `assets/data/dialogues/R<레벨>/<주제>/<편id>.json`(일본어앱과 같음)을 읽는다. 대사는 Grok 이 쓴 것(2026-11-18 원칙).
+/// 각 파일은 서버에 더 새 판이 있으면 그것([ScriptSync], 사용자 지시 2026-11-18 「다이얼로그까지 DB 에서」).
+/// 칸: tl = 카자흐어(키릴), gloss = 없음, rd = 한글 독음, ko = 한국어, emotion = 음성 감정.
 class DialogueTurn {
   final int num;
   final String speaker; // A·B
@@ -25,6 +27,8 @@ class DialogueTurn {
   final List<(String, String)> align;
   /// 문장 내용어 `lemmas: [[표면형, 기본형, 읽기]]`(있을 때만 — 없으면 앱이 접사 분석으로 만든다, 2026-11-04).
   final List<(String, String, String)> lemmas;
+  final List<String> newWords;
+  final String emotion;
   const DialogueTurn({
     required this.num,
     required this.speaker,
@@ -37,12 +41,16 @@ class DialogueTurn {
     this.art,
     this.align = const [],
     this.lemmas = const [],
+    this.newWords = const [],
+    this.emotion = 'neutral',
   });
 
-  factory DialogueTurn.fromL1(Map<String, dynamic> j) => DialogueTurn(
+  factory DialogueTurn.fromJson(Map<String, dynamic> j) => DialogueTurn(
         num: j['num'] as int? ?? 0,
         speaker: j['speaker'] as String? ?? 'A',
-        tl: j['es'] as String? ?? '',
+        tl: (j['tl'] ?? j['es']) as String? ?? '',
+        newWords: (j['new'] as List?)?.cast<String>() ?? const [],
+        emotion: j['emotion'] as String? ?? 'neutral',
         gloss: j['gloss'] as String? ?? '',
         rd: j['rd'] as String? ?? '',
         ko: j['ko'] as String? ?? '',
@@ -59,8 +67,9 @@ class DialogueTurn {
         ],
       );
 
-  /// 그림 조회용 핵심 단어 후보: 카자흐어 문장의 낱말(소문자, 2자 이상).
+  /// 그림 조회용 핵심 단어 후보: 새 단어(new) 먼저, 그다음 카자흐어 문장의 낱말(소문자, 2자 이상).
   List<String> get pictureWords => [
+        ...newWords.map((w) => w.toLowerCase()),
         for (final w in tl.toLowerCase().split(RegExp(r'[^\p{L}\p{M}]+', unicode: true)))
           if (w.length >= 2) w,
       ];
@@ -68,8 +77,10 @@ class DialogueTurn {
 
 class Dialogue {
   final String id;
-  final String region; // 지금은 옛 레벨 이름(L1) 그대로 — R 재태그는 회화 작업 때
+  final String region; // R0..R4
   final String island; // 주제
+  final String kind; // survival short long chat
+  final int twist;
   final String title;
   final String emoji;
   final String scene;
@@ -82,6 +93,8 @@ class Dialogue {
     required this.id,
     required this.region,
     required this.island,
+    this.kind = 'long',
+    this.twist = 0,
     required this.title,
     required this.emoji,
     required this.scene,
@@ -91,6 +104,41 @@ class Dialogue {
     required this.turns,
     this.art,
   });
+
+  factory Dialogue.fromJson(Map<String, dynamic> j) => Dialogue(
+        id: j['id'] as String,
+        region: j['region'] as String? ?? 'R1',
+        island: j['island'] as String? ?? '',
+        kind: j['kind'] as String? ?? 'long',
+        twist: j['twist'] as int? ?? 0,
+        title: j['title'] as String? ?? '',
+        emoji: j['emoji'] as String? ?? '💬',
+        scene: j['scene'] as String? ?? '',
+        speakers: ((j['speakers'] as Map?) ?? const {}).map((k, v) => MapEntry(k.toString(), v.toString())),
+        genders: ((j['genders'] as Map?) ?? const {}).map((k, v) => MapEntry(k.toString(), v.toString())),
+        expressions: (j['expressions'] as List?)?.cast<String>() ?? const [],
+        turns: ((j['turns'] as List?) ?? const []).map((t) => DialogueTurn.fromJson(t as Map<String, dynamic>)).toList(),
+        art: j['art'] as String?,
+      );
+
+  bool get isChat => kind == 'chat';
+
+  /// 화면에 보일 장면 설명 — 원고의 「A」(학습자)를 이름(없으면 「나」)으로(일본어앱 빌드 111, 사용자 지시 2026-11-17).
+  String get sceneShown => scene.replaceAllMapped(RegExp(r'(?<![A-Za-z])A(?![A-Za-z]) ?(?=[가-힣])'), (_) => speakerName('A'));
+
+  /// 화면에 보일 글 — 「〇〇」(학습자 자리)·`{name}` 을 이름으로(일본어앱 빌드 111).
+  String nameIn(String s) {
+    final n = speakerName('A');
+    return s.replaceAll('{name}', n).replaceAll('〇〇', n).replaceAll('{country}', '한국').replaceAll('{city}', '서울');
+  }
+
+  /// 편 순서 키: survival → a → b → c, 번호 순.
+  String get orderKey {
+    final m = RegExp(r'_([abcs])(\d+)$').firstMatch(id);
+    if (m == null) return id;
+    const o = {'s': 0, 'a': 1, 'b': 2, 'c': 3};
+    return '${o[m.group(1)]}${m.group(2)!.padLeft(2, '0')}';
+  }
 
   /// 화자 표시 이름. `{name}` 자리는 학습자 이름(없으면 「나」).
   String speakerName(String sp) {
@@ -128,6 +176,7 @@ class DialogueService {
     'work': '💼',
     'study': '🎓',
   };
+  static const levels = ['R0', 'R1', 'R2', 'R3', 'R4'];
   static const levelKo = {'L1': '이야기', 'R0': '왕초보', 'R1': '초보', 'R2': '중급', 'R3': '고급', 'R4': '최상급'};
   static final _prefLast = pk('dialogue_last');
 
@@ -143,37 +192,50 @@ class DialogueService {
   /// 넓은 화면에서 탭이 동시에 떠 두 번 불려도 한 번만 읽는다(플래그로 막으면 경쟁으로 목록이 두 번 찬다).
   Future<void> ensureLoaded() => _loading ??= _load();
 
+  /// 원고가 서버 판으로 바뀌어 다시 읽힐 때마다 오른다.
+  final ValueNotifier<int> revision = ValueNotifier(0);
+
   Future<void> _load() async {
     _lastOpened = (await SharedPreferences.getInstance()).getString(_prefLast);
+    await _readAll();
+    // 서버에 더 새 원고가 있으면 뒤에서 받아 다시 읽는다(없거나 실패하면 그대로)
+    ScriptSync.instance.refresh().then((changed) async {
+      if (!changed) return;
+      await _readAll();
+      revision.value++;
+    });
+  }
+
+  /// 앱 안 편 + 서버에서 받은 새 편 − 서버에서 빠진 편. 각 파일은 덮어쓴 판이 있으면 그것.
+  Future<void> _readAll() async {
+    final sync = ScriptSync.instance;
+    await sync.init();
+    final pat = RegExp(r'^assets/data/dialogues/R[0-4]/[^/]+/[^/]+\.json$');
+    final rels = <String>{};
     try {
-      final j = json.decode(await rootBundle.loadString(assetPath('assets/data/dialogues/L1.json'))) as Map<String, dynamic>;
-      final chars = (j['characters'] as Map<String, dynamic>? ?? const {});
-      final names = chars.map((k, v) => MapEntry(k, ((v as Map)['name'] ?? k).toString()));
-      final genders = chars.map((k, v) => MapEntry(k, ((v as Map)['gender'] ?? 'female').toString()));
-      final level = j['level'] as String? ?? 'L1';
-      for (final e in (j['episodes'] as List? ?? const [])) {
-        final m = e as Map<String, dynamic>;
-        final turns = ((m['turns'] as List?) ?? const []).map((t) => DialogueTurn.fromL1(t as Map<String, dynamic>)).toList();
-        if (turns.isEmpty) continue;
-        _all.add(Dialogue(
-          id: '${level}_${m['id']}',
-          region: level,
-          island: 'love', // 옛 L1 = 게스트하우스에서 만나 초원 데이트로 가는 연애 이야기(원칙: 기존 연애 서사는 love 주제)
-          title: m['title'] as String? ?? m['id'] as String,
-          emoji: m['emoji'] as String? ?? '💬',
-          scene: m['scenario'] as String? ?? '',
-          speakers: names,
-          genders: genders,
-          expressions: const [],
-          turns: turns,
-        ));
-      }
+      final manifest = await AssetManifest.loadFromAssetBundle(rootBundle);
+      // 통합 앱이면 키에 packages/kk_app/ 가 붙어 있다 — 떼고 견준다
+      rels.addAll([for (final p in manifest.listAssets().map(stripAssetPrefix).where(pat.hasMatch)) p.substring('assets/data/'.length)]);
     } catch (_) {}
+    rels
+      ..addAll(sync.added.where((p) => pat.hasMatch('assets/data/$p')))
+      ..removeAll(sync.removed);
+    final next = <Dialogue>[];
+    for (final rel in rels) {
+      try {
+        final d = Dialogue.fromJson(json.decode(await sync.load(rel)) as Map<String, dynamic>);
+        if (d.turns.isNotEmpty) next.add(d);
+      } catch (_) {}
+    }
+    next.sort((a, b) => a.region != b.region ? a.region.compareTo(b.region) : a.orderKey.compareTo(b.orderKey));
+    _all
+      ..clear()
+      ..addAll(next);
   }
 
   Dialogue? byId(String id) => _all.where((d) => d.id == id).firstOrNull;
   List<Dialogue> get all => List.unmodifiable(_all);
-  List<String> get regions => _all.map((d) => d.region).toSet().toList();
+  List<String> get regions => [for (final r in levels) if (_all.any((d) => d.region == r)) r];
 
   List<Dialogue> list({String? region, String? island}) =>
       _all.where((d) => (region == null || d.region == region) && (island == null || d.island == island)).toList();
