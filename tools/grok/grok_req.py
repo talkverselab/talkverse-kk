@@ -10,6 +10,7 @@
 """
 import base64, json, os, subprocess, sys, time, urllib.request
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+os.environ.setdefault('GROK_CDP_PORT', '9257')
 import grok_cdp as G
 
 LIMIT = ('한도에 도달', 'limit reached', 'Rate limit')
@@ -51,13 +52,11 @@ def main():
             i = a.index(k); opt[k] = a[i + 1]; del a[i:i + 2]
     req, out, atts = a[0], a[1], a[2:]
     wait = int(opt.get('--wait', 600))
-    # 첨부 → M4 /tmp/grok_att
+    # 첨부 → kk 크롬이 도는 PC 의 D:\grok_att\kk\ (2026-11-22: kk Grok = PC 9257, grok_text.py 와 같음)
     remote = []
-    if atts:
-        subprocess.run(['ssh', 'macmini4', 'mkdir -p /tmp/grok_att'], check=True)
-        for p in atts:
-            subprocess.run(['scp', '-q', p, 'macmini4:/tmp/grok_att/'], check=True)
-            remote.append('/tmp/grok_att/' + os.path.basename(p))
+    for p in atts:
+        subprocess.run(['scp', '-q', p, 'Administrator@100.127.143.37:D:/grok_att/kk/'], check=True)
+        remote.append('D:\\grok_att\\kk\\' + os.path.basename(p))
     url = 'https://grok.com/c/' + opt['--chat'] if '--chat' in opt else 'https://grok.com/'
     t = new_tab(url)
     try:
@@ -88,7 +87,7 @@ def main():
         time.sleep(3)
         left = c.ev("(()=>{const e=%s;return e?(e.value||e.innerText||'').trim().length:-1})()" % G.FIND)
         if left and left > 0:
-            c.ev("(()=>{const b=[...document.querySelectorAll('button')].find(x=>/제출|Submit/.test(x.getAttribute('aria-label')||''));if(b){b.click();return 1}return 0})()")
+            c.ev("(()=>{const b=[...document.querySelectorAll('button')].find(x=>/제출|Submit|보내기|Send/.test(x.getAttribute('aria-label')||''));if(b){b.click();return 1}return 0})()")
             time.sleep(3)
         print('전송', c.ev('location.href'))
         # 대기: 생성 그림(큰 img)이 새로 생기고 응답이 멈추면 끝. 한도 문구면 3.
@@ -107,17 +106,23 @@ def main():
             last = body
         if not src:
             print('그림 없음', c.ev('location.href')); sys.exit(2)
-        raw = download(src)
-        if not raw:
-            print('내려받기 실패', src); sys.exit(2)
-        tmp = out + '.dl'
-        open(tmp, 'wb').write(raw)
-        subprocess.run(['sips', '-s', 'format', 'jpeg', tmp, '--out', out], check=True, capture_output=True)
-        os.remove(tmp)
+        # 새로 생긴 생성 그림 전부 저장(장면 컷 4장 요청, 2026-11-22): 첫 장 = <out>, 나머지 = <out 이름>_2.jpg …
+        srcs = list(dict.fromkeys(x for x in (c.ev(GEN) or []) if x not in gen0)) or [src]
+        base, ext = os.path.splitext(out)
+        for k, one in enumerate(srcs, 1):
+            raw = download(one)
+            if not raw:
+                print('내려받기 실패', one); continue
+            dst = out if k == 1 else f'{base}_{k}{ext}'
+            tmp = dst + '.dl'
+            open(tmp, 'wb').write(raw)
+            subprocess.run(['sips', '-s', 'format', 'jpeg', tmp, '--out', dst], check=True, capture_output=True)
+            os.remove(tmp)
+            print('그림', k, dst)
         md = os.path.splitext(out)[0] + '_img.md'
         reply = c.ev("(()=>{const m=[...document.querySelectorAll('[class*=message], [data-testid*=message]')];return m.length?m[m.length-1].innerText:document.body.innerText.slice(-1500)})()")
         open(md, 'w', encoding='utf-8').write('# Grok 응답 (%s)\n\n챗: %s\n요청문: %s\n\n%s\n' % (time.strftime('%Y-%m-%d %H:%M'), c.ev('location.href'), req, reply))
-        print('저장', out, len(raw), 'bytes ·', md)
+        print('저장', out, len(srcs), '장 ·', md)
     finally:
         close_tab(t)
 
