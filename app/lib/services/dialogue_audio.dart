@@ -6,6 +6,7 @@ import 'package:audioplayers/audioplayers.dart';
 import 'package:flutter/foundation.dart' show debugPrint;
 
 import 'content_sync.dart';
+import 'dialogue_service.dart';
 import 'learner_prefs.dart';
 import 'tts_service.dart';
 
@@ -98,4 +99,11 @@ class _Line {
   final String url, text;
   final int ms;
   const _Line(this.url, this.text, this.ms);
+}
+
+/// 턴 하나 읽기(일본어앱 speakTurn 과 같은 이름 — 커리큘럼이 쓴다): 서버 녹음이 지금 대사와 같으면 그것, 아니면 기존 음성(번들 mp3 → 실시간 합성).
+Future<void> speakTurn(Dialogue d, DialogueTurn t, {double rate = 1.0}) async {
+  if (await DialogueAudio.instance.play(d.id, t.num, rate: rate, script: t.tl)) return;
+  final s = t.tl.replaceAll(RegExp(r'\([^)]*\)'), '').replaceAll(RegExp(r'\{[a-z_]+\}'), '').trim();
+  await TtsService.instance.speakAs(s, gender: d.voiceGender(t.speaker), rate: rate * 0.45);
 }

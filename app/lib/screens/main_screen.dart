@@ -11,6 +11,7 @@ import 'chunk_search_screen.dart';
 import 'affix_screens.dart';
 import 'dialogue_screen.dart';
 import 'curriculum_screen.dart';
+import 'custom_script_screen.dart';
 import 'verb_map_screen.dart';
 import 'episode_screen.dart';
 import 'sense_course_screen.dart';
@@ -247,6 +248,9 @@ class HomeScreen extends StatelessWidget {
                   ],
                 ),
                 const SizedBox(height: 10),
+                // 토크버스 커리큘럼 — 전 언어 공통, 회화 메뉴 위(사용자 지시 2026-11-22, 기준 ~/talkverse/CURRICULUM_SPEC.md · 일본어앱 ceb91c3)
+                const CurriculumHomeCard(),
+                const SizedBox(height: 14),
                 _MenuGrid(),
                 const SizedBox(height: 28),
                 const BandDivider(),
@@ -405,8 +409,10 @@ class _MenuGrid extends StatelessWidget {
           builder: (_) => const SenseCourseScreen()),
       ]),
       (tr('회화'), [
-        _MenuItem(label: tr('토크버스 커리큘럼'), sub: tr('매일 분량·복습'), badge: '✓', color: AppColors.kazakh,
-          builder: (_) => const CurriculumScreen()), // 2026-11-22 전 언어 공통(CURRICULUM_SPEC.md)
+        // 맞춤 회화(AI 회화 작성)는 만드는 쪽(서버 작성기)이 켜져 있을 때만 — 일본어앱과 같게 kCustomScriptLive=false 로 숨김(2026-11-22, CURRICULUM_SPEC §11).
+        if (kCustomScriptLive)
+          _MenuItem(label: tr('맞춤 회화 만들기'), sub: tr('주제·상황·레벨 → 나만의 1편 · 첫 편 무료'), badge: '✨', color: AppColors.kinDeep,
+            builder: (_) => const CustomScriptScreen()),
         _MenuItem(label: tr('회화'), sub: 'Диалог', badge: 'Ch', color: AppColors.rojo,
           builder: (_) => const DialogueHomeScreen()),
         _MenuItem(label: tr('문장 카드'), sub: 'Сөйлем', badge: 'S', color: AppColors.tinta,
