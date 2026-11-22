@@ -59,3 +59,14 @@
 - DB: 회화 본문은 D1 표 없음(앱 에셋·저장소가 정본), 음성·장면 컷은 아직 없음 → 올린 것 0.
 - Grok 은 주간 한도(11/16 초기화)까지 쓰지 말 것, 쓸 때는 답 3분 상한.
 - 11-10 디스크 정리: app/build·.dart_tool·android/.gradle·ios/Pods·__pycache__ 삭제(다음 빌드 전 `flutter pub get`·`pod install`). 터널·Grok/Gemini 탭은 닫음.
+
+## 2026-11-22 — 콜드 출시 준비(사용자 「막힌 것은 각자 판단대로 완료」, 빌드 범위 「콜드출시 가능할 때까지」 — uk 경유)
+세션이 스스로 고른 것(사용자 확인 전):
+- **회화 = Grok 대사 45편만**(급마다 30%: R1 27·R2 11·R3 7, 반전·형식 고르게 `data/grok/rewrite_45.txt`). 2026-11-18 원칙대로 Claude 초안 150편은 `data/drafts/` 로 빼 앱에 넣지 않음. 「빠른」 모드는 초안 대사를 첨부하면 베끼므로 대사 칸을 비운 뼈대(`tools/grok/brief.py`)를 보냄. 나머지 105편을 Grok 으로 쓸지는 사용자 결정 대기.
+- **사용자 리뷰는 건너뜀**(uk: 「사용자 리뷰 — 그냥 진행」). Gemini 검수는 M4 9226(chrome-grok-vi, 구글 로그인된 공용 프로필)에서 페르시아어 다음 차례 — fa 가 「9226 끝」을 보내면 `GEMINI_CDP_PORT=9226 /usr/bin/python3 tools/grok/gemini_batch.py data/review/dialogues/list.tsv -j 1 --gap 60`(M6→M4 `ssh -fN -L 9226:127.0.0.1:9226 macmini4`), 끝나면 9226 크롬을 끈다. 지적 중 실제 오류만 Grok 에 다시 쓰게 해 반영(Claude 가 대사를 고치지 않음).
+- **서버 원고**: ScriptSync(일본어앱 빌드 113·114) 이식, `assets/data/script_rev.json` 은 rev 0 자리표 — Gemini 반영 뒤 `cd app && python3 tools/script_publish.py --init` 으로 rev 1 올리고 커밋(R2 `script/kk/`, 읽는 주소 `https://auth.talkverse.uk/art/script/kk/…`).
+- **빈 메뉴 채움**: 단어표 1,190(talkversehanja kk.csv) · 주제 단어(품사별 빈도순 + 음식 50) · 표현 66 · 접사 18(표준 문법 규칙) · 동사 80 활용(규칙 생성, 불규칙 есту, 단어표의 шықу 철자는 동사표에서만 шығу 로) · 언어감각 7급(문장은 Grok 회화에서 `tools/build_sense_course.py`, 설명만 한국어, 영상 없음 = 「영상 준비 중」).
+- **장면 컷 10장**: 캐릭터 시트가 없어 시트 1 + 컷 10(3편 4+3+3). uk 그림 순서 ru → ar → hi → **kk** → my → pt, 힌디어앱의 「Grok 끝」이 시작 신호, 끝나면 크롬 끄고 「Grok 끝」을 uk·미얀마어앱에. 통과는 세션 판단.
+- 음성은 새벽 01:00~07:00 만(전역 규칙) — 아직 없음.
+
+남은 것: Gemini 45편 → 반영 → 서버 --init → 시트·장면 컷 → 빌드(Zealot·TestFlight, 빌드 번호 7 이상) → uk 에 통합 앱 연결 한 줄(커밋·`kk_app`·새 의존성 video_player·crypto·새 에셋 script_rev.json·grammar/·rev).
