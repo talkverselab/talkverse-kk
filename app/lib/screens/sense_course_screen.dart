@@ -34,9 +34,21 @@ class SenseCourse {
     await p.setStringList(_kDoneKey, s.toList());
   }
 
-  /// 모든 회차를 순서대로 (레벨, 회차) 쌍으로.
+  /// 내용이 있는 회차인가 — 외울 문장, 또는 참고 예문이 하나라도 있으면(2026-11-23 사용자 「스텝 10 까지 다 미리 만들어놓고 DB 업데이트 하면서 업뎃」).
+  static bool hasContent(Map<String, dynamic> ls) =>
+      ((ls['sentences'] as List?) ?? const []).isNotEmpty ||
+      ((ls['points'] as List?) ?? const []).any((p) => (((p as Map)['sentences'] as List?) ?? const []).isNotEmpty);
+
+  /// 보일 급 — 내용 있는 회차만 남기고, 회차가 하나도 없는 급은 숨긴다(「준비 중」을 보이지 않음). 서버 원고에 내용이 생기면 저절로 나타난다.
+  static List<Map<String, dynamic>> levels(Map<String, dynamic> d) => [
+        for (final lv in ((d['levels'] as List?) ?? const []).cast<Map<String, dynamic>>())
+          if (((lv['lessons'] as List?) ?? const []).cast<Map<String, dynamic>>().any(hasContent))
+            {...lv, 'lessons': (lv['lessons'] as List).cast<Map<String, dynamic>>().where(hasContent).toList()},
+      ];
+
+  /// 모든 회차를 순서대로 (레벨, 회차) 쌍으로 — 내용 있는 것만.
   static List<(Map<String, dynamic>, Map<String, dynamic>)> flat(Map<String, dynamic> d) => [
-        for (final lv in (d['levels'] as List).cast<Map<String, dynamic>>())
+        for (final lv in levels(d))
           for (final ls in (lv['lessons'] as List).cast<Map<String, dynamic>>()) (lv, ls),
       ];
 }
@@ -96,7 +108,7 @@ class _SenseCourseScreenState extends State<SenseCourseScreen> {
           style: const TextStyle(fontSize: 12, color: AppColors.muted)),
     ];
     var i = 0;
-    for (final lv in (d['levels'] as List).cast<Map<String, dynamic>>()) {
+    for (final lv in SenseCourse.levels(d)) {
       children.add(Padding(
         padding: const EdgeInsets.fromLTRB(2, 18, 2, 8),
         child: Text('${lv['id']}  ${lv['title']}',

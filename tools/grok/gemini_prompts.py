@@ -1,11 +1,11 @@
 #!/usr/bin/env python3
-"""Gemini 검수 프롬프트 만들기 — 2026-11-22 부터 Grok 대사(data/grok/rewrite/<id>.json, 목록 data/grok/rewrite_45.txt) 대상. data/review/dialogues/prompts/<id>.md + list.tsv(<프롬프트>\t<저장>, 이미 받은 편은 뺌)."""
+"""Gemini 검수 프롬프트 만들기 — 앱에 들어간 회화 전부(app/assets/data/dialogues/R*/*/*.json, 2026-11-22 밤부터 — 45편 + 새 15편). data/review/dialogues/prompts/<id>.md + list.tsv(<프롬프트>\t<저장>, 이미 받은 편은 뺌)."""
 import json, pathlib
 R = pathlib.Path(__file__).resolve().parents[2]
 T = (R / 'tools/prompts/review_gemini_kk.md').read_text(encoding='utf-8')
 P = R / 'data/review/dialogues/prompts'; P.mkdir(parents=True, exist_ok=True)
 rows = []
-for f in [R / 'data/grok/rewrite' / (l.split('/')[-1]) for l in (R / 'data/grok/rewrite_45.txt').read_text().split()]:
+for f in sorted((R / 'app/assets/data/dialogues').glob('R*/*/*.json')):
     d = json.load(open(f, encoding='utf-8'))
     roles = ', '.join('%s=%s' % (k, '학습자' if v == '{name}' else v) for k, v in d['speakers'].items())
     lines = '\n'.join('%d %s: %s / %s' % (t['num'], t['speaker'], t['tl'].replace('{name}', 'Сәуле'), t['ko'].replace('{name}', '사울레')) for t in d['turns'])
