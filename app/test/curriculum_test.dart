@@ -140,8 +140,8 @@ void main() {
       await t.runAsync(() => Future<void>.delayed(const Duration(milliseconds: 200)));
       await t.pump();
     }
-    expect(find.text('회화 레벨을 골라요'), findsOneWidget);
-    await t.tap(find.text('초보'));
+    expect(find.text('단계를 골라요'), findsOneWidget);
+    await t.tap(find.text('1단계'));
     for (var i = 0; i < 3; i++) {
       await t.runAsync(() => Future<void>.delayed(const Duration(milliseconds: 100)));
       await t.pump();
@@ -154,5 +154,30 @@ void main() {
       await t.pump();
       expect(t.takeException(), isNull);
     }
+  });
+
+  test('§12 단계 — JSON 대로, 앱에 없는 편은 건너뛰고 빈 단계는 숨김, 실패하면 회화 레벨 기본 대응', () async {
+    SharedPreferences.setMockInitialValues({});
+    final svc = CurriculumService.instance;
+    await svc.ensureLoaded();
+    final ids = DialogueService.instance.list().map((d) => d.id).toList();
+    expect(ids, isNotEmpty);
+    svc.setStages({
+      'rev': 9,
+      'stages': [
+        {'n': 1, 'title': '첫걸음', 'dialogueIds': [ids[0], 'none_x']},
+        {'n': 2, 'title': '빈 단계', 'dialogueIds': <String>[]},
+        {'n': 3, 'title': '셋', 'dialogueIds': [ids[1], ids[2]]},
+      ],
+    });
+    expect(svc.levels, ['1', '3']);
+    expect(svc.title('1'), '첫걸음');
+    expect(svc.levelList('1').map((d) => d.id), [ids[0]]);
+    expect(svc.nextLevel('1'), '3');
+    expect(svc.stageOf(ids[2]), '3');
+    svc.setStages(null); // 실패 → R0+R1→1, R2→2, R3→3
+    expect(svc.levels, containsAllInOrder(['1', '2']));
+    expect(CurriculumService.stageOfRegion('R1'), '1');
+    expect(CurriculumService.stageOfRegion('R3'), '3');
   });
 }
