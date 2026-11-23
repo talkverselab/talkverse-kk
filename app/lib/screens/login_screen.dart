@@ -8,7 +8,7 @@ import '../widgets/legal_links.dart';
 import '../data/account.dart';
 
 /// 로그인 — Talkverse 공용 계정(한자 앱 login_screen.dart 를 옮김, 2026-11-02).
-/// 구글·네이버·카카오·애플 네 버튼 고정 순서, 서버에 아직 없는 제공자는 누르면 '준비 중'. 아래에 심사·테스트용 이메일 로그인.
+/// 구글·네이버·카카오·애플 순서. 서버(/providers)가 켜 둔 제공자만 버튼을 보인다 — 「준비 중」만 뜨는 버튼은 애플 2.1 거절(uk 심사 점검 2026-11-23). 아래에 이메일 로그인.
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
   static Future<bool?> open(BuildContext context) =>
@@ -31,7 +31,7 @@ class _LoginScreenState extends State<LoginScreen> {
     Account.providers().then((p) => mounted ? setState(() => providers = p) : null);
   }
 
-  bool _ready(String p) => p == 'apple' ? (providers?.contains('apple') ?? true) : (providers?.contains(p) ?? false);
+  bool _ready(String p) => providers?.contains(p) ?? false;
 
   Future<void> _go(String p) async {
     if (!_ready(p)) {
@@ -94,7 +94,7 @@ class _LoginScreenState extends State<LoginScreen> {
                     const Center(child: Padding(padding: EdgeInsets.all(24), child: CircularProgressIndicator()))
                   else
                     for (final p in const ['google', 'naver', 'kakao', 'apple'])
-                      Padding(padding: const EdgeInsets.only(bottom: 12), child: _button(p)),
+                      if (_ready(p)) Padding(padding: const EdgeInsets.only(bottom: 12), child: _button(p)),
                   // 로그인 동의 안내(출시 점검 2026-11-09, 일본어앱과 같음)
                   const SizedBox(height: 4),
                   LegalLinks(lead: tr('로그인하면 이용약관에 동의하고, 개인정보처리방침에 따른 정보(이메일·이름·계정 ID) 수집에 동의하는 것으로 봅니다.')),
