@@ -6,6 +6,7 @@ import '../core/pane.dart';
 import '../core/theme.dart';
 import '../services/ko_reading.dart';
 import '../widgets/selectable_kk_text.dart';
+import '../data/entitlement.dart';
 import '../services/dialogue_service.dart';
 import '../services/learner_prefs.dart';
 import '../services/tts_service.dart';
@@ -18,6 +19,9 @@ import 'dialogue_card_screen.dart';
 /// 지금 회화는 옛 L1 이야기 2편뿐(dialogue_service.dart). 맞춤 회화·왕초보/초보 전환은 새 회화 구조가 들어온 뒤.
 /// 아이패드: 홈 맨 위 「오늘의 컷」, 편 화면 = 왼쪽 대화 스크립트 + 오른쪽 큰 장면 컷(말풍선) + 하단 재생 컨트롤.
 /// 폰: 각 단계가 push, 재생은 전체 화면(컷 위·스크립트 아래).
+/// 회화 목록 잠금 — 1단계(R0·R1)는 무료, R2 이상은 이용권(PAYWALL_SPEC §2, 2026-11-23).
+bool dialogueLevelLocked(String region) => !(region == 'R0' || region == 'R1') && !Entitlement.premium;
+
 class DialogueHomeScreen extends StatefulWidget {
   const DialogueHomeScreen({super.key});
   @override
@@ -58,7 +62,16 @@ class _DialogueHomeScreenState extends State<DialogueHomeScreen> {
                         lv: lv,
                         island: isl,
                         count: svc.list(region: lv, island: isl).length,
-                        onTap: () => openPane(context, (_) => DialogueListScreen(region: lv, island: isl)),
+                        locked: dialogueLevelLocked(lv),
+                        onTap: () async {
+                          // 회화 2단계 이상(R2~) = 이용권(PAYWALL_SPEC §2) — 숨기지 않고 자물쇠 → 결제 화면
+                          if (dialogueLevelLocked(lv)) {
+                            await Entitlement.showPaywall(context);
+                            if (mounted) setState(() {});
+                            return;
+                          }
+                          openPane(context, (_) => DialogueListScreen(region: lv, island: isl));
+                        },
                       ),
                     const SizedBox(height: 10),
                   ],
@@ -129,7 +142,8 @@ class _IslandRow extends StatelessWidget {
   final String island;
   final int count;
   final VoidCallback onTap;
-  const _IslandRow({required this.lv, required this.island, required this.count, required this.onTap});
+  final bool locked;
+  const _IslandRow({required this.lv, required this.island, required this.count, required this.onTap, this.locked = false});
   @override
   Widget build(BuildContext context) => Container(
         margin: const EdgeInsets.only(bottom: 8),
@@ -141,7 +155,7 @@ class _IslandRow extends StatelessWidget {
             leading: Text(DialogueService.islandEmoji[island] ?? '💬', style: const TextStyle(fontSize: 26)),
             title: Text(tr(DialogueService.islandKo[island] ?? island), style: const TextStyle(fontSize: 15, fontWeight: FontWeight.w800, color: AppColors.sumi)),
             subtitle: Text(trf('{0}편', [count]), style: const TextStyle(fontSize: 11, color: AppColors.muted)),
-            trailing: const Icon(Icons.chevron_right, color: AppColors.muted),
+            trailing: Icon(locked ? Icons.lock_outline : Icons.chevron_right, color: AppColors.muted),
           ),
         ),
       );

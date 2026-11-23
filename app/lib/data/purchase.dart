@@ -61,6 +61,13 @@ class Purchase {
     final raw = p.getString(pk('iap_owned2'));
     final m = <String, int>{if (raw != null) ...(jsonDecode(raw) as Map).map((k, v) => MapEntry('$k', (v as num).toInt()))};
     if ((p.getStringList(pk('iap_owned')) ?? const []).contains(code)) m['lang_${code}_life'] = 0; // 옛 저장 방식(평생 하나)
+    // 이용권 기록(PAYWALL_SPEC §4, 2026-11-23): 언어 `kk_entitlement_v1` + 종합 `all_entitlement_v1`(22개 언어 공통 키, 통합 앱에서 언어를 바꿔도 유효)
+    for (final k in [pk('entitlement_v1'), allKey]) {
+      try {
+        final r = p.getString(k);
+        if (r != null) m.addAll((jsonDecode(r) as Map).map((k, v) => MapEntry('$k', (v as num).toInt())));
+      } catch (_) {}
+    }
     owned.value = m;
     Account.user.addListener(_onAccount);
     if (kIsWeb || !(Platform.isIOS || Platform.isAndroid)) return;
@@ -71,7 +78,18 @@ class Purchase {
       final r = await InAppPurchase.instance.queryProductDetails({for (final x in list) x.id});
       products.value = {for (final d in r.productDetails) d.id: d};
     } catch (_) {}
+    productsTried.value = true;
+    // 시작 때 복원 조회(PAYWALL_SPEC §4) — 조용히, 결과는 [owned] 에만
+    if (!Embed.embedded) {
+      try {
+        await InAppPurchase.instance.restorePurchases();
+      } catch (_) {}
+    }
   }
+
+  /// 상품 조회를 한 번 해 봤는가 — 해 봤는데 비었으면 결제 화면이 「잠시 뒤 다시 시도」를 보인다(끝없이 도는 상태 금지).
+  static final productsTried = ValueNotifier<bool>(false);
+  static const allKey = 'all_entitlement_v1';
 
   /// 스토어 표시 가격(예 ₩3,900). 상품을 못 받았으면 null.
   static String? price(String id) => products.value[id]?.price;
@@ -154,6 +172,17 @@ class Purchase {
     if (!keep) owned.value = {...owned.value, id: exp};
     final p = await SharedPreferences.getInstance();
     await p.setString(pk('iap_owned2'), jsonEncode(owned.value));
+    final mine = {for (final e in owned.value.entries) if (e.key.startsWith('lang_${lang}_')) e.key: e.value};
+    final all = {for (final e in owned.value.entries) if (e.key.startsWith('all_')) e.key: e.value};
+    await p.setString(pk('entitlement_v1'), jsonEncode(mine));
+    if (all.isNotEmpty) {
+      // 다른 언어가 쓴 종합 기록과 합친다
+      final prev = <String, int>{};
+      try {
+        prev.addAll((jsonDecode(p.getString(allKey) ?? '{}') as Map).map((k, v) => MapEntry('$k', (v as num).toInt())));
+      } catch (_) {}
+      await p.setString(allKey, jsonEncode({...prev, ...all}));
+    }
     // 서버로 보낼 영수증 — 로그인 전이면 쌓아 두었다가 로그인 때 보낸다
     final rec = {
       'platform': Platform.isIOS ? 'ios' : 'android',

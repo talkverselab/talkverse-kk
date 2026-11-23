@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:kk_app/core/theme.dart';
+import 'package:kk_app/screens/dialogue_screen.dart';
+import 'package:kk_app/data/purchase.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:kk_app/screens/curriculum_screen.dart';
 import 'package:kk_app/services/curriculum_service.dart';
@@ -206,5 +208,35 @@ void main() {
     expect(svc.pickFor('2'), [3, 5, 10]);
     expect(svc.state.passPercent, 80);
     expect(svc.state.dailyNew, 2);
+  });
+
+  test('이용권 잠금 경계 — 1단계 열림·2단계 잠김·이용권 있으면 열림(PAYWALL_SPEC §5)', () async {
+    SharedPreferences.setMockInitialValues({});
+    final svc = CurriculumService.instance;
+    await svc.ensureLoaded();
+    final ids = DialogueService.instance.list().map((d) => d.id).toList();
+    Purchase.owned.value = const {};
+    svc.setStages({
+      'freeSenseLevels': 1,
+      'stages': [
+        {'n': 1, 'free': true, 'dialogueIds': [ids[0]]},
+        {'n': 2, 'free': false, 'dialogueIds': [ids[1]]},
+        {'n': 3, 'dialogueIds': [ids[2]]}, // free 없음 → 1단계만 무료
+      ],
+    });
+    expect(svc.stageLocked('1'), isFalse);
+    expect(svc.stageLocked('2'), isTrue);
+    expect(svc.stageLocked('3'), isTrue);
+    expect(dialogueLevelLocked('R1'), isFalse);
+    expect(dialogueLevelLocked('R2'), isTrue);
+    final far = DateTime.now().add(const Duration(days: 30)).millisecondsSinceEpoch;
+    Purchase.owned.value = {'lang_kk_1y': far};
+    expect(svc.stageLocked('2'), isFalse);
+    expect(dialogueLevelLocked('R3'), isFalse);
+    Purchase.owned.value = {'all_life': 0}; // 종합 평생
+    expect(svc.stageLocked('3'), isFalse);
+    Purchase.owned.value = {'lang_mn_1y': far}; // 다른 언어 이용권은 안 됨
+    expect(svc.stageLocked('2'), isTrue);
+    Purchase.owned.value = const {};
   });
 }

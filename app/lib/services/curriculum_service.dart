@@ -8,6 +8,7 @@ import 'package:flutter/services.dart' show rootBundle;
 import 'package:shared_preferences/shared_preferences.dart';
 
 import '../core/embed_env.dart';
+import '../data/entitlement.dart';
 import 'dialogue_service.dart';
 
 /// 토크버스 커리큘럼 — 전 언어 공통 기준(`~/talkverse/CURRICULUM_SPEC.md`, 2026-11-22).
@@ -336,6 +337,15 @@ class CurriculumService {
   static const serverUrl = 'https://talkverse.uk/api/curriculum/kk';
   static final _kServer = pk('curriculum_server');
   List<Map<String, dynamic>> _stages = [];
+  int _freeSense = 1, _freeSteps = 2;
+  /// 무료 언어감각 급 수 · 문법 스텝 수(PAYWALL_SPEC §2, 서버 커리큘럼 JSON 최상위 — 없으면 1·2).
+  int get freeSenseLevels => _freeSense;
+  int get freeSteps => _freeSteps;
+
+  /// 무료 단계인가 — 서버 값, 없으면 1단계만.
+  bool isFree(String? n) => (_stage(n)?['free'] as bool?) ?? n == '1';
+  /// 잠겼는가(이용권이 없고 무료가 아님).
+  bool stageLocked(String? n) => !isFree(n) && !Entitlement.premium;
 
   static String stageOfRegion(String r) => switch (r) { 'R0' || 'R1' => '1', 'R2' => '2', 'R3' => '3', 'R4' => '4', 'R5' => '5', _ => r };
 
@@ -380,6 +390,7 @@ class CurriculumService {
           'n': '${st['n']}', 'title': st['title'] ?? '${st['n']}단계', 'desc': st['desc'] ?? '', 'ids': ids,
           'pick': [for (final x in ((st['pick'] as List?) ?? const [])) if (x is num && x > 0) x.toInt()],
           'pass': (st['pass'] as num?)?.toInt(),
+          'free': st['free'] is bool ? st['free'] : '${st['n']}' == '1',
           'daily': {for (final e in const {'light': 1, 'normal': 2, 'focus': 3}.entries) if (d[e.key] is num) e.value: (d[e.key] as num).toInt()},
         });
       }
@@ -397,6 +408,8 @@ class CurriculumService {
       }
     }
     _stages = out;
+    _freeSense = ((j?['freeSenseLevels'] as num?) ?? 1).toInt();
+    _freeSteps = ((j?['freeSteps'] as num?) ?? 2).toInt();
   }
 
   Map<String, dynamic>? _stage(String? n) => _stages.where((s) => s['n'] == n).firstOrNull;

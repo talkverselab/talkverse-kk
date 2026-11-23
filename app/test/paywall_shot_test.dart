@@ -20,9 +20,11 @@ void main() {
       addTearDown(t.view.reset);
       await t.pumpWidget(MaterialApp(theme: AppTheme.light(), home: const Scaffold(body: PaywallScreen())));
       await t.pump();
-      expect(find.text('₩3,900'), findsOneWidget);
-      expect(find.text('₩5,500'), findsOneWidget);
-      expect(find.textContaining('카자흐어유니버스'), findsOneWidget);
+      // 가격은 스토어 값만 — 스토어를 못 받은 테스트에서는 원화·할인 표시가 없어야 한다(PAYWALL_SPEC §3)
+      expect(find.textContaining('₩'), findsNothing);
+      expect(find.textContaining('할인'), findsNothing);
+      expect(find.textContaining('Talkverse → '), findsOneWidget); // 해지 안내는 Talkverse 이름
+      expect(find.textContaining('커리큘럼 2단계부터'), findsOneWidget);
       expect(t.takeException(), isNull);
     });
   }

@@ -101,11 +101,11 @@ def main():
             for x in sorted(by[e], key=lambda x: x[1]):
                 if len(mem) < 10: mem.append(x)
             if len(mem) >= 8: break
-        sentences = [{'tl': x[2], 'rd': x[3], 'ko': x[4], 'src': f'{x[0]}#{x[1]}'} for x in mem]
+        sentences = [{'tl': x[2], 'rd': x[3], 'ko': x[4]} for x in mem]
         pts = []
         for i, (head, forms, tip) in enumerate(points, 1):
             ex = [x for x in tagged if i in x[5] and x not in mem][:2] or [x for x in tagged if i in x[5]][:2]
-            pts.append({'head': head, 'tip': tip, 'sentences': [{'tl': re.sub(r'\{([^|}]+)\|\d+\}', r'\1', x[2]), 'rd': x[3], 'ko': x[4], 'src': f'{x[0]}#{x[1]}'} for x in ex]})
+            pts.append({'head': head, 'tip': tip, 'sentences': [{'tl': re.sub(r'\{([^|}]+)\|\d+\}', r'\1', x[2]), 'rd': x[3], 'ko': x[4]} for x in ex]})
         levels.append({'id': lid, 'title': title, 'lessons': [
             {'id': f'{lid}-1', 'title': title, 'kind': 'memorize', 'video': '', 'note': note, 'sentences': sentences, 'footnotes': foot},
             {'id': f'{lid}-ref', 'kind': 'ref', 'title': f'{title.split(" — ")[0]} 한눈에', 'points': pts}]})
@@ -114,15 +114,16 @@ def main():
     import sys; sys.path.insert(0, str(R / 'scripts')); from normalize_pron import transliterate
     plain = lambda s: re.sub(r'\{([^|}]+)\|\d+\}', r'\1', s)
     for c in json.load(open(R / 'data/sense/claude_levels.json', encoding='utf-8')):
-        sents = [{'tl': x['tl'], 'rd': transliterate(plain(x['tl'])), 'ko': x['ko'], 'src': 'claude'} for x in c['sentences']]
-        pts = [{'head': p['head'], 'tip': p['tip'], 'sentences': [{'tl': plain(x['tl']), 'rd': transliterate(plain(x['tl'])), 'ko': x['ko'], 'src': 'claude'}
+        sents = [{'tl': x['tl'], 'rd': transliterate(plain(x['tl'])), 'ko': x['ko']} for x in c['sentences']]
+        pts = [{'head': p['head'], 'tip': p['tip'], 'sentences': [{'tl': plain(x['tl']), 'rd': transliterate(plain(x['tl'])), 'ko': x['ko']}
                 for x in c['sentences'] if x['pt'] == i][:2]} for i, p in enumerate(c['points'], 1)]
         levels.append({'id': c['id'], 'title': c['title'], 'lessons': [
             {'id': f"{c['id']}-1", 'title': c['title'], 'kind': 'memorize', 'video': '', 'note': c['note'], 'sentences': sents, 'footnotes': c['footnotes']},
             {'id': f"{c['id']}-ref", 'kind': 'ref', 'title': f"{c['title']} 한눈에", 'points': pts}]})
         print(c['id'], '외울 줄', len(sents), '(Claude)')
+    # 앱 묶음·서버 공개 원고에는 작업 기록(출처 편·작성 도구)을 넣지 않는다(uk 심사 점검 2026-11-23 — 공개 주소로 열림).
     OUT.parent.mkdir(parents=True, exist_ok=True)
-    json.dump({'title': '언어감각 익히기', 'subtitle': '정규과정 · 대화 통째로 외우기 → 참고(L1~7 문장은 앱 회화에서, L8~10 은 Claude 작성)', 'levels': levels},
+    json.dump({'title': '언어감각 익히기', 'subtitle': '정규과정 · 대화 통째로 외우기 → 참고', 'levels': levels},
               open(OUT, 'w', encoding='utf-8'), ensure_ascii=False, indent=1)
 
 if __name__ == '__main__':

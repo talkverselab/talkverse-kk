@@ -4,6 +4,7 @@ import '../core/l10n.dart';
 import '../core/pane.dart';
 import '../core/platform.dart';
 import '../core/theme.dart';
+import '../data/entitlement.dart';
 import '../services/curriculum_service.dart';
 import '../services/dialogue_audio.dart';
 import '../services/dialogue_service.dart';
@@ -49,6 +50,12 @@ class _CurriculumScreenState extends State<CurriculumScreen> {
   }
 
   Future<void> _setLevel(String lv) async {
+    // 잠긴 단계 → 결제 화면(PAYWALL_SPEC §3 — 숨기지 않고 자물쇠)
+    if (_svc.stageLocked(lv)) {
+      await Entitlement.showPaywall(context);
+      if (mounted) setState(() {});
+      return;
+    }
     _st.level = lv;
     await _svc.save();
     setState(() {
@@ -170,7 +177,8 @@ class _CurriculumScreenState extends State<CurriculumScreen> {
                   ),
                 ]),
               ),
-              if (_st.level == null && lv == lowest) _pill(tr('추천'), AppColors.matcha),
+              if (_svc.stageLocked(lv)) const Icon(Icons.lock_outline, size: 20, color: AppColors.muted)
+              else if (_st.level == null && lv == lowest) _pill(tr('추천'), AppColors.matcha),
             ]),
           ),
     ];
