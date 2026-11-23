@@ -23,7 +23,14 @@ class _CurriculumScreenState extends State<CurriculumScreen> {
   bool _picking = false; // 다이얼로그 고르는 중
   bool _confirmNew = false; // 「지금 코스를 버릴까요?」 칸
   bool _levelPick = false;
-  int _pickCount = 5;
+  int _pickN = 5;
+  /// 고를 개수 — 단계 JSON 의 pick 에 없으면 가운데 값(§12 덧붙임).
+  int get _pickCount {
+    final p = _svc.pickFor(_st.level);
+    return p.contains(_pickN) ? _pickN : p[p.length ~/ 2];
+  }
+
+  set _pickCount(int v) => _pickN = v;
   final Set<String> _picked = {};
 
   CurriculumState get _st => _svc.state;
@@ -81,8 +88,8 @@ class _CurriculumScreenState extends State<CurriculumScreen> {
       builder: (ctx) => AlertDialog(
         title: Text(passed ? tr('코스 통과!') : tr('조금만 더')),
         content: Text(passed
-            ? trf('{0}점 — 80점을 넘었어요. 다음 코스를 골라요.', [scorePercent(res.correct, res.total)])
-            : trf('{0}점 — 80점이 넘어야 통과예요. 틀린 편만 다시 연습하고 시험을 봐요.', [scorePercent(res.correct, res.total)])),
+            ? trf('{0}점 — {1}점을 넘었어요. 다음 코스를 골라요.', [scorePercent(res.correct, res.total), _st.passPercent])
+            : trf('{0}점 — {1}점이 넘어야 통과예요. 틀린 편만 다시 연습하고 시험을 봐요.', [scorePercent(res.correct, res.total), _st.passPercent])),
         actions: [TextButton(onPressed: () => Navigator.pop(ctx), child: Text(tr('확인')))],
       ),
     );
@@ -156,6 +163,7 @@ class _CurriculumScreenState extends State<CurriculumScreen> {
               Expanded(
                 child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
                   Text(_svc.title(lv), style: const TextStyle(fontWeight: FontWeight.w800, color: AppColors.sumi)),
+                  if (_svc.desc(lv).isNotEmpty) Text(_svc.desc(lv), style: const TextStyle(fontSize: 12, color: AppColors.sumiLight)),
                   Text(
                     trf('{0}편 · 통과 {1}', [_svc.levelList(lv).length, _svc.levelList(lv).where((d) => _st.passedDialogues.contains(d.id)).length]),
                     style: const TextStyle(fontSize: 12, color: AppColors.muted),
@@ -300,7 +308,7 @@ class _CurriculumScreenState extends State<CurriculumScreen> {
           style: FilledButton.styleFrom(backgroundColor: AppColors.sumi, padding: const EdgeInsets.symmetric(vertical: 12)),
           onPressed: c.allPracticed && ds.isNotEmpty ? _exam : null,
           icon: const Icon(Icons.flag, size: 18),
-          label: Text(c.allPracticed ? tr('코스 시험 보기 (80% 이상 통과)') : tr('모든 편을 연습하면 시험이 열려요')),
+          label: Text(c.allPracticed ? trf('코스 시험 보기 ({0}% 이상 통과)', [_st.passPercent]) : tr('모든 편을 연습하면 시험이 열려요')),
         ),
       ),
       if (_svc.levelDone(lv) && _svc.nextLevel(lv) != null) ...[
@@ -322,7 +330,7 @@ class _CurriculumScreenState extends State<CurriculumScreen> {
     return [
       Text(tr('다이얼로그 고르기'), style: const TextStyle(fontWeight: FontWeight.w800, color: AppColors.sumi, fontSize: 15)),
       const SizedBox(height: 2),
-      Text(tr('이 편들로 연습하고, 코스 시험에서 80% 이상이면 다음 코스로 넘어가요.'), style: const TextStyle(fontSize: 12.5, color: AppColors.muted)),
+      Text(trf('이 편들로 연습하고, 코스 시험에서 {0}% 이상이면 다음 코스로 넘어가요.', [_st.passPercent]), style: const TextStyle(fontSize: 12.5, color: AppColors.muted)),
       if (doneLevel && next != null) ...[
         const SizedBox(height: 8),
         _card(
@@ -333,7 +341,7 @@ class _CurriculumScreenState extends State<CurriculumScreen> {
       const SizedBox(height: 10),
       // 300px 폭(아이패드 분할 왼쪽)에서 넘쳐 Row → Wrap(몽골어앱 발견, uk 전달 2026-11-22)
       Wrap(crossAxisAlignment: WrapCrossAlignment.center, runSpacing: 4, children: [
-        for (final n in const [3, 5, 10])
+        for (final n in _svc.pickFor(_st.level))
           Padding(
             padding: const EdgeInsets.only(right: 6),
             child: ChoiceChip(

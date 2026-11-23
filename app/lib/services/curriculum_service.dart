@@ -72,7 +72,11 @@ class Course {
 /// `curriculum_v1` 한 벌. 기준 형식 + `today`(오늘 한 양 — 홈 카드 진행 막대용, 기준 문서에 없는 칸이라 uk 에 알림).
 class CurriculumState {
   String? level;
-  int dailyGoal; // 새 편 수: 1 가볍게 · 2 보통 · 3 집중
+  int dailyGoal; // 하루 목표 단계: 1 가볍게 · 2 보통 · 3 집중
+  /// §12 덧붙임 — 단계 JSON 의 pass·daily(저장하지 않음, CurriculumService 가 단계에 맞춰 채움).
+  int passPercent = kPassPercent;
+  Map<int, int> dailyCounts = const {1: 1, 2: 2, 3: 3};
+  int get dailyNew => dailyCounts[dailyGoal] ?? dailyGoal;
   Course? course;
   final List<String> passedDialogues;
   final List<ReviewItem> review;
@@ -132,7 +136,7 @@ class CurriculumState {
   List<ReviewItem> dueReview(String today) => review.where((r) => r.due.compareTo(today) <= 0).toList();
 
   /// 오늘 남은 새 편 수.
-  int newLeft(String today) => max(0, dailyGoal - (todayDay == today ? todayNew : 0));
+  int newLeft(String today) => max(0, dailyNew - (todayDay == today ? todayNew : 0));
 
   /// 오늘 분량을 다 했나(복습 0 + 새 편 목표 채움).
   bool dayDone(String today) => dueReview(today).isEmpty && newLeft(today) == 0;
@@ -191,7 +195,7 @@ class CurriculumState {
     if (c == null) return false;
     final s = scorePercent(correct, total);
     c.examScores.add(s);
-    if (s >= kPassPercent) {
+    if (s >= passPercent) {
       c.passedAt = today;
       for (final id in c.dialogueIds) {
         if (!passedDialogues.contains(id)) passedDialogues.add(id);
@@ -316,10 +320,12 @@ class CurriculumService {
     // 옛 진도(회화 레벨 R*)는 단계 번호로 바꿔 읽는다(§12).
     if (state.level != null && state.level!.startsWith('R')) state.level = stageOfRegion(state.level!);
     if (state.level != null && !levels.contains(state.level)) state.level = null;
+    applyStage();
     _loaded = true;
   }
 
   Future<void> save() async {
+    applyStage();
     await (await SharedPreferences.getInstance()).setString(pk(key), json.encode(state.toJson()));
     changed.value++;
   }
@@ -369,7 +375,13 @@ class CurriculumService {
     try {
       for (final st in ((j?['stages'] as List?) ?? const []).cast<Map>()) {
         final ids = [for (final id in ((st['dialogueIds'] as List?) ?? const [])) if (all.contains('$id')) '$id'];
-        out.add({'n': '${st['n']}', 'title': st['title'] ?? '${st['n']}단계', 'desc': st['desc'] ?? '', 'ids': ids});
+        final d = (st['daily'] as Map?) ?? const {};
+        out.add({
+          'n': '${st['n']}', 'title': st['title'] ?? '${st['n']}단계', 'desc': st['desc'] ?? '', 'ids': ids,
+          'pick': [for (final x in ((st['pick'] as List?) ?? const [])) if (x is num && x > 0) x.toInt()],
+          'pass': (st['pass'] as num?)?.toInt(),
+          'daily': {for (final e in const {'light': 1, 'normal': 2, 'focus': 3}.entries) if (d[e.key] is num) e.value: (d[e.key] as num).toInt()},
+        });
       }
     } catch (_) {
       out.clear();
@@ -385,6 +397,24 @@ class CurriculumService {
       }
     }
     _stages = out;
+  }
+
+  Map<String, dynamic>? _stage(String? n) => _stages.where((s) => s['n'] == n).firstOrNull;
+  String desc(String n) => (_stage(n)?['desc'] as String?) ?? '';
+  /// 고를 개수(없으면 3·5·10).
+  List<int> pickFor(String? n) {
+    final p = ((_stage(n)?['pick'] as List?) ?? const []).cast<int>();
+    return p.isEmpty ? const [3, 5, 10] : p;
+  }
+
+  /// 통과 점수(없으면 80).
+  int passFor(String? n) => (_stage(n)?['pass'] as int?) ?? kPassPercent;
+
+  /// 단계 값을 진도 상태에 채운다 — 시험 판정·오늘 분량이 이 값을 쓴다.
+  void applyStage() {
+    state.passPercent = passFor(state.level);
+    final d = ((_stage(state.level)?['daily'] as Map?) ?? const {}).cast<int, int>();
+    state.dailyCounts = {1: d[1] ?? 1, 2: d[2] ?? 2, 3: d[3] ?? 3};
   }
 
   /// 보일 단계(편이 1개 이상).
