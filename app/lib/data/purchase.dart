@@ -79,8 +79,9 @@ class Purchase {
       products.value = {for (final d in r.productDetails) d.id: d};
     } catch (_) {}
     productsTried.value = true;
-    // 시작 때 복원 조회(PAYWALL_SPEC §4) — 조용히, 결과는 [owned] 에만
-    if (!Embed.embedded) {
+    // 시작 때 복원 조회(PAYWALL_SPEC §4) — 안드로이드만 조용히. iOS 는 Apple ID 암호 창이 뜰 수 있어 「구매 복원」 단추로만(애플 기준, uk 2026-11-23),
+    // 미완료 거래는 purchaseStream 이 받는다.
+    if (!Embed.embedded && Platform.isAndroid) {
       try {
         await InAppPurchase.instance.restorePurchases();
       } catch (_) {}
