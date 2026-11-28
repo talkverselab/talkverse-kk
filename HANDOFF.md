@@ -95,3 +95,12 @@
 - 사용자 「그록사용해!」 → 옛 45편 Gemini 지적 Grok 반영 140줄 + 새 16편 48줄(M4 9257 `GROK_HOST=m4`, `tools/grok/fix_run.sh` → `fix_apply.py --write`, 둔 지적은 이유와 함께 `data/grok/fix/applied.md`). 지난 expressions 정리, 서버 원고 **rev 4**, db 7, 바뀐 편 음성 다시(1240줄).
 - Gemini 60편 검수 끝(9226, 사용자가 직접 로그인 — 쿠키 복사는 실패·금지). `gemini_send.py` 는 「로그인」 단추가 보이면 LOGGEDOUT 으로 물러남. 자동 예약 screen `kk-gem-auto` 는 WAIT 로 멈춰 둠(남은 편 0).
 - 남은 것: 나머지 초안 90편(사용자 결정), 원어민 확인.
+
+## 2026-11-28 — 세션 닫음(uk 「베트남어·일본어만 남기고 언어 세션 닫음」, 사용자 지시)
+- **다시 열면 먼저** `~/talkverse/CHANGES.md`(전 앱 변경·공지) 를 읽는다.
+- **끝난 상태**: 회화 60편(Gemini 검수·Grok 반영·음성 1240줄), 서버 원고 rev 5, 커리큘럼 JSON rev 2, 이용권(PAYWALL_SPEC)·로그인 제공자·iOS 시작 복원 끔·심사 수정(87095c4). 「데이팅앱」→「언어교류앱」(c6a7123): 앱·서버 원고엔 원래 없음, 초안 1곳·작성 프롬프트만 바꿈, 대사 목록 0줄, rev 그대로.
+- **켜 둔 것 없음**: Grok·Gemini 크롬·터널·screen 루프·예약 0(PC 작업 스케줄러 `Grok-Chrome-kk-9257` 는 등록만, 트리거 없음). 음성·그림·빌드 백그라운드 없음.
+- **멈춤 규칙(uk 전달, 사용자 말할 때까지)**: Grok 전부 중지(11-26), Gemini 는 베트남어만(11-25), 단어 작업·단어 그림 베트남어만(11-25), 회화 그림은 공개 편만. 첫 출시 언어 = 베트남어.
+- **커밋 안 한 변경(중간 산출물, 일부러 둠)**: `data/review/dialogues/prompts/*.md` 55·`list.tsv`(gemini_prompts.py 가 다시 만든 검수 프롬프트), `data/grok/brief/*.json` 15(초안 재작성 브리프), `.wrangler/`·`app/.wrangler/`(캐시 — 지울 후보). 필요 없으면 `git checkout -- data/review/dialogues` 로 되돌려도 됨.
+- **사용자에게 물을 것**: 남은 초안 90편(R1 60·R2 19·R3 11 쪽, `data/drafts`)을 Grok 으로 다시 쓸지 — Grok 중지가 풀린 뒤에만 가능. 원어민 확인 목록(`docs/DIALOGUE.md`).
+- 마지막 빌드: Zealot 9(https://apps.talkverse.uk/ABjlY/655)·TestFlight 2611230337 — 11-23 오후 수정(이용권·로그인·복원)은 단독 빌드엔 아직 없음(통합 앱 1.0.0+15 에 묶임).
